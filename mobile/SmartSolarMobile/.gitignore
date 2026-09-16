@@ -1,0 +1,25 @@
+# Android / Gradle
+*.iml
+.gradle/
+.idea/
+local.properties
+
+# Build folders
+build/
+mobile/**/build/
+mobile/**/app/build/
+
+# Android generated folders
+captures/
+.externalNativeBuild/
+.cxx/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+.idea/
+.gradle/
+local.properties
+build/
+app/build/
