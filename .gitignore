@@ -1,0 +1,54 @@
+# ========================
+# .NET / C#
+# ========================
+bin/
+obj/
+.vs/
+*.user
+*.suo
+
+# ========================
+# Node / React
+# ========================
+node_modules/
+dist/
+build/
+.env
+.env.local
+
+# ========================
+# Android
+# ========================
+.gradle/
+.idea/
+local.properties
+*.iml
+captures/
+.externalNativeBuild/
+.cxx/
+
+# Android build output
+mobile/**/build/
+mobile/**/app/build/
+
+# ========================
+# VS Code
+# ========================
+.vscode/
+
+# ========================
+# OS
+# ========================
+.DS_Store
+Thumbs.db
+
+# ========================
+# Logs
+# ========================
+*.log
+
+# ========================
+# Secrets
+# ========================
+appsettings.Development.json
+secrets.json

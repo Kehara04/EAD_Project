@@ -1,0 +1,5 @@
+<Solution>
+  <Folder Name="/backend/">
+    <Project Path="backend/SmartSolar.Api/SmartSolar.Api.csproj" />
+  </Folder>
+</Solution>
