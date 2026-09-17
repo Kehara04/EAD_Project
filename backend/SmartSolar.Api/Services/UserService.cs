@@ -1,4 +1,13 @@
+/*
+ * File: UserService.cs
+ * Project: Smart Solar Microgrid Trading System
+ * Description:
+ * Implements Backoffice user-management business logic.
+ */
+
+using MongoDB.Bson;
 using MongoDB.Driver;
+using SmartSolar.Api.Constants;
 using SmartSolar.Api.Data;
 using SmartSolar.Api.DTOs;
 using SmartSolar.Api.Models;
@@ -9,79 +18,211 @@ public class UserService
 {
     private readonly MongoDbContext _context;
 
-    public UserService(MongoDbContext context)
+    public UserService(
+        MongoDbContext context)
     {
+        // Store MongoDB context.
         _context = context;
     }
 
-    public async Task<List<User>> GetAllAsync()
+    public async Task<List<UserResponse>>
+        GetAllAsync()
     {
-        return await _context.Users
-            .Find(_ => true)
-            .ToListAsync();
+        // Retrieve users without exposing password hashes.
+        var users =
+            await _context.Users
+                .Find(_ => true)
+                .SortBy(x => x.Name)
+                .ToListAsync();
+
+        return users.Select(
+            MapToResponse
+        ).ToList();
     }
 
-    public async Task<User> CreateAsync(
+    public async Task<UserResponse?> GetByIdAsync(
+        string id)
+    {
+        // Validate MongoDB ObjectId before database query.
+        if (!ObjectId.TryParse(id, out _))
+            return null;
+
+        var user =
+            await _context.Users
+                .Find(x => x.Id == id)
+                .FirstOrDefaultAsync();
+
+        return user == null
+            ? null
+            : MapToResponse(user);
+    }
+
+    public async Task<UserResponse> CreateAsync(
         CreateUserRequest request)
     {
-        var role = request.Role.Trim();
+        // Normalize and validate requested role.
+        var role =
+            request.Role.Trim();
 
-        if (role != "Backoffice" &&
-            role != "GridOperator")
+        if (role != UserRoles.Backoffice &&
+            role != UserRoles.GridOperator)
         {
-            throw new Exception(
-                "Only Backoffice or GridOperator users can be created here."
+            throw new InvalidOperationException(
+                "Only Backoffice and GridOperator users can be created here."
             );
         }
 
-        var email = request.Email.Trim().ToLower();
+        var email =
+            request.Email
+                .Trim()
+                .ToLowerInvariant();
 
-        var existing = await _context.Users
-            .Find(x => x.Email == email)
-            .FirstOrDefaultAsync();
+        // Check for an existing account using this email.
+        var existing =
+            await _context.Users
+                .Find(x =>
+                    x.Email == email)
+                .FirstOrDefaultAsync();
 
         if (existing != null)
-            throw new Exception("Email already exists.");
-
-        var user = new User
         {
-            Name = request.Name.Trim(),
-            Email = email,
-            PasswordHash =
-                BCrypt.Net.BCrypt.HashPassword(
-                    request.Password
-                ),
-            Role = role,
-            Status = "Active"
-        };
+            throw new InvalidOperationException(
+                "Email already exists."
+            );
+        }
 
-        await _context.Users.InsertOneAsync(user);
+        var user =
+            new User
+            {
+                Name =
+                    request.Name.Trim(),
 
-        return user;
+                Email =
+                    email,
+
+                PasswordHash =
+                    BCrypt.Net.BCrypt
+                        .HashPassword(
+                            request.Password
+                        ),
+
+                Role =
+                    role,
+
+                Status =
+                    AccountStatuses.Active,
+
+                CreatedAt =
+                    DateTime.UtcNow,
+
+                UpdatedAt =
+                    DateTime.UtcNow
+            };
+
+        try
+        {
+            // Store user in MongoDB Atlas.
+            await _context.Users
+                .InsertOneAsync(user);
+        }
+        catch (MongoWriteException ex)
+            when (
+                ex.WriteError?.Category ==
+                ServerErrorCategory.DuplicateKey)
+        {
+            throw new InvalidOperationException(
+                "Email already exists."
+            );
+        }
+
+        return MapToResponse(user);
     }
 
-    public async Task<bool> UpdateStatusAsync(
-        string id,
-        string status)
+    public async Task<UserResponse?>
+        UpdateStatusAsync(
+            string id,
+            string status)
     {
-        var validStatuses = new[]
+        // Validate MongoDB user ID.
+        if (!ObjectId.TryParse(id, out _))
+            return null;
+
+        // Only Active and Deactivated are valid
+        // web user lifecycle states.
+        if (status != AccountStatuses.Active &&
+            status != AccountStatuses.Deactivated)
         {
-            "Active",
-            "Deactivated"
-        };
+            throw new InvalidOperationException(
+                "Status must be Active or Deactivated."
+            );
+        }
 
-        if (!validStatuses.Contains(status))
-            return false;
+        var user =
+            await _context.Users
+                .Find(x => x.Id == id)
+                .FirstOrDefaultAsync();
 
-        var result = await _context.Users
-            .UpdateOneAsync(
-                x => x.Id == id,
-                Builders<User>.Update.Set(
+        if (user == null)
+            return null;
+
+        // Prosumer lifecycle must be managed through
+        // the Prosumer endpoints instead.
+        if (user.Role == UserRoles.Prosumer)
+        {
+            throw new InvalidOperationException(
+                "Prosumer status must be managed using the Prosumer management endpoints."
+            );
+        }
+
+        var update =
+            Builders<User>.Update
+                .Set(
                     x => x.Status,
                     status
                 )
+                .Set(
+                    x => x.UpdatedAt,
+                    DateTime.UtcNow
+                );
+
+        await _context.Users
+            .UpdateOneAsync(
+                x => x.Id == id,
+                update
             );
 
-        return result.ModifiedCount > 0;
+        user.Status = status;
+        user.UpdatedAt = DateTime.UtcNow;
+
+        return MapToResponse(user);
+    }
+
+    private static UserResponse MapToResponse(
+        User user)
+    {
+        // Convert internal MongoDB user model into safe API response.
+        return new UserResponse
+        {
+            Id =
+                user.Id ?? string.Empty,
+
+            Name =
+                user.Name,
+
+            Email =
+                user.Email,
+
+            Role =
+                user.Role,
+
+            Status =
+                user.Status,
+
+            CreatedAt =
+                user.CreatedAt,
+
+            UpdatedAt =
+                user.UpdatedAt
+        };
     }
 }

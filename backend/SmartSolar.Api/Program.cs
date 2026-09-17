@@ -195,6 +195,8 @@ builder.Services.AddScoped<ProsumerService>();
 
 builder.Services.AddScoped<SeedService>();
 
+builder.Services.AddScoped<DatabaseInitializerService>();
+
 
 // ---------------------------------------------------------
 // Read JWT configuration
@@ -392,15 +394,30 @@ app.MapControllers();
 using (var scope =
        app.Services.CreateScope())
 {
-    // Get SeedService from dependency injection.
+    /*
+     * Initialize MongoDB indexes before inserting
+     * or retrieving application data.
+     */
+    var databaseInitializer =
+        scope.ServiceProvider
+            .GetRequiredService<
+                DatabaseInitializerService
+            >();
+
+    await databaseInitializer
+        .InitializeAsync();
+
+    /*
+     * Create the first Backoffice user when required.
+     */
     var seedService =
         scope.ServiceProvider
-            .GetRequiredService<SeedService>();
+            .GetRequiredService<
+                SeedService
+            >();
 
-    // Create the initial Backoffice account if it does not exist.
     await seedService.SeedAsync();
 }
-
 
 // ---------------------------------------------------------
 // Start the Web API
