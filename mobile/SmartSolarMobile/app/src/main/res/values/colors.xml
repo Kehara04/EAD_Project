@@ -1,5 +1,16 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+<color name="white">#FFFFFF</color>
+<color name="black">#101828</color>
+<color name="solar_navy">#0B1F33</color>
+<color name="solar_navy_light">#173B57</color>
+<color name="solar_green">#1C8B66</color>
+<color name="solar_green_dark">#116149</color>
+<color name="solar_gold">#F4B942</color>
+<color name="solar_background">#F5F7FA</color>
+<color name="solar_surface">#FFFFFF</color>
+<color name="solar_text_primary">#142033</color>
+<color name="solar_text_secondary">#667085</color>
+<color name="solar_border">#E4E7EC</color>
+<color name="solar_error">#B42318</color>
+<color name="solar_success_background">#ECFDF3</color>
 </resources>

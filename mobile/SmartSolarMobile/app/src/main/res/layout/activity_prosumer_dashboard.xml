@@ -1,17 +1,28 @@
-<?xml version="1.0" encoding="utf-8"?>
-
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center"
-    android:orientation="vertical"
-    android:padding="24dp">
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Prosumer Dashboard"
-        android:textSize="24sp"
-        android:textStyle="bold" />
-
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent" android:layout_height="match_parent" android:background="@color/solar_background" android:fillViewport="true">
+<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical">
+<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:background="@color/solar_navy" android:orientation="vertical" android:padding="24dp">
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="PROSUMER WORKSPACE" android:textColor="@color/solar_gold" android:textSize="12sp" android:textStyle="bold"/>
+<TextView android:id="@+id/textProsumerWelcome" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:text="Hello, Prosumer" android:textColor="@color/white" android:textSize="26sp" android:textStyle="bold"/>
+<TextView android:id="@+id/textProsumerEmail" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4dp" android:textColor="#D0D5DD" android:textSize="14sp"/>
 </LinearLayout>
+<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="20dp">
+<com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="wrap_content" app:cardCornerRadius="16dp" app:cardElevation="1dp" app:strokeColor="@color/solar_border" app:strokeWidth="1dp">
+<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="20dp">
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Account status" android:textColor="@color/solar_text_secondary" android:textSize="13sp"/>
+<TextView android:id="@+id/textProsumerStatus" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="6dp" android:text="Loading..." android:textColor="@color/solar_green_dark" android:textSize="20sp" android:textStyle="bold"/>
+<ProgressBar android:id="@+id/dashboardProgress" android:layout_width="28dp" android:layout_height="28dp" android:layout_marginTop="10dp" android:visibility="gone"/>
+</LinearLayout>
+</com.google.android.material.card.MaterialCardView>
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="24dp" android:text="Account" android:textColor="@color/solar_text_primary" android:textSize="18sp" android:textStyle="bold"/>
+<com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="12dp" app:cardCornerRadius="16dp" app:cardElevation="0dp" app:strokeColor="@color/solar_border" app:strokeWidth="1dp">
+<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="18dp">
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Manage your profile" android:textColor="@color/solar_text_primary" android:textSize="17sp" android:textStyle="bold"/>
+<TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="5dp" android:text="View your NIC, contact details, edit your profile or request account deactivation." android:textColor="@color/solar_text_secondary" android:textSize="14sp"/>
+<com.google.android.material.button.MaterialButton android:id="@+id/buttonViewProfile" android:layout_width="match_parent" android:layout_height="50dp" android:layout_marginTop="16dp" android:text="View my profile" android:textAllCaps="false" app:cornerRadius="12dp"/>
+</LinearLayout>
+</com.google.android.material.card.MaterialCardView>
+<TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="20dp" android:text="Reservation, map and QR features will appear here as the remaining modules are integrated." android:textColor="@color/solar_text_secondary" android:textSize="13sp"/>
+<com.google.android.material.button.MaterialButton android:id="@+id/buttonLogout" style="@style/Widget.Material3.Button.OutlinedButton" android:layout_width="match_parent" android:layout_height="50dp" android:layout_marginTop="24dp" android:text="Sign out" android:textAllCaps="false" app:cornerRadius="12dp"/>
+</LinearLayout>
+</LinearLayout>
+</ScrollView>

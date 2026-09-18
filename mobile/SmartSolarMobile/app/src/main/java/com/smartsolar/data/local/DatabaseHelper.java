@@ -4,21 +4,16 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-public class DatabaseHelper
-        extends SQLiteOpenHelper {
+/**
+ * Creates the local SQLite database used for Android session persistence.
+ */
+public class DatabaseHelper extends SQLiteOpenHelper {
 
-    private static final String DB_NAME =
-            "smartsolar.db";
-
+    private static final String DB_NAME = "smartsolar.db";
     private static final int DB_VERSION = 1;
 
     public DatabaseHelper(Context context) {
-        super(
-                context,
-                DB_NAME,
-                null,
-                DB_VERSION
-        );
+        super(context, DB_NAME, null, DB_VERSION);
     }
 
     @Override
@@ -26,7 +21,7 @@ public class DatabaseHelper
         db.execSQL(
                 "CREATE TABLE user_session (" +
                         "id INTEGER PRIMARY KEY," +
-                        "token TEXT," +
+                        "token TEXT NOT NULL," +
                         "user_id TEXT," +
                         "name TEXT," +
                         "email TEXT," +
@@ -37,15 +32,8 @@ public class DatabaseHelper
     }
 
     @Override
-    public void onUpgrade(
-            SQLiteDatabase db,
-            int oldVersion,
-            int newVersion) {
-
-        db.execSQL(
-                "DROP TABLE IF EXISTS user_session"
-        );
-
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        db.execSQL("DROP TABLE IF EXISTS user_session");
         onCreate(db);
     }
 }

@@ -1,0 +1,26 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent" android:layout_height="match_parent" android:background="@color/solar_background" android:fillViewport="true">
+<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="20dp">
+<com.google.android.material.button.MaterialButton android:id="@+id/buttonProfileBack" style="@style/Widget.Material3.Button.TextButton" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="← Dashboard" android:textAllCaps="false"/>
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:text="My profile" android:textColor="@color/solar_navy" android:textSize="28sp" android:textStyle="bold"/>
+<TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="5dp" android:text="Your account data is read live from the Smart Solar API." android:textColor="@color/solar_text_secondary" android:textSize="14sp"/>
+<ProgressBar android:id="@+id/profileProgress" android:layout_width="32dp" android:layout_height="32dp" android:layout_gravity="center_horizontal" android:layout_marginTop="18dp" android:visibility="gone"/>
+<com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="18dp" app:cardCornerRadius="18dp" app:cardElevation="1dp" app:strokeColor="@color/solar_border" app:strokeWidth="1dp">
+<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="20dp">
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="NIC" android:textColor="@color/solar_text_secondary" android:textSize="12sp"/>
+<TextView android:id="@+id/textProfileNic" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="3dp" android:text="—" android:textColor="@color/solar_text_primary" android:textSize="16sp" android:textStyle="bold"/>
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="18dp" android:text="Name" android:textColor="@color/solar_text_secondary" android:textSize="12sp"/>
+<TextView android:id="@+id/textProfileName" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="3dp" android:text="—" android:textColor="@color/solar_text_primary" android:textSize="16sp"/>
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="18dp" android:text="Email" android:textColor="@color/solar_text_secondary" android:textSize="12sp"/>
+<TextView android:id="@+id/textProfileEmail" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="3dp" android:text="—" android:textColor="@color/solar_text_primary" android:textSize="16sp"/>
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="18dp" android:text="Phone" android:textColor="@color/solar_text_secondary" android:textSize="12sp"/>
+<TextView android:id="@+id/textProfilePhone" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="3dp" android:text="—" android:textColor="@color/solar_text_primary" android:textSize="16sp"/>
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="18dp" android:text="Address" android:textColor="@color/solar_text_secondary" android:textSize="12sp"/>
+<TextView android:id="@+id/textProfileAddress" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="3dp" android:text="—" android:textColor="@color/solar_text_primary" android:textSize="16sp"/>
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="18dp" android:text="Status" android:textColor="@color/solar_text_secondary" android:textSize="12sp"/>
+<TextView android:id="@+id/textProfileStatus" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="3dp" android:text="—" android:textColor="@color/solar_green_dark" android:textSize="16sp" android:textStyle="bold"/>
+</LinearLayout>
+</com.google.android.material.card.MaterialCardView>
+<com.google.android.material.button.MaterialButton android:id="@+id/buttonEditProfile" android:layout_width="match_parent" android:layout_height="52dp" android:layout_marginTop="20dp" android:text="Edit profile" android:textAllCaps="false" app:cornerRadius="12dp"/>
+<com.google.android.material.button.MaterialButton android:id="@+id/buttonRequestDeactivation" style="@style/Widget.Material3.Button.OutlinedButton" android:layout_width="match_parent" android:layout_height="52dp" android:layout_marginTop="10dp" android:text="Request deactivation" android:textAllCaps="false" android:textColor="@color/solar_error" app:cornerRadius="12dp" app:strokeColor="@color/solar_error"/>
+</LinearLayout>
+</ScrollView>

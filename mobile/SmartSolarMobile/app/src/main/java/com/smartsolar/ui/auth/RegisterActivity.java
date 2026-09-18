@@ -1,149 +1,151 @@
 package com.smartsolar.ui.auth;
 
 import android.os.Bundle;
-import android.widget.Button;
-import android.widget.EditText;
+import android.util.Patterns;
+import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
 import com.smartsolar.R;
 import com.smartsolar.data.remote.ApiClient;
 import com.smartsolar.data.remote.ApiService;
 import com.smartsolar.model.Prosumer;
 import com.smartsolar.model.RegisterProsumerRequest;
+import com.smartsolar.utils.ApiErrorUtil;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class RegisterActivity
-        extends AppCompatActivity {
+public class RegisterActivity extends AppCompatActivity {
 
-    private EditText nic;
-    private EditText name;
-    private EditText email;
-    private EditText phone;
-    private EditText address;
-    private EditText password;
+    private TextInputEditText nicInput;
+    private TextInputEditText nameInput;
+    private TextInputEditText emailInput;
+    private TextInputEditText phoneInput;
+    private TextInputEditText addressInput;
+    private TextInputEditText passwordInput;
+    private MaterialButton registerButton;
+    private ProgressBar progressBar;
+    private TextView errorText;
 
     private ApiService apiService;
 
     @Override
-    protected void onCreate(
-            Bundle savedInstanceState) {
-
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_register);
 
-        setContentView(
-                R.layout.activity_register
-        );
+        nicInput = findViewById(R.id.editTextNic);
+        nameInput = findViewById(R.id.editTextName);
+        emailInput = findViewById(R.id.editTextRegisterEmail);
+        phoneInput = findViewById(R.id.editTextPhone);
+        addressInput = findViewById(R.id.editTextAddress);
+        passwordInput = findViewById(R.id.editTextRegisterPassword);
+        registerButton = findViewById(R.id.buttonCreateAccount);
+        progressBar = findViewById(R.id.registerProgress);
+        errorText = findViewById(R.id.textRegisterError);
 
-        nic =
-                findViewById(R.id.editTextNic);
+        apiService = ApiClient.create(this);
 
-        name =
-                findViewById(R.id.editTextName);
-
-        email =
-                findViewById(
-                        R.id.editTextRegisterEmail
-                );
-
-        phone =
-                findViewById(R.id.editTextPhone);
-
-        address =
-                findViewById(R.id.editTextAddress);
-
-        password =
-                findViewById(
-                        R.id.editTextRegisterPassword
-                );
-
-        Button registerButton =
-                findViewById(
-                        R.id.buttonCreateAccount
-                );
-
-        apiService =
-                ApiClient.create(this);
-
-        registerButton.setOnClickListener(v ->
-                registerProsumer()
-        );
+        registerButton.setOnClickListener(v -> registerProsumer());
+        findViewById(R.id.buttonBackToLogin).setOnClickListener(v -> finish());
     }
 
     private void registerProsumer() {
+        errorText.setVisibility(View.GONE);
 
-        RegisterProsumerRequest request =
-                new RegisterProsumerRequest(
-                        nic.getText()
-                                .toString()
-                                .trim(),
+        String nic = valueOf(nicInput).toUpperCase();
+        String name = valueOf(nameInput);
+        String email = valueOf(emailInput).toLowerCase();
+        String phone = valueOf(phoneInput);
+        String address = valueOf(addressInput);
+        String password = valueOf(passwordInput);
 
-                        name.getText()
-                                .toString()
-                                .trim(),
+        if (nic.length() < 5) {
+            nicInput.setError("Enter a valid NIC");
+            nicInput.requestFocus();
+            return;
+        }
 
-                        email.getText()
-                                .toString()
-                                .trim(),
+        if (name.length() < 2) {
+            nameInput.setError("Name must contain at least 2 characters");
+            nameInput.requestFocus();
+            return;
+        }
 
-                        phone.getText()
-                                .toString()
-                                .trim(),
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            emailInput.setError("Enter a valid email address");
+            emailInput.requestFocus();
+            return;
+        }
 
-                        address.getText()
-                                .toString()
-                                .trim(),
+        if (phone.isEmpty()) {
+            phoneInput.setError("Phone number is required");
+            phoneInput.requestFocus();
+            return;
+        }
 
-                        password.getText()
-                                .toString()
-                );
+        if (password.length() < 6) {
+            passwordInput.setError("Password must contain at least 6 characters");
+            passwordInput.requestFocus();
+            return;
+        }
 
-        apiService.register(request)
-                .enqueue(
-                        new Callback<Prosumer>() {
+        setLoading(true);
 
-                            @Override
-                            public void onResponse(
-                                    Call<Prosumer> call,
-                                    Response<Prosumer> response) {
+        RegisterProsumerRequest request = new RegisterProsumerRequest(
+                nic,
+                name,
+                email,
+                phone,
+                address,
+                password
+        );
 
-                                if (response.isSuccessful()) {
+        apiService.register(request).enqueue(new Callback<Prosumer>() {
+            @Override
+            public void onResponse(Call<Prosumer> call, Response<Prosumer> response) {
+                setLoading(false);
 
-                                    Toast.makeText(
-                                            RegisterActivity.this,
-                                            "Registration successful. Waiting for activation.",
-                                            Toast.LENGTH_LONG
-                                    ).show();
+                if (response.isSuccessful() && response.body() != null) {
+                    Toast.makeText(
+                            RegisterActivity.this,
+                            "Registration submitted. A Backoffice user must activate your account before you can sign in.",
+                            Toast.LENGTH_LONG
+                    ).show();
+                    finish();
+                    return;
+                }
 
-                                    finish();
+                showError(ApiErrorUtil.getMessage(response, "Registration failed. Please check your details."));
+            }
 
-                                } else {
+            @Override
+            public void onFailure(Call<Prosumer> call, Throwable throwable) {
+                setLoading(false);
+                showError("Unable to reach the server. Please try again.");
+            }
+        });
+    }
 
-                                    Toast.makeText(
-                                            RegisterActivity.this,
-                                            "Registration failed.",
-                                            Toast.LENGTH_LONG
-                                    ).show();
-                                }
-                            }
+    private String valueOf(TextInputEditText input) {
+        return input.getText() == null ? "" : input.getText().toString().trim();
+    }
 
-                            @Override
-                            public void onFailure(
-                                    Call<Prosumer> call,
-                                    Throwable throwable) {
+    private void setLoading(boolean loading) {
+        progressBar.setVisibility(loading ? View.VISIBLE : View.GONE);
+        registerButton.setEnabled(!loading);
+        registerButton.setText(loading ? "Creating account..." : "Create account");
+    }
 
-                                Toast.makeText(
-                                        RegisterActivity.this,
-                                        "Server error: "
-                                                + throwable.getMessage(),
-                                        Toast.LENGTH_LONG
-                                ).show();
-                            }
-                        }
-                );
+    private void showError(String message) {
+        errorText.setText(message);
+        errorText.setVisibility(View.VISIBLE);
     }
 }

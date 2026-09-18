@@ -1,69 +1,32 @@
-<?xml version="1.0" encoding="utf-8"?>
-
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="24dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Prosumer Registration"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="20dp" />
-
-        <EditText
-            android:id="@+id/editTextNic"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="NIC" />
-
-        <EditText
-            android:id="@+id/editTextName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Name" />
-
-        <EditText
-            android:id="@+id/editTextRegisterEmail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Email"
-            android:inputType="textEmailAddress" />
-
-        <EditText
-            android:id="@+id/editTextPhone"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Phone"
-            android:inputType="phone" />
-
-        <EditText
-            android:id="@+id/editTextAddress"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Address" />
-
-        <EditText
-            android:id="@+id/editTextRegisterPassword"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Password"
-            android:inputType="textPassword" />
-
-        <Button
-            android:id="@+id/buttonCreateAccount"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Register"
-            android:layout_marginTop="20dp" />
-
-    </LinearLayout>
-
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent" android:layout_height="match_parent" android:background="@color/solar_background" android:fillViewport="true">
+<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="24dp">
+<com.google.android.material.button.MaterialButton android:id="@+id/buttonBackToLogin" style="@style/Widget.Material3.Button.TextButton" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="← Back to sign in" android:textAllCaps="false"/>
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="12dp" android:text="Create prosumer account" android:textColor="@color/solar_navy" android:textSize="28sp" android:textStyle="bold"/>
+<TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="6dp" android:text="Register with your NIC. Your account will remain pending until Backoffice activates it." android:textColor="@color/solar_text_secondary" android:textSize="14sp"/>
+<com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="22dp" app:cardCornerRadius="18dp" app:cardElevation="1dp" app:strokeColor="@color/solar_border" app:strokeWidth="1dp">
+<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="20dp">
+<com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="NIC" app:boxBackgroundMode="outline">
+<com.google.android.material.textfield.TextInputEditText android:id="@+id/editTextNic" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="text"/>
+</com.google.android.material.textfield.TextInputLayout>
+<com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="12dp" android:hint="Full name" app:boxBackgroundMode="outline">
+<com.google.android.material.textfield.TextInputEditText android:id="@+id/editTextName" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+</com.google.android.material.textfield.TextInputLayout>
+<com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="12dp" android:hint="Email address" app:boxBackgroundMode="outline">
+<com.google.android.material.textfield.TextInputEditText android:id="@+id/editTextRegisterEmail" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="textEmailAddress"/>
+</com.google.android.material.textfield.TextInputLayout>
+<com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="12dp" android:hint="Phone number" app:boxBackgroundMode="outline">
+<com.google.android.material.textfield.TextInputEditText android:id="@+id/editTextPhone" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="phone"/>
+</com.google.android.material.textfield.TextInputLayout>
+<com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="12dp" android:hint="Address" app:boxBackgroundMode="outline">
+<com.google.android.material.textfield.TextInputEditText android:id="@+id/editTextAddress" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="textPostalAddress" android:minLines="2"/>
+</com.google.android.material.textfield.TextInputLayout>
+<com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="12dp" android:hint="Password" app:boxBackgroundMode="outline" app:endIconMode="password_toggle">
+<com.google.android.material.textfield.TextInputEditText android:id="@+id/editTextRegisterPassword" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="textPassword"/>
+</com.google.android.material.textfield.TextInputLayout>
+<TextView android:id="@+id/textRegisterError" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="12dp" android:textColor="@color/solar_error" android:textSize="13sp" android:visibility="gone"/>
+<ProgressBar android:id="@+id/registerProgress" android:layout_width="32dp" android:layout_height="32dp" android:layout_gravity="center_horizontal" android:layout_marginTop="12dp" android:visibility="gone"/>
+<com.google.android.material.button.MaterialButton android:id="@+id/buttonCreateAccount" android:layout_width="match_parent" android:layout_height="54dp" android:layout_marginTop="16dp" android:text="Create account" android:textAllCaps="false" android:textSize="16sp" app:cornerRadius="12dp"/>
+</LinearLayout>
+</com.google.android.material.card.MaterialCardView>
+</LinearLayout>
 </ScrollView>

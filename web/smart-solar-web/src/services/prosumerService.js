@@ -1,26 +1,42 @@
 import apiClient from "../api/apiClient";
 
-export async function getProsumers() {
-  const response =
-    await apiClient.get("/prosumers");
+export async function getProsumers(status = "") {
+  const response = await apiClient.get("/prosumers", {
+    params: status ? { status } : undefined
+  });
 
   return response.data;
 }
 
-export async function activateProsumer(nic) {
-  await apiClient.patch(
-    `/prosumers/${nic}/activate`
+export async function getPendingProsumers() {
+  const response = await apiClient.get("/prosumers/pending");
+  return response.data;
+}
+
+export async function getDeactivationRequests() {
+  const response = await apiClient.get(
+    "/prosumers/deactivation-requests"
   );
+  return response.data;
+}
+
+export async function activateProsumer(nic) {
+  const response = await apiClient.patch(
+    `/prosumers/${encodeURIComponent(nic)}/activate`
+  );
+  return response.data;
 }
 
 export async function deactivateProsumer(nic) {
-  await apiClient.patch(
-    `/prosumers/${nic}/deactivate`
+  const response = await apiClient.patch(
+    `/prosumers/${encodeURIComponent(nic)}/deactivate`
   );
+  return response.data;
 }
 
 export async function reactivateProsumer(nic) {
-  await apiClient.patch(
-    `/prosumers/${nic}/reactivate`
+  const response = await apiClient.patch(
+    `/prosumers/${encodeURIComponent(nic)}/reactivate`
   );
+  return response.data;
 }

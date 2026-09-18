@@ -1,17 +1,15 @@
-<?xml version="1.0" encoding="utf-8"?>
-
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center"
-    android:orientation="vertical"
-    android:padding="24dp">
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Grid Operator Dashboard"
-        android:textSize="24sp"
-        android:textStyle="bold" />
-
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent" android:layout_height="match_parent" android:background="@color/solar_background" android:orientation="vertical">
+<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:background="@color/solar_navy" android:orientation="vertical" android:padding="24dp">
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="GRID OPERATOR" android:textColor="@color/solar_gold" android:textSize="12sp" android:textStyle="bold"/>
+<TextView android:id="@+id/textOperatorWelcome" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:text="Hello, Operator" android:textColor="@color/white" android:textSize="26sp" android:textStyle="bold"/>
+</LinearLayout>
+<LinearLayout android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:gravity="center" android:orientation="vertical" android:padding="24dp">
+<com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="wrap_content" app:cardCornerRadius="18dp" app:strokeColor="@color/solar_border" app:strokeWidth="1dp">
+<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="22dp">
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Operator mobile access is ready" android:textColor="@color/solar_text_primary" android:textSize="18sp" android:textStyle="bold"/>
+<TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:text="QR verification, station operations and transfer finalisation can be integrated here by the Operator module." android:textColor="@color/solar_text_secondary" android:textSize="14sp"/>
+</LinearLayout>
+</com.google.android.material.card.MaterialCardView>
+<com.google.android.material.button.MaterialButton android:id="@+id/buttonOperatorLogout" style="@style/Widget.Material3.Button.OutlinedButton" android:layout_width="match_parent" android:layout_height="52dp" android:layout_marginTop="20dp" android:text="Sign out" android:textAllCaps="false" app:cornerRadius="12dp"/>
+</LinearLayout>
 </LinearLayout>

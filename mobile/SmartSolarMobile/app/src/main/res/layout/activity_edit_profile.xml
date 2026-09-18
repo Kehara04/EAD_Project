@@ -1,0 +1,25 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent" android:layout_height="match_parent" android:background="@color/solar_background" android:fillViewport="true">
+<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="20dp">
+<com.google.android.material.button.MaterialButton android:id="@+id/buttonEditProfileBack" style="@style/Widget.Material3.Button.TextButton" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="← Profile" android:textAllCaps="false"/>
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:text="Edit profile" android:textColor="@color/solar_navy" android:textSize="28sp" android:textStyle="bold"/>
+<TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="5dp" android:text="Your NIC is the account primary key and cannot be changed." android:textColor="@color/solar_text_secondary" android:textSize="14sp"/>
+<com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="20dp" app:cardCornerRadius="18dp" app:strokeColor="@color/solar_border" app:strokeWidth="1dp">
+<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="20dp">
+<com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Full name" app:boxBackgroundMode="outline">
+<com.google.android.material.textfield.TextInputEditText android:id="@+id/editProfileName" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+</com.google.android.material.textfield.TextInputLayout>
+<com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="12dp" android:hint="Email address" app:boxBackgroundMode="outline">
+<com.google.android.material.textfield.TextInputEditText android:id="@+id/editProfileEmail" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="textEmailAddress"/>
+</com.google.android.material.textfield.TextInputLayout>
+<com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="12dp" android:hint="Phone number" app:boxBackgroundMode="outline">
+<com.google.android.material.textfield.TextInputEditText android:id="@+id/editProfilePhone" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="phone"/>
+</com.google.android.material.textfield.TextInputLayout>
+<com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="12dp" android:hint="Address" app:boxBackgroundMode="outline">
+<com.google.android.material.textfield.TextInputEditText android:id="@+id/editProfileAddress" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="textPostalAddress" android:minLines="2"/>
+</com.google.android.material.textfield.TextInputLayout>
+<ProgressBar android:id="@+id/editProfileProgress" android:layout_width="32dp" android:layout_height="32dp" android:layout_gravity="center_horizontal" android:layout_marginTop="14dp" android:visibility="gone"/>
+<com.google.android.material.button.MaterialButton android:id="@+id/buttonSaveProfile" android:layout_width="match_parent" android:layout_height="52dp" android:layout_marginTop="18dp" android:text="Save changes" android:textAllCaps="false" app:cornerRadius="12dp"/>
+</LinearLayout>
+</com.google.android.material.card.MaterialCardView>
+</LinearLayout>
+</ScrollView>
