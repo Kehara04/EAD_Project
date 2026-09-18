@@ -1,9 +1,4 @@
-import {
-  BrowserRouter,
-  Route,
-  Routes
-} from "react-router-dom";
-
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import LoginPage from "./pages/auth/LoginPage";
 import BackofficeDashboard from "./pages/backoffice/BackofficeDashboard";
 import UserManagementPage from "./pages/backoffice/UserManagementPage";
@@ -20,7 +15,7 @@ export default function App() {
         <Route
           path="/backoffice"
           element={
-            <ProtectedRoute role="Backoffice">
+            <ProtectedRoute roles={["Backoffice"]}>
               <BackofficeDashboard />
             </ProtectedRoute>
           }
@@ -29,7 +24,7 @@ export default function App() {
         <Route
           path="/backoffice/users"
           element={
-            <ProtectedRoute role="Backoffice">
+            <ProtectedRoute roles={["Backoffice"]}>
               <UserManagementPage />
             </ProtectedRoute>
           }
@@ -38,7 +33,7 @@ export default function App() {
         <Route
           path="/backoffice/prosumers"
           element={
-            <ProtectedRoute role="Backoffice">
+            <ProtectedRoute roles={["Backoffice"]}>
               <ProsumerManagementPage />
             </ProtectedRoute>
           }
@@ -47,11 +42,13 @@ export default function App() {
         <Route
           path="/operator"
           element={
-            <ProtectedRoute role="GridOperator">
+            <ProtectedRoute roles={["GridOperator"]}>
               <OperatorHome />
             </ProtectedRoute>
           }
         />
+
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
   );

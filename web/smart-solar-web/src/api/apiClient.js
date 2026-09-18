@@ -1,7 +1,12 @@
 import axios from "axios";
 
 const apiClient = axios.create({
-  baseURL: "http://localhost:5103/api"
+  baseURL:
+    import.meta.env.VITE_API_BASE_URL ||
+    "http://localhost:5103/api",
+  headers: {
+    "Content-Type": "application/json"
+  }
 });
 
 apiClient.interceptors.request.use((config) => {
@@ -13,5 +18,25 @@ apiClient.interceptors.request.use((config) => {
 
   return config;
 });
+
+apiClient.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response?.status === 401) {
+      localStorage.removeItem("token");
+      localStorage.removeItem("role");
+      localStorage.removeItem("name");
+      localStorage.removeItem("email");
+      localStorage.removeItem("userId");
+      localStorage.removeItem("referenceId");
+
+      if (window.location.pathname !== "/") {
+        window.location.href = "/";
+      }
+    }
+
+    return Promise.reject(error);
+  }
+);
 
 export default apiClient;

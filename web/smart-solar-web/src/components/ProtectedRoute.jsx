@@ -1,19 +1,23 @@
-import { Navigate } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
+import { getCurrentUser } from "../services/authService";
 
-export default function ProtectedRoute({
-  children,
-  role
-}) {
-  const token = localStorage.getItem("token");
-  const currentRole =
-    localStorage.getItem("role");
+export default function ProtectedRoute({ children, roles = [] }) {
+  const location = useLocation();
+  const user = getCurrentUser();
 
-  if (!token) {
-    return <Navigate to="/" replace />;
+  if (!user.token) {
+    return <Navigate to="/" replace state={{ from: location }} />;
   }
 
-  if (role && currentRole !== role) {
-    return <Navigate to="/" replace />;
+  if (roles.length > 0 && !roles.includes(user.role)) {
+    const home =
+      user.role === "Backoffice"
+        ? "/backoffice"
+        : user.role === "GridOperator"
+          ? "/operator"
+          : "/";
+
+    return <Navigate to={home} replace />;
   }
 
   return children;
