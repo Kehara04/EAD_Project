@@ -1,13 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+
 <resources>
-<style name="Base.Theme.SmartSolarMobile" parent="Theme.Material3.Light.NoActionBar">
-<item name="colorPrimary">@color/solar_green</item>
-<item name="colorOnPrimary">@color/white</item>
-<item name="colorSecondary">@color/solar_gold</item>
-<item name="android:statusBarColor">@color/solar_navy</item>
-<item name="android:navigationBarColor">@color/white</item>
-<item name="android:fontFamily">sans</item>
-<item name="android:windowLightStatusBar">false</item>
-<item name="android:colorAccent">@color/solar_green</item>
-</style>
-<style name="Theme.SmartSolarMobile" parent="Base.Theme.SmartSolarMobile"/>
+
+    <style
+        name="Base.Theme.SmartSolarMobile"
+        parent="Theme.Material3.Light.NoActionBar">
+
+        <item name="colorPrimary">
+            @color/solar_green
+        </item>
+
+        <item name="colorOnPrimary">
+            @color/white
+        </item>
+
+        <item name="colorPrimaryContainer">
+            @color/solar_green_light
+        </item>
+
+        <item name="colorOnPrimaryContainer">
+            @color/solar_green_dark
+        </item>
+
+        <item name="colorSecondary">
+            @color/solar_green_dark
+        </item>
+
+        <item name="colorOnSecondary">
+            @color/white
+        </item>
+
+        <item name="colorSecondaryContainer">
+            @color/solar_green_extra_light
+        </item>
+
+        <item name="colorSurface">
+            @color/solar_surface
+        </item>
+
+        <item name="colorSurfaceContainer">
+            @color/solar_surface_soft
+        </item>
+
+        <item name="android:windowBackground">
+            @color/solar_background
+        </item>
+
+        <item name="android:statusBarColor">
+            @color/solar_green_dark
+        </item>
+
+        <item name="android:navigationBarColor">
+            @color/solar_green_dark
+        </item>
+
+        <item name="android:windowLightStatusBar">
+            false
+        </item>
+
+        <item name="android:windowLightNavigationBar">
+            false
+        </item>
+
+        <item name="android:fontFamily">
+            sans
+        </item>
+
+        <item name="android:colorAccent">
+            @color/solar_green
+        </item>
+
+    </style>
+
+
+    <style
+        name="Theme.SmartSolarMobile"
+        parent="Base.Theme.SmartSolarMobile" />
+
 </resources>

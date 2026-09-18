@@ -2,96 +2,275 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { getCurrentUser, logout } from "../services/authService";
 
 const backofficeLinks = [
-  { to: "/backoffice", label: "Overview", short: "OV" },
-  { to: "/backoffice/users", label: "User Management", short: "UM" },
-  { to: "/backoffice/prosumers", label: "Prosumer Management", short: "PM" }
+  {
+    to: "/backoffice",
+    label: "Overview",
+    short: "⌂"
+  },
+  {
+    to: "/backoffice/users",
+    label: "User Management",
+    short: "U"
+  },
+  {
+    to: "/backoffice/prosumers",
+    label: "Prosumer Management",
+    short: "P"
+  }
 ];
 
 const operatorLinks = [
-  { to: "/operator", label: "Operator Home", short: "OH" }
+  {
+    to: "/operator",
+    label: "Operator Home",
+    short: "O"
+  }
 ];
 
-export default function DashboardLayout({ title, subtitle, children }) {
+export default function DashboardLayout({
+  title,
+  subtitle,
+  children
+}) {
   const navigate = useNavigate();
-  const user = getCurrentUser();
-  const links = user.role === "Backoffice" ? backofficeLinks : operatorLinks;
+
+  const user =
+    getCurrentUser();
+
+  const links =
+    user.role === "Backoffice"
+      ? backofficeLinks
+      : operatorLinks;
 
   function handleLogout() {
     logout();
-    navigate("/", { replace: true });
+
+    navigate("/", {
+      replace: true
+    });
   }
 
   return (
     <div className="app-shell">
+
+      {/* =========================================
+          SIDEBAR
+      ========================================== */}
+
       <aside className="sidebar">
-        <div className="brand-block">
-          <div className="brand-mark">S</div>
-          <div>
-            <div className="brand-title">Smart Solar</div>
-            <div className="brand-subtitle">Microgrid Trading</div>
+
+        <div className="sidebar-main">
+
+          {/* Brand */}
+          <div className="brand-block">
+
+            <div className="brand-mark">
+              <span className="brand-sun">
+                ☀
+              </span>
+
+              <span className="brand-letter">
+                S
+              </span>
+            </div>
+
+            <div>
+              <div className="brand-title">
+                Smart Solar
+              </div>
+
+              <div className="brand-subtitle">
+                Microgrid Trading System
+              </div>
+            </div>
+
           </div>
+
+
+          {/* Navigation */}
+          <div className="sidebar-label">
+            Workspace
+          </div>
+
+          <nav className="sidebar-nav">
+
+            {links.map((link) => (
+
+              <NavLink
+                key={link.to}
+                to={link.to}
+                end={
+                  link.to === "/backoffice" ||
+                  link.to === "/operator"
+                }
+                className={({ isActive }) =>
+                  `sidebar-link ${
+                    isActive
+                      ? "active"
+                      : ""
+                  }`
+                }
+              >
+
+                <span className="nav-icon">
+                  {link.short}
+                </span>
+
+                <span className="nav-label">
+                  {link.label}
+                </span>
+
+              </NavLink>
+
+            ))}
+
+          </nav>
+
         </div>
 
-        <div className="sidebar-label">Workspace</div>
 
-        <nav className="sidebar-nav">
-          {links.map((link) => (
-            <NavLink
-              key={link.to}
-              to={link.to}
-              end={link.to === "/backoffice" || link.to === "/operator"}
-              className={({ isActive }) =>
-                `sidebar-link ${isActive ? "active" : ""}`
-              }
-            >
-              <span className="nav-icon">{link.short}</span>
-              <span>{link.label}</span>
-            </NavLink>
-          ))}
-        </nav>
+        {/* =========================================
+            SIDEBAR FOOTER
+        ========================================== */}
 
         <div className="sidebar-footer">
-          <div className="user-card">
-            <div className="avatar">
-              {(user.name || "U").charAt(0).toUpperCase()}
+
+          <div className="sidebar-user-card">
+
+            <div className="avatar sidebar-avatar">
+              {(user.name || "U")
+                .charAt(0)
+                .toUpperCase()}
             </div>
+
             <div className="user-card-copy">
-              <strong>{user.name || "User"}</strong>
-              <span>{user.role}</span>
+
+              <strong>
+                {user.name || "User"}
+              </strong>
+
+              <span>
+                {user.role}
+              </span>
+
             </div>
+
           </div>
+
 
           <button
             type="button"
-            className="btn btn-outline-light w-100 sidebar-logout"
+            className="sidebar-logout"
             onClick={handleLogout}
           >
+            <span className="logout-icon">
+              ↪
+            </span>
+
             Sign out
           </button>
+
+
+          <div className="sidebar-energy-art">
+
+            <div className="sidebar-energy-overlay" />
+
+            <div className="sidebar-energy-copy">
+
+              <span className="energy-line" />
+
+              <strong>
+                CLEAN ENERGY
+              </strong>
+
+              <span>
+                STRONGER COMMUNITIES
+              </span>
+
+              <span>
+                A BRIGHTER TOMORROW
+              </span>
+
+            </div>
+
+          </div>
+
         </div>
+
       </aside>
 
+
+      {/* =========================================
+          MAIN CONTENT
+      ========================================== */}
+
       <main className="main-content">
+
         <header className="topbar">
-          <div>
-            <p className="page-kicker">Smart Solar Administration</p>
-            <h1>{title}</h1>
-            {subtitle && <p className="page-subtitle">{subtitle}</p>}
+
+          <div className="topbar-heading">
+
+            <p className="page-kicker">
+              Smart Solar Administration
+            </p>
+
+            <h1>
+              {title}
+            </h1>
+
+            {subtitle && (
+              <p className="page-subtitle">
+                {subtitle}
+              </p>
+            )}
+
           </div>
 
-          <div className="topbar-user">
-            <div className="avatar avatar-light">
-              {(user.name || "U").charAt(0).toUpperCase()}
+
+          <div className="topbar-right">
+
+            <div className="topbar-tagline">
+              CLEAN ENERGY
+              <span>•</span>
+              CONNECTED
+              <span>•</span>
+              SUSTAINABLE
             </div>
-            <div className="d-none d-md-block">
-              <strong>{user.name || "User"}</strong>
-              <span>{user.email}</span>
+
+
+            <div className="topbar-user">
+
+              <div className="avatar avatar-light">
+                {(user.name || "U")
+                  .charAt(0)
+                  .toUpperCase()}
+              </div>
+
+              <div className="d-none d-md-block">
+
+                <strong>
+                  {user.name || "User"}
+                </strong>
+
+                <span>
+                  {user.email}
+                </span>
+
+              </div>
+
             </div>
+
           </div>
+
         </header>
 
-        <section className="content-area">{children}</section>
+
+        <section className="content-area">
+          {children}
+        </section>
+
       </main>
+
     </div>
   );
 }
