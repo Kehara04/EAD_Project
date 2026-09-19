@@ -383,7 +383,8 @@ export default function StationManagementPage() {
                 {search.trim() ? "No stations match your search." : "No stations yet. Create your first microgrid station to get started."}
               </div>
             ) : (
-              <div className="table-responsive">
+              <div className="table-responsive station-table-scroll" tabIndex={0}
+                role="region" aria-label="All stations, scroll to view more">
                 <table className="table app-table align-middle mb-0">
                   <thead>
                     <tr>

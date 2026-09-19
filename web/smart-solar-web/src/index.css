@@ -2107,6 +2107,23 @@ textarea {
    TABLES
 ========================================================= */
 
+.station-table-scroll {
+  max-height: 60vh;
+  overflow: auto;
+  scrollbar-gutter: stable;
+}
+
+.station-table-scroll thead th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.station-table-scroll:focus-visible {
+  outline: 2px solid var(--green-600);
+  outline-offset: 3px;
+}
+
 .app-table {
   margin: 0;
 }
