@@ -8,7 +8,7 @@
 <string name="stations_skipped">%1$d stations have coordinates that cannot be displayed.</string>
 <string name="stations_error">Could not load stations. Check your connection and try again.</string>
 <string name="stations_session_expired">Your session has expired. Please sign in again.</string>
-<string name="stations_count">%1$d active stations shown. Tap a marker for details.</string>
+<string name="stations_count">Active stations shown: %1$d. Tap a marker for details.</string>
 <string name="station_details">%1$s · %2$d slots available · %3$s</string>
 <string name="osm_attribution">© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a></string>
 <string name="location_my_location">My location</string>
@@ -24,4 +24,21 @@
 <string name="location_settings_message">Enable location permission in app settings to show your position. You can continue viewing stations without it.</string>
 <string name="location_settings">Open settings</string>
 <string name="location_continue">Continue</string>
+<string name="stations_all">All</string>
+<string name="stations_radius_5">5 km</string>
+<string name="stations_radius_10">10 km</string>
+<string name="stations_refresh">Refresh</string>
+<string name="nearby_location_required">A current location is needed for nearby search. Use My location, or select All to browse stations.</string>
+<string name="nearby_loading">Finding active stations within %1$d km…</string>
+<string name="nearby_empty">No active stations within %1$d km. Try a larger radius or refresh your location.</string>
+<string name="nearby_count">Active stations within %2$d km: %1$d. Tap a marker for details.</string>
+<string name="station_capacity">%1$s kW</string>
+<plurals name="station_slots">
+    <item quantity="one">%d slot available</item>
+    <item quantity="other">%d slots available</item>
+</plurals>
+<string name="station_distance">%1$.1f km away</string>
+<string name="station_distance_unavailable">Current location needed to calculate distance.</string>
+<string name="station_distance_note">Distance is a straight-line estimate. Approximate device location may affect nearby results.</string>
+<string name="station_close">Close</string>
 </resources>
