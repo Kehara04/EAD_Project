@@ -1,3 +1,14 @@
 <resources>
 <string name="app_name">Smart Solar</string>
+<string name="solar_stations">Solar stations</string>
+<string name="retry_stations">Retry</string>
+<string name="stations_loading">Loading stations…</string>
+<string name="stations_empty">No stations with valid map coordinates were found.</string>
+<string name="stations_coordinates_unsupported">Stations are available, but their coordinates cannot be displayed. Please ask the station operator to update their locations.</string>
+<string name="stations_skipped">%1$d stations have coordinates that cannot be displayed.</string>
+<string name="stations_error">Could not load stations. Check your connection and try again.</string>
+<string name="stations_session_expired">Your session has expired. Please sign in again.</string>
+<string name="stations_count">%1$d stations shown. Tap a marker for details.</string>
+<string name="station_details">%1$s · %2$d slots available · %3$s</string>
+<string name="osm_attribution">© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a></string>
 </resources>

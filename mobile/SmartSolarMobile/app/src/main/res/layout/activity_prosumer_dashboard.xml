@@ -306,6 +306,16 @@
             </com.google.android.material.card.MaterialCardView>
 
 
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/buttonViewStations"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="12dp"
+                android:text="Find solar stations"
+                android:textAllCaps="false"
+                app:cornerRadius="11dp" />
+
+
             <!-- Integration notice -->
 
             <com.google.android.material.card.MaterialCardView
@@ -337,7 +347,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="9dp"
                         android:layout_weight="1"
-                        android:text="Reservation, map and QR features will appear here as the remaining modules are integrated."
+                        android:text="Explore solar stations using the map above. Reservation and QR features will appear as the remaining modules are integrated."
                         android:textColor="@color/solar_text_secondary"
                         android:textSize="10sp" />
 

@@ -16,6 +16,7 @@ import com.smartsolar.data.remote.ApiClient;
 import com.smartsolar.data.remote.ApiService;
 import com.smartsolar.model.Prosumer;
 import com.smartsolar.ui.auth.LoginActivity;
+import com.smartsolar.maps.StationMapActivity;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -52,6 +53,14 @@ public class ProsumerDashboardActivity extends AppCompatActivity {
         profileButton.setOnClickListener(v ->
                 startActivity(new Intent(this, ProfileActivity.class))
         );
+
+        findViewById(R.id.buttonViewStations).setOnClickListener(v -> {
+            Intent intent = new Intent(
+                    ProsumerDashboardActivity.this,
+                    StationMapActivity.class
+            );
+            startActivity(intent);
+        });
 
         logoutButton.setOnClickListener(v -> logout());
     }
