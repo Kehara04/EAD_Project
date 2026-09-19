@@ -5,6 +5,7 @@ import UserManagementPage from "./pages/backoffice/UserManagementPage";
 import ProsumerManagementPage from "./pages/backoffice/ProsumerManagementPage";
 import OperatorHome from "./pages/operator/OperatorHome";
 import ProtectedRoute from "./components/ProtectedRoute";
+import StationManagementPage from "./pages/backoffice/StationManagementPage";
 
 export default function App() {
   return (
@@ -35,6 +36,15 @@ export default function App() {
           element={
             <ProtectedRoute roles={["Backoffice"]}>
               <ProsumerManagementPage />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/backoffice/stations"
+          element={
+            <ProtectedRoute roles={["Backoffice"]}>
+              <StationManagementPage />
             </ProtectedRoute>
           }
         />

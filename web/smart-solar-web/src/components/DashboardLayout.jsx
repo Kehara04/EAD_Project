@@ -20,6 +20,12 @@ const backofficeLinks = [
     to: "/backoffice/prosumers",
     label: "Prosumer Management",
     short: "P"
+  },
+
+  {
+  to: "/backoffice/stations",
+  label: "Station Management",
+  short: "S"
   }
 ];
 
