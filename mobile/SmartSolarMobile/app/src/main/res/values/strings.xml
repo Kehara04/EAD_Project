@@ -41,4 +41,17 @@
 <string name="station_distance_unavailable">Current location needed to calculate distance.</string>
 <string name="station_distance_note">Distance is a straight-line estimate. Approximate device location may affect nearby results.</string>
 <string name="station_close">Close</string>
+<string name="station_search_hint">Search name or address</string>
+<string name="stations_available_only">Available slots only</string>
+<string name="station_list">View list</string>
+<string name="station_list_count">View list (%1$d)</string>
+<string name="stations_no_matches">No stations match your search and availability filter. Change the search or turn off Available slots only.</string>
+<string name="station_hours">Opening hours: %1$s – %2$s</string>
+<string name="station_status">Status: %1$s</string>
+<string name="station_coordinates">Latitude: %1$.5f
+Longitude: %2$.5f</string>
+<string name="station_not_provided">Not provided</string>
+<string name="station_detail_loading">Refreshing station details…</string>
+<string name="station_detail_failed">Could not refresh. Showing previously loaded details; availability may have changed.</string>
+<string name="station_detail_removed">This station is no longer available. Close and refresh the station list.</string>
 </resources>

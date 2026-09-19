@@ -13,6 +13,8 @@ import android.os.Looper;
 import android.os.SystemClock;
 import android.provider.Settings;
 import android.text.method.LinkMovementMethod;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,12 +28,16 @@ import androidx.core.view.WindowCompat;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButtonToggleGroup;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.materialswitch.MaterialSwitch;
+import com.google.android.material.textfield.TextInputEditText;
 import com.smartsolar.R;
 import com.smartsolar.data.local.SessionManager;
 import com.smartsolar.data.remote.ApiClient;
 import com.smartsolar.model.SolarStation;
 import com.smartsolar.ui.auth.LoginActivity;
+import com.smartsolar.utils.StationFilter;
 
 import java.io.File;
 import java.text.NumberFormat;
@@ -68,6 +74,14 @@ public class StationMapActivity extends AppCompatActivity {
     private int radiusKm;
     private boolean waitingForNearbyLocation;
     private BottomSheetDialog stationDetails;
+    private Call<SolarStation> detailCall;
+    private final List<SolarStation> loadedStations = new ArrayList<>();
+    private final List<SolarStation> filteredStations = new ArrayList<>();
+    private TextInputEditText stationSearch;
+    private MaterialSwitch availableOnly;
+    private MaterialButton stationListButton;
+    private boolean stationDataLoaded;
+    private AlertDialog stationListDialog;
     private final Handler locationHandler = new Handler(Looper.getMainLooper());
     private final Runnable locationTimeout = () -> {
         if (locating && userMarker == null) locationStatus.setText(R.string.location_waiting);
@@ -132,6 +146,20 @@ public class StationMapActivity extends AppCompatActivity {
         locationStatus = findViewById(R.id.locationStatus);
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         findViewById(R.id.buttonMyLocation).setOnClickListener(v -> requestUserLocation());
+        stationSearch = findViewById(R.id.stationSearch);
+        availableOnly = findViewById(R.id.availableStationsOnly);
+        stationListButton = findViewById(R.id.buttonStationList);
+        if (savedInstanceState != null) {
+            stationSearch.setText(savedInstanceState.getString("stationQuery", ""));
+            availableOnly.setChecked(savedInstanceState.getBoolean("availableOnly", false));
+        }
+        stationSearch.addTextChangedListener(new TextWatcher() {
+            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+            @Override public void onTextChanged(CharSequence s, int start, int before, int count) { applyStationFilters(); }
+            @Override public void afterTextChanged(Editable s) { }
+        });
+        availableOnly.setOnCheckedChangeListener((button, checked) -> applyStationFilters());
+        stationListButton.setOnClickListener(v -> showStationList());
         MaterialButtonToggleGroup radiusOptions = findViewById(R.id.stationRadiusOptions);
         radiusKm = savedInstanceState == null ? 0 : savedInstanceState.getInt("radiusKm", 0);
         radiusOptions.check(radiusKm == 5 ? R.id.radius5 : radiusKm == 10 ? R.id.radius10 : R.id.radiusAll);
@@ -268,6 +296,7 @@ public class StationMapActivity extends AppCompatActivity {
         if (radiusKm > 0) {
             if (stationsCall != null) stationsCall.cancel();
             stationsCall = null;
+            resetStationData();
             clearStationMarkers();
             waitingForNearbyLocation = true;
             status.setText(R.string.nearby_location_required);
@@ -290,6 +319,7 @@ public class StationMapActivity extends AppCompatActivity {
         if (map == null) return;
         if (stationsCall != null) stationsCall.cancel();
         stationsCall = null;
+        resetStationData();
         clearStationMarkers();
         waitingForNearbyLocation = radiusKm > 0 && !hasFreshLocation();
         retryButton.setVisibility(View.GONE);
@@ -318,7 +348,9 @@ public class StationMapActivity extends AppCompatActivity {
                             .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
                     finish();
                 } else if (response.isSuccessful() && response.body() != null) {
-                    showStations(response.body());
+                    loadedStations.addAll(response.body());
+                    stationDataLoaded = true;
+                    applyStationFilters();
                 } else {
                     showError();
                 }
@@ -333,6 +365,7 @@ public class StationMapActivity extends AppCompatActivity {
 
     private void clearStationMarkers() {
         if (stationDetails != null) stationDetails.dismiss();
+        if (stationListDialog != null) stationListDialog.dismiss();
         for (Marker marker : stationMarkers) {
             marker.closeInfoWindow();
             map.getOverlays().remove(marker);
@@ -341,8 +374,47 @@ public class StationMapActivity extends AppCompatActivity {
         map.invalidate();
     }
 
+    private void resetStationData() {
+        loadedStations.clear();
+        filteredStations.clear();
+        stationDataLoaded = false;
+        stationListButton.setEnabled(false);
+        stationListButton.setText(getString(R.string.station_list_count, 0));
+    }
+
+    private void applyStationFilters() {
+        if (!stationDataLoaded) return;
+        filteredStations.clear();
+        String query = stationSearch.getText() == null ? "" : stationSearch.getText().toString();
+        for (SolarStation station : loadedStations) {
+            if (StationFilter.matches(station, query, availableOnly.isChecked())) filteredStations.add(station);
+        }
+        stationListButton.setText(getString(R.string.station_list_count, filteredStations.size()));
+        stationListButton.setEnabled(!filteredStations.isEmpty());
+        showStations(filteredStations);
+        if (filteredStations.isEmpty() && !loadedStations.isEmpty()) {
+            status.setText(R.string.stations_no_matches);
+            retryButton.setVisibility(View.GONE);
+        }
+    }
+
+    private void showStationList() {
+        List<SolarStation> displayed = new ArrayList<>(filteredStations);
+        String[] labels = new String[displayed.size()];
+        for (int i = 0; i < displayed.size(); i++) {
+            SolarStation station = displayed.get(i);
+            labels[i] = station.getName() + "\n" + station.getAddress();
+        }
+        stationListDialog = new AlertDialog.Builder(this)
+                .setTitle(R.string.solar_stations)
+                .setItems(labels, (dialog, which) -> showStationDetails(displayed.get(which)))
+                .setNegativeButton(R.string.station_close, null).create();
+        stationListDialog.show();
+    }
+
     private void showStations(List<SolarStation> stations) {
         clearStationMarkers();
+        retryButton.setVisibility(View.GONE);
         List<GeoPoint> positions = new ArrayList<>();
         int count = 0;
         for (SolarStation station : stations) {
@@ -410,6 +482,41 @@ public class StationMapActivity extends AppCompatActivity {
         if (stationDetails != null) stationDetails.dismiss();
         stationDetails = new BottomSheetDialog(this);
         View content = getLayoutInflater().inflate(R.layout.sheet_station_details, null);
+        bindStationDetails(content, station);
+        content.findViewById(R.id.buttonCloseStation).setOnClickListener(v -> stationDetails.dismiss());
+        stationDetails.setContentView(content);
+        stationDetails.setOnDismissListener(dialog -> {
+            if (detailCall != null) detailCall.cancel();
+        });
+        stationDetails.show();
+        if (station.getId() == null || station.getId().isEmpty()) return;
+        TextView refreshStatus = content.findViewById(R.id.stationDetailRefreshStatus);
+        refreshStatus.setText(R.string.station_detail_loading);
+        refreshStatus.setVisibility(View.VISIBLE);
+        detailCall = ApiClient.create(this).getStation(station.getId());
+        detailCall.enqueue(new Callback<SolarStation>() {
+            @Override
+            public void onResponse(Call<SolarStation> call, Response<SolarStation> response) {
+                if (call != detailCall || call.isCanceled() || isFinishing() || isDestroyed()) return;
+                if (response.isSuccessful() && response.body() != null) {
+                    bindStationDetails(content, response.body());
+                    refreshStatus.setVisibility(View.GONE);
+                } else {
+                    refreshStatus.setText(response.code() == 404
+                            ? R.string.station_detail_removed : R.string.station_detail_failed);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SolarStation> call, Throwable error) {
+                if (call == detailCall && !call.isCanceled() && !isFinishing() && !isDestroyed()) {
+                    refreshStatus.setText(R.string.station_detail_failed);
+                }
+            }
+        });
+    }
+
+    private void bindStationDetails(View content, SolarStation station) {
         ((TextView) content.findViewById(R.id.stationDetailName)).setText(station.getName());
         ((TextView) content.findViewById(R.id.stationDetailAddress)).setText(station.getAddress());
         NumberFormat number = NumberFormat.getNumberInstance();
@@ -419,6 +526,13 @@ public class StationMapActivity extends AppCompatActivity {
         ((TextView) content.findViewById(R.id.stationDetailSlots)).setText(
                 getResources().getQuantityString(R.plurals.station_slots,
                         station.getAvailableSlots(), station.getAvailableSlots()));
+        ((TextView) content.findViewById(R.id.stationDetailHours)).setText(
+                getString(R.string.station_hours, detailValue(station.getOpeningTime()),
+                        detailValue(station.getClosingTime())));
+        ((TextView) content.findViewById(R.id.stationDetailStatus)).setText(
+                getString(R.string.station_status, detailValue(station.getStatus())));
+        ((TextView) content.findViewById(R.id.stationDetailLocation)).setText(
+                getString(R.string.station_coordinates, station.getLatitude(), station.getLongitude()));
         TextView distance = content.findViewById(R.id.stationDetailDistance);
         if (hasFreshLocation()) {
             float[] meters = new float[1];
@@ -428,14 +542,17 @@ public class StationMapActivity extends AppCompatActivity {
         } else {
             distance.setText(R.string.station_distance_unavailable);
         }
-        content.findViewById(R.id.buttonCloseStation).setOnClickListener(v -> stationDetails.dismiss());
-        stationDetails.setContentView(content);
-        stationDetails.show();
+    }
+
+    private String detailValue(String value) {
+        return value == null || value.trim().isEmpty() ? getString(R.string.station_not_provided) : value;
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         outState.putInt("radiusKm", radiusKm);
+        outState.putString("stationQuery", stationSearch.getText() == null ? "" : stationSearch.getText().toString());
+        outState.putBoolean("availableOnly", availableOnly.isChecked());
         super.onSaveInstanceState(outState);
     }
 
@@ -468,6 +585,8 @@ public class StationMapActivity extends AppCompatActivity {
     protected void onDestroy() {
         if (stationsCall != null) stationsCall.cancel();
         if (stationDetails != null) stationDetails.dismiss();
+        if (stationListDialog != null) stationListDialog.dismiss();
+        if (detailCall != null) detailCall.cancel();
         stopLocationUpdates();
         if (map != null) map.onDetach();
         super.onDestroy();

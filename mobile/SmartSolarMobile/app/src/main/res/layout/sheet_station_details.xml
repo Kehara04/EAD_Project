@@ -41,6 +41,28 @@
             android:textSize="18sp" />
 
         <TextView
+            android:id="@+id/stationDetailHours"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/stationDetailStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/stationDetailLocation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textSize="16sp"
+            android:textIsSelectable="true" />
+
+        <TextView
             android:id="@+id/stationDetailDistance"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -60,5 +82,12 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:text="@string/station_close" />
+
+        <TextView
+            android:id="@+id/stationDetailRefreshStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:accessibilityLiveRegion="polite"
+            android:visibility="gone" />
     </LinearLayout>
 </ScrollView>
