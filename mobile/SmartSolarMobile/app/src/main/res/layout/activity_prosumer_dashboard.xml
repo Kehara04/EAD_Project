@@ -50,18 +50,17 @@
                     <com.google.android.material.card.MaterialCardView
                         android:layout_width="38dp"
                         android:layout_height="38dp"
-                        app:cardBackgroundColor="@color/solar_lime"
+                        app:cardBackgroundColor="@color/white"
                         app:cardCornerRadius="11dp"
                         app:cardElevation="2dp">
 
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:gravity="center"
-                            android:text="S"
-                            android:textColor="@color/solar_green_dark"
-                            android:textSize="17sp"
-                            android:textStyle="bold" />
+                        <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="2dp"
+                        android:contentDescription="@string/smart_solar_logo_description"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/smart_solar_emblem" />
 
                     </com.google.android.material.card.MaterialCardView>
 

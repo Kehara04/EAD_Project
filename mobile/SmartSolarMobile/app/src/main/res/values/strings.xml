@@ -54,4 +54,5 @@ Longitude: %2$.5f</string>
 <string name="station_detail_loading">Refreshing station details…</string>
 <string name="station_detail_failed">Could not refresh. Showing previously loaded details; availability may have changed.</string>
 <string name="station_detail_removed">This station is no longer available. Close and refresh the station list.</string>
+<string name="smart_solar_logo_description">SmartSolars — Powering a Smarter Tomorrow</string>
 </resources>

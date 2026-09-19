@@ -16,8 +16,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public final class ApiClient {
 
-    // Android emulator -> Windows host machine.
-    private static final String BASE_URL = "http://10.0.2.2:5103/api/";
+    // Development: run connect-backend.sh after connecting a phone or starting an emulator.
+    // ADB reverse forwards this device-local port to the backend on the development computer.
+    private static final String BASE_URL = "http://127.0.0.1:5103/api/";
 
     private ApiClient() {
     }
