@@ -38,7 +38,7 @@ public interface ApiService {
     Call<ProsumerActionResponse> requestDeactivation();
 
     @GET("stations")
-    Call<List<SolarStation>> getStations();
+    Call<List<SolarStation>> getStations(@Query("status") String status);
 
     @GET("stations/{id}")
     Call<SolarStation> getStation(

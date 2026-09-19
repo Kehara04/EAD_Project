@@ -2,13 +2,26 @@
 <string name="app_name">Smart Solar</string>
 <string name="solar_stations">Solar stations</string>
 <string name="retry_stations">Retry</string>
-<string name="stations_loading">Loading stations…</string>
-<string name="stations_empty">No stations with valid map coordinates were found.</string>
-<string name="stations_coordinates_unsupported">Stations are available, but their coordinates cannot be displayed. Please ask the station operator to update their locations.</string>
+<string name="stations_loading">Loading active stations…</string>
+<string name="stations_empty">No active stations are available right now.</string>
+<string name="stations_coordinates_unsupported">Active stations are available, but their coordinates cannot be displayed. Please ask the station operator to update their locations.</string>
 <string name="stations_skipped">%1$d stations have coordinates that cannot be displayed.</string>
 <string name="stations_error">Could not load stations. Check your connection and try again.</string>
 <string name="stations_session_expired">Your session has expired. Please sign in again.</string>
-<string name="stations_count">%1$d stations shown. Tap a marker for details.</string>
+<string name="stations_count">%1$d active stations shown. Tap a marker for details.</string>
 <string name="station_details">%1$s · %2$d slots available · %3$s</string>
 <string name="osm_attribution">© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a></string>
+<string name="location_my_location">My location</string>
+<string name="location_you">You are here</string>
+<string name="location_locating">Finding your location…</string>
+<string name="location_shown">Your location is shown in blue.</string>
+<string name="location_approximate">Your approximate location is shown in blue.</string>
+<string name="location_denied">Location permission is off. You can still view stations.</string>
+<string name="location_disabled">Turn on device location to see where you are.</string>
+<string name="location_waiting">Still waiting for a location. Check device location or try outdoors.</string>
+<string name="location_unsupported">Your location is outside the area supported by this map.</string>
+<string name="location_rationale">Allow location access to show your position on the station map. Approximate location also works.</string>
+<string name="location_settings_message">Enable location permission in app settings to show your position. You can continue viewing stations without it.</string>
+<string name="location_settings">Open settings</string>
+<string name="location_continue">Continue</string>
 </resources>
