@@ -1,5 +1,9 @@
 import { NavLink, useNavigate } from "react-router-dom";
-import { getCurrentUser, logout } from "../services/authService";
+import {
+  getCurrentUser,
+  logout
+} from "../services/authService";
+
 
 const backofficeLinks = [
   {
@@ -19,6 +23,7 @@ const backofficeLinks = [
   }
 ];
 
+
 const operatorLinks = [
   {
     to: "/operator",
@@ -26,6 +31,7 @@ const operatorLinks = [
     short: "O"
   }
 ];
+
 
 export default function DashboardLayout({
   title,
@@ -37,10 +43,12 @@ export default function DashboardLayout({
   const user =
     getCurrentUser();
 
+
   const links =
     user.role === "Backoffice"
       ? backofficeLinks
       : operatorLinks;
+
 
   function handleLogout() {
     logout();
@@ -49,6 +57,7 @@ export default function DashboardLayout({
       replace: true
     });
   }
+
 
   return (
     <div className="app-shell">
@@ -61,36 +70,29 @@ export default function DashboardLayout({
 
         <div className="sidebar-main">
 
-          {/* Brand */}
-          <div className="brand-block">
+          {/* =====================================
+              OFFICIAL SMART SOLAR LOGO
+          ====================================== */}
 
-            <div className="brand-mark">
-              <span className="brand-sun">
-                ☀
-              </span>
+          <div className="brand-block brand-block-logo">
 
-              <span className="brand-letter">
-                S
-              </span>
-            </div>
-
-            <div>
-              <div className="brand-title">
-                Smart Solar
-              </div>
-
-              <div className="brand-subtitle">
-                Microgrid Trading System
-              </div>
-            </div>
+            <img
+              src="/images/smart-solar-logo.png"
+              alt="Smart Solar - Powering a Smarter Tomorrow"
+              className="sidebar-brand-logo"
+            />
 
           </div>
 
 
-          {/* Navigation */}
+          {/* =====================================
+              NAVIGATION
+          ====================================== */}
+
           <div className="sidebar-label">
             Workspace
           </div>
+
 
           <nav className="sidebar-nav">
 
@@ -135,13 +137,18 @@ export default function DashboardLayout({
 
         <div className="sidebar-footer">
 
+          {/* USER CARD */}
+
           <div className="sidebar-user-card">
 
             <div className="avatar sidebar-avatar">
+
               {(user.name || "U")
                 .charAt(0)
                 .toUpperCase()}
+
             </div>
+
 
             <div className="user-card-copy">
 
@@ -158,22 +165,29 @@ export default function DashboardLayout({
           </div>
 
 
+          {/* LOGOUT */}
+
           <button
             type="button"
             className="sidebar-logout"
             onClick={handleLogout}
           >
+
             <span className="logout-icon">
               ↪
             </span>
 
             Sign out
+
           </button>
 
+
+          {/* ENERGY IMAGE */}
 
           <div className="sidebar-energy-art">
 
             <div className="sidebar-energy-overlay" />
+
 
             <div className="sidebar-energy-copy">
 
@@ -206,6 +220,10 @@ export default function DashboardLayout({
 
       <main className="main-content">
 
+        {/* =====================================
+            TOPBAR
+        ====================================== */}
+
         <header className="topbar">
 
           <div className="topbar-heading">
@@ -219,9 +237,11 @@ export default function DashboardLayout({
             </h1>
 
             {subtitle && (
+
               <p className="page-subtitle">
                 {subtitle}
               </p>
+
             )}
 
           </div>
@@ -229,22 +249,39 @@ export default function DashboardLayout({
 
           <div className="topbar-right">
 
+            {/* TOP TAGLINE */}
+
             <div className="topbar-tagline">
+
               CLEAN ENERGY
-              <span>•</span>
+
+              <span>
+                •
+              </span>
+
               CONNECTED
-              <span>•</span>
+
+              <span>
+                •
+              </span>
+
               SUSTAINABLE
+
             </div>
 
+
+            {/* LOGGED IN USER */}
 
             <div className="topbar-user">
 
               <div className="avatar avatar-light">
+
                 {(user.name || "U")
                   .charAt(0)
                   .toUpperCase()}
+
               </div>
+
 
               <div className="d-none d-md-block">
 
@@ -264,6 +301,10 @@ export default function DashboardLayout({
 
         </header>
 
+
+        {/* =====================================
+            PAGE CONTENT
+        ====================================== */}
 
         <section className="content-area">
           {children}

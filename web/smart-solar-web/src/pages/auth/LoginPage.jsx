@@ -1,33 +1,34 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+
 import {
   getCurrentUser,
   login
 } from "../../services/authService";
+
 import { getApiError } from "../../services/errorService";
+
 
 export default function LoginPage() {
   const navigate = useNavigate();
 
-  const [email, setEmail] =
-    useState("");
-
-  const [password, setPassword] =
-    useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const [showPassword, setShowPassword] =
     useState(false);
 
-  const [error, setError] =
-    useState("");
-
+  const [error, setError] = useState("");
   const [loading, setLoading] =
     useState(false);
 
 
+  /* ==========================================
+     REDIRECT ALREADY LOGGED-IN USERS
+  ========================================== */
+
   useEffect(() => {
-    const user =
-      getCurrentUser();
+    const user = getCurrentUser();
 
     if (
       user.token &&
@@ -53,9 +54,11 @@ export default function LoginPage() {
   }, [navigate]);
 
 
-  async function handleSubmit(
-    event
-  ) {
+  /* ==========================================
+     LOGIN
+  ========================================== */
+
+  async function handleSubmit(event) {
     event.preventDefault();
 
     setError("");
@@ -124,7 +127,7 @@ export default function LoginPage() {
     <div className="login-page">
 
       {/* ======================================
-          LEFT IMAGE PANEL
+          LEFT IMAGE / INTRODUCTION PANEL
       ======================================= */}
 
       <section className="login-showcase d-none d-lg-flex">
@@ -133,43 +136,78 @@ export default function LoginPage() {
 
         <div className="showcase-content">
 
+          {/* Small category label */}
           <div className="showcase-badge">
-            <span>
-              ◆
+
+            <span className="showcase-badge-dot">
+              ☀
             </span>
 
-            SMART ENERGY OPERATIONS
+            SMART SOLAR MICROGRID PLATFORM
+
           </div>
 
 
-          <h1>
-            Powering{" "}
+          {/* Clear application purpose */}
+          <h1 className="showcase-main-title">
+
+            Manage your solar
+
+            <br />
 
             <span>
-              smarter
+              microgrid
             </span>
 
-            <br />
-
-            community energy
+            {" "}from one
 
             <br />
 
-            exchange
+            connected platform
 
             <span>.</span>
+
           </h1>
 
 
-          <p>
-            Securely manage users,
-            solar prosumers and
-            microgrid operations
-            from one connected
-            platform.
+          <p className="showcase-description">
+
+            Smart Solar connects
+            Backoffice teams and Grid
+            Operators to manage prosumers,
+            microgrid stations, reservations
+            and energy operations securely.
+
           </p>
 
 
+          {/* Purpose highlights */}
+          <div className="showcase-purpose">
+
+            <span>
+              PROSUMERS
+            </span>
+
+            <span className="purpose-dot">
+              •
+            </span>
+
+            <span>
+              MICROGRIDS
+            </span>
+
+            <span className="purpose-dot">
+              •
+            </span>
+
+            <span>
+              ENERGY TRADING
+            </span>
+
+          </div>
+
+
+          {/* Platform features */}
           <div className="showcase-metrics">
 
             <div className="showcase-feature">
@@ -185,7 +223,31 @@ export default function LoginPage() {
                 </strong>
 
                 <span>
-                  JWT access control
+                  Role-based access
+                </span>
+
+              </div>
+
+            </div>
+
+
+            <div className="feature-divider" />
+
+
+            <div className="showcase-feature">
+
+              <div className="feature-icon">
+                <EnergyIcon />
+              </div>
+
+              <div>
+
+                <strong>
+                  Smart Energy
+                </strong>
+
+                <span>
+                  Microgrid operations
                 </span>
 
               </div>
@@ -209,31 +271,7 @@ export default function LoginPage() {
                 </strong>
 
                 <span>
-                  Central REST API
-                </span>
-
-              </div>
-
-            </div>
-
-
-            <div className="feature-divider" />
-
-
-            <div className="showcase-feature">
-
-              <div className="feature-icon">
-                <DatabaseIcon />
-              </div>
-
-              <div>
-
-                <strong>
-                  Cloud
-                </strong>
-
-                <span>
-                  MongoDB Atlas
+                  Central platform
                 </span>
 
               </div>
@@ -253,62 +291,97 @@ export default function LoginPage() {
 
       <section className="login-panel">
 
-        <div className="login-decoration login-decoration-top" />
-        <div className="login-decoration login-decoration-bottom" />
+        <div
+          className="
+            login-decoration
+            login-decoration-top
+          "
+        />
+
+        <div
+          className="
+            login-decoration
+            login-decoration-bottom
+          "
+        />
 
 
         <div className="login-card-wrap">
 
-          {/* Logo */}
-          <div className="login-brand">
+          {/* ==================================
+              OFFICIAL LOGO
+          ================================== */}
 
-            <div className="login-logo">
+          <div className="login-official-brand">
 
-              <span className="login-logo-sun">
-                ☀
-              </span>
-
-              <span className="login-logo-letter">
-                S
-              </span>
-
-            </div>
-
-
-            <div>
-
-              <div className="login-brand-title">
-                Smart Solar
-              </div>
-
-              <div className="login-brand-subtitle">
-                Microgrid Trading System
-              </div>
-
-            </div>
+            <img
+              src="/images/smart-solar-logo.png"
+              alt="Smart Solar - Powering a Smarter Tomorrow"
+              className="login-official-logo"
+            />
 
           </div>
 
 
-          {/* Heading */}
+          {/* ==================================
+              LOGIN HEADING
+          ================================== */}
+
           <div className="login-heading">
 
+            <div className="login-portal-label">
+              OPERATIONS PORTAL
+            </div>
+
             <h2>
-              Welcome back
+              Welcome to Smart Solar
             </h2>
 
             <p>
-              Sign in to continue to
-              your Smart Solar workspace.
+              Sign in to manage Smart Solar
+              microgrid operations.
             </p>
 
           </div>
 
 
-          {/* Error */}
+          {/* ==================================
+              LOGIN ACCESS INFORMATION
+          ================================== */}
+
+          <div className="login-access-info">
+
+            <div className="login-access-icon">
+              <ShieldIcon />
+            </div>
+
+            <div>
+
+              <strong>
+                Authorized portal access
+              </strong>
+
+              <span>
+                For Backoffice and Grid
+                Operator accounts
+              </span>
+
+            </div>
+
+          </div>
+
+
+          {/* ==================================
+              ERROR
+          ================================== */}
+
           {error && (
             <div
-              className="alert alert-danger app-alert"
+              className="
+                alert
+                alert-danger
+                app-alert
+              "
               role="alert"
             >
               {error}
@@ -316,12 +389,16 @@ export default function LoginPage() {
           )}
 
 
-          {/* Form */}
+          {/* ==================================
+              FORM
+          ================================== */}
+
           <form
             onSubmit={handleSubmit}
             noValidate
           >
 
+            {/* EMAIL */}
             <div className="login-form-group">
 
               <label
@@ -341,7 +418,11 @@ export default function LoginPage() {
                 <input
                   id="email"
                   type="email"
-                  className="form-control app-input login-input"
+                  className="
+                    form-control
+                    app-input
+                    login-input
+                  "
                   placeholder="name@example.com"
                   autoComplete="email"
                   value={email}
@@ -358,6 +439,7 @@ export default function LoginPage() {
             </div>
 
 
+            {/* PASSWORD */}
             <div className="login-form-group">
 
               <label
@@ -381,7 +463,12 @@ export default function LoginPage() {
                       ? "text"
                       : "password"
                   }
-                  className="form-control app-input login-input login-password-input"
+                  className="
+                    form-control
+                    app-input
+                    login-input
+                    login-password-input
+                  "
                   placeholder="Enter your password"
                   autoComplete="current-password"
                   value={password}
@@ -403,7 +490,11 @@ export default function LoginPage() {
                         !value
                     )
                   }
-                  tabIndex={-1}
+                  aria-label={
+                    showPassword
+                      ? "Hide password"
+                      : "Show password"
+                  }
                 >
                   {showPassword
                     ? "Hide"
@@ -415,16 +506,28 @@ export default function LoginPage() {
             </div>
 
 
+            {/* LOGIN BUTTON */}
             <button
               type="submit"
-              className="btn btn-solar w-100 login-submit"
+              className="
+                btn
+                btn-solar
+                w-100
+                login-submit
+              "
               disabled={loading}
             >
 
               {loading ? (
                 <>
 
-                  <span className="spinner-border spinner-border-sm me-2" />
+                  <span
+                    className="
+                      spinner-border
+                      spinner-border-sm
+                      me-2
+                    "
+                  />
 
                   Signing in...
 
@@ -432,11 +535,11 @@ export default function LoginPage() {
               ) : (
                 <>
 
-                  <ArrowIcon />
-
                   <span>
-                    Sign in
+                    Sign in to portal
                   </span>
+
+                  <ArrowIcon />
 
                 </>
               )}
@@ -446,19 +549,27 @@ export default function LoginPage() {
           </form>
 
 
+          {/* ==================================
+              BOTTOM NOTE
+          ================================== */}
+
           <div className="login-note">
 
             <span />
 
             <p>
-              Web access is available
-              to Backoffice and Grid
-              Operator accounts.
+              Secure • Connected • Sustainable
             </p>
 
             <span />
 
           </div>
+
+
+          <p className="login-footer-message">
+            Powering smarter community
+            energy management.
+          </p>
 
         </div>
 
@@ -473,6 +584,7 @@ export default function LoginPage() {
    ICONS
 ============================================ */
 
+
 function EmailIcon() {
   return (
     <svg
@@ -485,6 +597,7 @@ function EmailIcon() {
       strokeLinecap="round"
       strokeLinejoin="round"
     >
+
       <rect
         x="3"
         y="5"
@@ -494,6 +607,7 @@ function EmailIcon() {
       />
 
       <path d="m3 7 9 6 9-6" />
+
     </svg>
   );
 }
@@ -511,6 +625,7 @@ function LockIcon() {
       strokeLinecap="round"
       strokeLinejoin="round"
     >
+
       <rect
         x="5"
         y="10"
@@ -519,7 +634,13 @@ function LockIcon() {
         rx="2"
       />
 
-      <path d="M8 10V7a4 4 0 0 1 8 0v3" />
+      <path
+        d="
+          M8 10V7
+          a4 4 0 0 1 8 0v3
+        "
+      />
+
     </svg>
   );
 }
@@ -537,8 +658,11 @@ function ArrowIcon() {
       strokeLinecap="round"
       strokeLinejoin="round"
     >
+
       <path d="M5 12h14" />
+
       <path d="m13 6 6 6-6 6" />
+
     </svg>
   );
 }
@@ -556,9 +680,21 @@ function ShieldIcon() {
       strokeLinecap="round"
       strokeLinejoin="round"
     >
-      <path d="M12 3 5 6v5c0 5 3 8 7 10 4-2 7-5 7-10V6l-7-3Z" />
 
-      <path d="m9.5 12 1.7 1.7 3.5-4" />
+      <path
+        d="
+          M12 3
+          5 6v5
+          c0 5 3 8 7 10
+          4-2 7-5 7-10
+          V6l-7-3Z
+        "
+      />
+
+      <path
+        d="m9.5 12 1.7 1.7 3.5-4"
+      />
+
     </svg>
   );
 }
@@ -576,13 +712,22 @@ function CloudIcon() {
       strokeLinecap="round"
       strokeLinejoin="round"
     >
-      <path d="M17.5 19H7a5 5 0 0 1-.6-9.96A7 7 0 0 1 20 11a4 4 0 0 1-2.5 8Z" />
+
+      <path
+        d="
+          M17.5 19H7
+          a5 5 0 0 1-.6-9.96
+          A7 7 0 0 1 20 11
+          a4 4 0 0 1-2.5 8Z
+        "
+      />
+
     </svg>
   );
 }
 
 
-function DatabaseIcon() {
+function EnergyIcon() {
   return (
     <svg
       width="19"
@@ -594,16 +739,11 @@ function DatabaseIcon() {
       strokeLinecap="round"
       strokeLinejoin="round"
     >
-      <ellipse
-        cx="12"
-        cy="5"
-        rx="8"
-        ry="3"
+
+      <path
+        d="M13 2 5.5 13H11l-1 9 8.5-12H13l0-8Z"
       />
 
-      <path d="M4 5v6c0 1.7 3.6 3 8 3s8-1.3 8-3V5" />
-
-      <path d="M4 11v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6" />
     </svg>
   );
 }

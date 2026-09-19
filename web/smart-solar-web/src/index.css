@@ -2896,3 +2896,309 @@ span:not(
       normal;
   }
 }
+
+/* =========================================
+   LOGIN - OFFICIAL SMART SOLAR LOGO
+========================================= */
+
+.login-official-brand {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-bottom: 34px;
+}
+
+.login-official-logo {
+  display: block;
+  width: 245px;
+  max-width: 78%;
+  height: auto;
+  object-fit: contain;
+}
+
+
+/* =========================================
+   LOGIN - CLEAR PORTAL PURPOSE
+========================================= */
+
+.login-portal-label {
+  margin-bottom: 9px;
+
+  color: var(--green-600);
+
+  font-size: 0.7rem;
+  font-weight: 800;
+
+  letter-spacing: 0.15em;
+}
+
+.login-heading h2 {
+  margin: 0;
+
+  color: var(--ink);
+
+  font-size: clamp(
+    1.8rem,
+    2.6vw,
+    2.25rem
+  );
+
+  font-weight: 750;
+  line-height: 1.12;
+}
+
+.login-heading p {
+  max-width: 410px;
+
+  margin-top: 9px;
+  margin-bottom: 0;
+
+  color: var(--muted);
+
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+
+/* =========================================
+   ACCESS INFORMATION
+========================================= */
+
+.login-access-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  margin-top: 22px;
+  margin-bottom: 22px;
+
+  padding: 12px 14px;
+
+  border: 1px solid var(--mint-200);
+  border-radius: 13px;
+
+  background: var(--mint-75);
+}
+
+.login-access-icon {
+  width: 38px;
+  height: 38px;
+
+  flex: 0 0 38px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 11px;
+
+  color: var(--green-800);
+  background: var(--mint-150);
+}
+
+.login-access-info div:last-child {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.login-access-info strong {
+  color: var(--ink);
+
+  font-size: 0.79rem;
+  font-weight: 700;
+}
+
+.login-access-info span {
+  margin-top: 2px;
+
+  color: var(--muted);
+
+  font-size: 0.72rem;
+}
+
+
+/* =========================================
+   LEFT SHOWCASE PURPOSE
+========================================= */
+
+.showcase-main-title {
+  max-width: 730px;
+}
+
+.showcase-description {
+  max-width: 610px !important;
+}
+
+.showcase-purpose {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+
+  gap: 8px;
+
+  margin-top: 24px;
+
+  color: rgba(
+    255,
+    255,
+    255,
+    0.76
+  );
+
+  font-size: 0.67rem;
+  font-weight: 700;
+
+  letter-spacing: 0.13em;
+}
+
+.showcase-purpose .purpose-dot {
+  color: var(--lime);
+  font-size: 0.9rem;
+}
+
+.showcase-badge-dot {
+  color: var(--lime);
+}
+
+
+/* =========================================
+   LOGIN BUTTON
+========================================= */
+
+.login-submit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 9px;
+}
+
+
+/* =========================================
+   LOGIN FOOTER
+========================================= */
+
+.login-footer-message {
+  margin: 10px 0 0;
+
+  text-align: center;
+
+  color: var(--muted);
+
+  font-size: 0.68rem;
+}
+
+
+/* =========================================
+   MOBILE / TABLET
+========================================= */
+
+@media (max-width: 991.98px) {
+
+  .login-official-brand {
+    justify-content: center;
+    margin-bottom: 28px;
+  }
+
+  .login-official-logo {
+    width: 215px;
+  }
+
+  .login-heading {
+    text-align: center;
+  }
+
+  .login-heading p {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+}
+
+
+@media (max-width: 480px) {
+
+  .login-official-logo {
+    width: 195px;
+  }
+
+  .login-access-info {
+    padding: 11px 12px;
+  }
+
+}
+
+/* =========================================
+   SIDEBAR OFFICIAL LOGO
+========================================= */
+
+.brand-block-logo {
+  display: flex;
+  align-items: center;
+
+  padding: 24px 18px 22px;
+
+  border-bottom: 1px solid
+    rgba(255, 255, 255, 0.10);
+}
+
+
+/* Official Smart Solar image */
+.sidebar-brand-logo {
+  display: block;
+
+  width: 100%;
+  max-width: 205px;
+
+  height: auto;
+
+  object-fit: contain;
+
+  object-position: left center;
+}
+
+
+/* =========================================
+   OPTIONAL: IMPROVE LOGO VISIBILITY
+========================================= */
+
+.sidebar-brand-logo {
+  padding: 8px 10px;
+
+  border-radius: 12px;
+
+  background:
+    rgba(255, 255, 255, 0.93);
+}
+
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 1199.98px) {
+
+  .sidebar-brand-logo {
+    max-width: 185px;
+  }
+
+}
+
+
+/* =========================================
+   MOBILE / SMALL SIDEBAR
+========================================= */
+
+@media (max-width: 767.98px) {
+
+  .brand-block-logo {
+    justify-content: center;
+    padding: 16px 12px;
+  }
+
+  .sidebar-brand-logo {
+    max-width: 165px;
+  }
+
+}
