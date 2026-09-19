@@ -1,0 +1,4 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@color/white" />
+    <item android:drawable="@drawable/smart_solar_launcher_foreground" />
+</layer-list>

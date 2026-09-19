@@ -1,5 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+
+    <color name="white">#FFFFFF</color>
+    <color name="black">#101713</color>
+
+    <color name="solar_navy">#004D43</color>
+    <color name="solar_gold">#A8EF45</color>
+
+    <!-- Main brand greens -->
+    <color name="solar_green_dark">#004D43</color>
+    <color name="solar_green_deep">#005D51</color>
+    <color name="solar_green">#07996B</color>
+    <color name="solar_green_bright">#12AD70</color>
+
+    <!-- Lime accent from web design -->
+    <color name="solar_lime">#A8EF45</color>
+    <color name="solar_lime_bright">#B8FF42</color>
+
+    <!-- Soft mint surfaces -->
+    <color name="solar_green_light">#E4F7ED</color>
+    <color name="solar_green_extra_light">#F0FAF5</color>
+    <color name="solar_green_medium">#C9EDDB</color>
+
+    <!-- Backgrounds -->
+    <color name="solar_background">#F5FAF7</color>
+    <color name="solar_surface">#FFFFFF</color>
+    <color name="solar_surface_soft">#F7FBF9</color>
+
+    <!-- Text -->
+    <color name="solar_text_primary">#111B17</color>
+    <color name="solar_text_secondary">#708078</color>
+    <color name="solar_text_light">#96A49D</color>
+
+    <!-- Borders -->
+    <color name="solar_border">#E0EBE5</color>
+    <color name="solar_border_green">#CAE4D7</color>
+
+    <!-- State -->
+    <color name="solar_success">#087958</color>
+    <color name="solar_success_background">#E1F7ED</color>
+
+    <color name="solar_warning">#BD7A12</color>
+    <color name="solar_warning_background">#FFF3D7</color>
+
+    <color name="solar_error">#BC3F3F</color>
+    <color name="solar_error_background">#FDE9E9</color>
+
+    <!-- Transparent overlays -->
+    <color name="solar_overlay_dark">#99003F38</color>
+    <color name="solar_overlay_soft">#66004D43</color>
+
 </resources>
