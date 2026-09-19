@@ -33,6 +33,10 @@ const emptyForm = {
 
 
 export default function StationManagementPage() {
+  const [statusFilter, setStatusFilter] = useState("All");
+  const [availabilityFilter, setAvailabilityFilter] = useState("All");
+  const [actionId, setActionId] = useState(null);
+
   const [
     stations,
     setStations
@@ -225,12 +229,14 @@ export default function StationManagementPage() {
 
 
   async function toggleStatus(station) {
+    if (actionId) return;
     const nextStatus =
       station.status === "Active"
         ? "Inactive"
         : "Active";
 
     try {
+      setActionId(station.id);
       setError("");
 
       await updateStationStatus(
@@ -247,37 +253,23 @@ export default function StationManagementPage() {
           "Unable to update station status."
         )
       );
+    } finally {
+      setActionId(null);
     }
   }
 
 
-  const filteredStations =
-    useMemo(() => {
-      const query =
-        search
-          .trim()
-          .toLowerCase();
-
-      if (!query)
-        return stations;
-
-      return stations.filter(
-        (station) =>
-          station.name
-            ?.toLowerCase()
-            .includes(query) ||
-          station.address
-            ?.toLowerCase()
-            .includes(query) ||
-          station.status
-            ?.toLowerCase()
-            .includes(query)
-      );
-    }, [
-      stations,
-      search
-    ]);
-
+  const filteredStations = useMemo(() => {
+    const query = search.trim().toLowerCase();
+    return stations.filter((station) => {
+      const matchesSearch = !query || station.name?.toLowerCase().includes(query)
+        || station.address?.toLowerCase().includes(query);
+      const matchesStatus = statusFilter === "All" || station.status === statusFilter;
+      const matchesAvailability = availabilityFilter === "All"
+        || (availabilityFilter === "Available" ? station.availableSlots > 0 : station.availableSlots === 0);
+      return matchesSearch && matchesStatus && matchesAvailability;
+    });
+  }, [stations, search, statusFilter, availabilityFilter]);
 
   return (
     <DashboardLayout
@@ -368,9 +360,21 @@ export default function StationManagementPage() {
             </div>
             <div className="filter-toolbar">
               <input type="search" className="form-control app-input search-input"
-                aria-label="Search stations by name, address or status"
-                placeholder="Search name, address or status..." value={search}
+                aria-label="Search stations by name or address"
+                placeholder="Search name or address..." value={search}
                 onChange={(event) => setSearch(event.target.value)} />
+              <select className="form-select app-input filter-select" aria-label="Station status"
+                value={statusFilter} onChange={(event) => setStatusFilter(event.target.value)}>
+                <option value="All">All statuses</option>
+                <option value="Active">Active</option>
+                <option value="Inactive">Inactive</option>
+              </select>
+              <select className="form-select app-input filter-select" aria-label="Slot availability"
+                value={availabilityFilter} onChange={(event) => setAvailabilityFilter(event.target.value)}>
+                <option value="All">All availability</option>
+                <option value="Available">Available slots</option>
+                <option value="Full">No available slots</option>
+              </select>
             </div>
 
             {loading ? (
@@ -380,7 +384,7 @@ export default function StationManagementPage() {
               </div>
             ) : filteredStations.length === 0 ? (
               <div className="empty-state">
-                {search.trim() ? "No stations match your search." : "No stations yet. Create your first microgrid station to get started."}
+                {(search.trim() || statusFilter !== "All" || availabilityFilter !== "All") ? "No stations match your search and filters." : "No stations yet. Create your first microgrid station to get started."}
               </div>
             ) : (
               <div className="table-responsive station-table-scroll" tabIndex={0}
@@ -419,8 +423,8 @@ export default function StationManagementPage() {
                             </button>
                             <button type="button"
                               className={`btn btn-sm action-button ${station.status === "Active" ? "btn-outline-danger" : "btn-outline-success"}`}
-                              onClick={() => toggleStatus(station)}>
-                              {station.status === "Active" ? "Deactivate" : "Activate"}
+                              disabled={saving || actionId !== null} onClick={() => toggleStatus(station)}>
+                              {actionId === station.id ? "Updating..." : station.status === "Active" ? "Deactivate" : "Activate"}
                             </button>
                           </div>
                         </td>

@@ -1,4 +1,5 @@
 using MongoDB.Driver;
+using MongoDB.Bson;
 using SmartSolar.Api.Data;
 using SmartSolar.Api.DTOs;
 using SmartSolar.Api.Models;
@@ -156,6 +157,12 @@ public class StationService
                 existing.AvailableSlots
             );
 
+        if (request.TotalSlots < bookedSlots)
+        {
+            throw new InvalidOperationException(
+                "Total slots cannot be reduced below the number of booked slots.");
+        }
+
         var newAvailable =
             Math.Max(
                 0,
@@ -253,11 +260,27 @@ public class StationService
                     DateTime.UtcNow
                 );
 
-        await _context.Stations
-            .UpdateOneAsync(
-                x => x.Id == id,
-                update
-            );
+        var filter = Builders<SolarStation>.Filter.Eq(x => x.Id, id);
+        if (normalized == "Inactive")
+        {
+            // Interim reservation guard: occupied slots represent current bookings.
+            // Member 3 must integrate reservation data here and coordinate booking
+            // creation with deactivation; see backend/docs/station-reservations.md.
+            // Check within the write so a concurrent slot change cannot bypass it.
+            filter &= new BsonDocument("$expr", new BsonDocument("$gte",
+                new BsonArray { "$AvailableSlots", "$TotalSlots" }));
+        }
+
+        var result = await _context.Stations.UpdateOneAsync(filter, update);
+        if (result.MatchedCount == 0)
+        {
+            if (await GetByIdAsync(id) == null)
+                return null;
+
+            throw new InvalidOperationException(
+                "Cannot deactivate this station while it has booked slots. " +
+                "Complete or cancel its active reservations first.");
+        }
 
         return await GetByIdAsync(id);
     }

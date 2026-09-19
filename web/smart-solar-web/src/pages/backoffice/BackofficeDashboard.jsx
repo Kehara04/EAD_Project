@@ -3,11 +3,13 @@ import { Link } from "react-router-dom";
 import DashboardLayout from "../../components/DashboardLayout";
 import StatCard from "../../components/StatCard";
 import StatusBadge from "../../components/StatusBadge";
+import { getStations } from "../../services/stationService";
 import { getUsers } from "../../services/userService";
 import { getProsumers } from "../../services/prosumerService";
 import { getApiError } from "../../services/errorService";
 
 export default function BackofficeDashboard() {
+  const [stations, setStations] = useState([]);
   const [users, setUsers] = useState([]);
   const [prosumers, setProsumers] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -18,10 +20,12 @@ export default function BackofficeDashboard() {
       try {
         setLoading(true);
         setError("");
-        const [usersData, prosumersData] = await Promise.all([
+        const [usersData, prosumersData, stationsData] = await Promise.all([
           getUsers(),
-          getProsumers()
+          getProsumers(),
+          getStations()
         ]);
+        setStations(stationsData);
         setUsers(usersData);
         setProsumers(prosumersData);
       } catch (err) {
@@ -38,6 +42,10 @@ export default function BackofficeDashboard() {
     const webUsers = users.filter((user) => user.role !== "Prosumer");
 
     return {
+      totalStations: stations.length,
+      activeStations: stations.filter((s) => s.status === "Active").length,
+      inactiveStations: stations.filter((s) => s.status === "Inactive").length,
+      availableStations: stations.filter((s) => s.availableSlots > 0).length,
       webUsers: webUsers.length,
       activeWebUsers: webUsers.filter((user) => user.status === "Active").length,
       prosumers: prosumers.length,
@@ -46,7 +54,7 @@ export default function BackofficeDashboard() {
         (p) => p.status === "DeactivationRequested"
       ).length
     };
-  }, [users, prosumers]);
+  }, [users, prosumers, stations]);
 
   const recentProsumers = useMemo(
     () =>
@@ -96,6 +104,26 @@ export default function BackofficeDashboard() {
             icon="DR"
           />
         </div>
+      </div>
+
+      <div className="card-heading-row flex-wrap gap-3">
+        <div>
+          <h3>Station network</h3>
+          <p>Capacity and operating status across your microgrid stations.</p>
+        </div>
+        <Link className="btn btn-soft" to="/backoffice/stations">Manage stations</Link>
+      </div>
+      <div className="row g-4 mb-4">
+        {[
+          ["Total stations", metrics.totalStations, "All registered stations", "ST"],
+          ["Active stations", metrics.activeStations, "Currently active in the network", "AS"],
+          ["Inactive stations", metrics.inactiveStations, "Currently inactive", "IS"],
+          ["Stations with available slots", metrics.availableStations, "With free slots, across all statuses", "AV"]
+        ].map(([label, value, helper, icon]) => (
+          <div className="col-12 col-md-6 col-xl-3" key={label}>
+            <StatCard label={label} value={loading || error ? "—" : value} helper={helper} icon={icon} />
+          </div>
+        ))}
       </div>
 
       <div className="row g-4">
