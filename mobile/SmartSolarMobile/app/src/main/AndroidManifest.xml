@@ -24,5 +24,20 @@
 <activity
     android:name=".maps.StationMapActivity"
     android:exported="false" />
+
+<activity
+    android:name=".ui.reservation.ReservationActivity"
+    android:exported="false" />
+<activity
+    android:name=".ui.reservation.MyReservationsActivity"
+    android:exported="false" />
+<activity
+    android:name=".ui.reservation.ReservationDetailsActivity"
+    android:exported="false" />
+
+<activity
+    android:name=".ui.reservation.UpdateReservationActivity"
+    android:exported="false" />
+
 </application>
 </manifest>

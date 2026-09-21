@@ -6,143 +6,113 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/solar_background"
-    android:fillViewport="true"
-    android:overScrollMode="never">
+    android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <!-- ================================
-             HEADER
-        ================================= -->
+
+        <!-- =====================================
+             SMART SOLAR HERO
+        ====================================== -->
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:background="@color/solar_green_dark">
+            android:layout_height="260dp">
 
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:alpha="0.12"
                 android:contentDescription="@null"
                 android:scaleType="centerCrop"
                 android:src="@drawable/smart_solar_mobile_bg" />
 
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#B8004D43" />
+
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:gravity="bottom"
                 android:orientation="vertical"
-                android:paddingStart="20dp"
-                android:paddingTop="25dp"
-                android:paddingEnd="20dp">
-
-                <!-- Mini brand -->
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <com.google.android.material.card.MaterialCardView
-                        android:layout_width="38dp"
-                        android:layout_height="38dp"
-                        app:cardBackgroundColor="@color/white"
-                        app:cardCornerRadius="11dp"
-                        app:cardElevation="2dp">
-
-                        <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:padding="2dp"
-                        android:contentDescription="@string/smart_solar_logo_description"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/smart_solar_emblem" />
-
-                    </com.google.android.material.card.MaterialCardView>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Smart Solar"
-                            android:textColor="@color/white"
-                            android:textSize="13sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Microgrid Trading System"
-                            android:textColor="#BFD9CE"
-                            android:textSize="9sp" />
-
-                    </LinearLayout>
-
-                </LinearLayout>
+                android:paddingStart="22dp"
+                android:paddingTop="24dp"
+                android:paddingEnd="22dp"
+                android:paddingBottom="28dp">
 
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:text="PROSUMER WORKSPACE"
+                    android:text="SMART SOLAR"
                     android:textColor="@color/solar_lime"
-                    android:textSize="10sp"
+                    android:textSize="11sp"
                     android:textStyle="bold" />
+
 
                 <TextView
                     android:id="@+id/textProsumerWelcome"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="6dp"
                     android:text="Hello, Prosumer"
-                    android:textColor="@color/white"
-                    android:textSize="25sp"
+                    android:textColor="@android:color/white"
+                    android:textSize="28sp"
                     android:textStyle="bold" />
+
 
                 <TextView
                     android:id="@+id/textProsumerEmail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:textColor="#C7DDD4"
-                    android:textSize="12sp" />
+                    android:layout_marginTop="5dp"
+                    android:text="prosumer@example.com"
+                    android:textColor="#D8ECE4"
+                    android:textSize="13sp" />
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    android:text="Find microgrid stations, reserve energy slots and manage your Smart Solar account."
+                    android:textColor="#E5F4EE"
+                    android:textSize="13sp" />
 
             </LinearLayout>
 
         </FrameLayout>
 
 
-        <!-- ================================
-             CONTENT
-        ================================= -->
+        <!-- =====================================
+             PAGE CONTENT
+        ====================================== -->
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="-14dp"
             android:orientation="vertical"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:paddingBottom="26dp">
+            android:paddingStart="17dp"
+            android:paddingTop="18dp"
+            android:paddingEnd="17dp"
+            android:paddingBottom="30dp">
 
-            <!-- Status card -->
+
+            <!-- =================================
+                 ACCOUNT STATUS CARD
+            ================================== -->
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardBackgroundColor="@color/solar_surface"
-                app:cardCornerRadius="18dp"
+                app:cardCornerRadius="20dp"
                 app:cardElevation="2dp"
                 app:strokeColor="@color/solar_border"
                 app:strokeWidth="1dp">
@@ -150,58 +120,60 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:padding="16dp">
+                    android:orientation="vertical"
+                    android:padding="18dp">
 
-                    <com.google.android.material.card.MaterialCardView
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        app:cardBackgroundColor="@color/solar_green_light"
-                        app:cardCornerRadius="15dp"
-                        app:cardElevation="0dp">
 
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:gravity="center"
-                            android:text="●"
-                            android:textColor="@color/solar_green"
-                            android:textSize="20sp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="ACCOUNT STATUS"
+                        android:textColor="@color/solar_green"
+                        android:textSize="10sp"
+                        android:textStyle="bold" />
 
-                    </com.google.android.material.card.MaterialCardView>
 
                     <LinearLayout
-                        android:layout_width="0dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="13dp"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
+                        android:layout_marginTop="8dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:text="Account status"
-                            android:textColor="@color/solar_text_secondary"
-                            android:textSize="11sp" />
+                            android:layout_weight="1"
+                            android:text="Prosumer account"
+                            android:textColor="@color/solar_text_primary"
+                            android:textSize="17sp"
+                            android:textStyle="bold" />
+
 
                         <TextView
                             android:id="@+id/textProsumerStatus"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="3dp"
-                            android:text="Loading..."
-                            android:textColor="@color/solar_text_primary"
-                            android:textSize="17sp"
+                            android:background="@color/solar_green_extra_light"
+                            android:paddingStart="12dp"
+                            android:paddingTop="6dp"
+                            android:paddingEnd="12dp"
+                            android:paddingBottom="6dp"
+                            android:text="Active"
+                            android:textColor="@color/solar_green_dark"
+                            android:textSize="12sp"
                             android:textStyle="bold" />
 
                     </LinearLayout>
+
 
                     <ProgressBar
                         android:id="@+id/dashboardProgress"
                         android:layout_width="28dp"
                         android:layout_height="28dp"
-                        android:indeterminateTint="@color/solar_green"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="12dp"
                         android:visibility="gone" />
 
                 </LinearLayout>
@@ -209,22 +181,38 @@
             </com.google.android.material.card.MaterialCardView>
 
 
+            <!-- =================================
+                 QUICK ACTION TITLE
+            ================================== -->
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:text="Account"
-                android:textColor="@color/solar_text_primary"
-                android:textSize="17sp"
+                android:layout_marginTop="24dp"
+                android:text="QUICK ACTIONS"
+                android:textColor="@color/solar_green"
+                android:textSize="10sp"
                 android:textStyle="bold" />
 
 
-            <!-- Profile card -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="What would you like to do?"
+                android:textColor="@color/solar_text_primary"
+                android:textSize="21sp"
+                android:textStyle="bold" />
+
+
+            <!-- =================================
+                 FIND STATIONS
+            ================================== -->
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="15dp"
                 app:cardBackgroundColor="@color/solar_surface"
                 app:cardCornerRadius="18dp"
                 app:cardElevation="2dp"
@@ -235,172 +223,173 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="16dp">
+                    android:padding="17dp">
 
-                    <LinearLayout
+
+                    <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal">
+                        android:text="Find Solar Stations"
+                        android:textColor="@color/solar_text_primary"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
 
-                        <com.google.android.material.card.MaterialCardView
-                            android:layout_width="45dp"
-                            android:layout_height="45dp"
-                            app:cardBackgroundColor="@color/solar_green_light"
-                            app:cardCornerRadius="13dp"
-                            app:cardElevation="0dp">
 
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:gravity="center"
-                                android:text="P"
-                                android:textColor="@color/solar_green_dark"
-                                android:textSize="16sp"
-                                android:textStyle="bold" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Explore active microgrid stations and find available energy slots near you."
+                        android:textColor="@color/solar_text_secondary"
+                        android:textSize="13sp" />
 
-                        </com.google.android.material.card.MaterialCardView>
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="12dp"
-                            android:layout_weight="1"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Manage your profile"
-                                android:textColor="@color/solar_text_primary"
-                                android:textSize="15sp"
-                                android:textStyle="bold" />
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="3dp"
-                                android:text="View your NIC, contact details, edit your profile or request account deactivation."
-                                android:textColor="@color/solar_text_secondary"
-                                android:textSize="11sp" />
-
-                        </LinearLayout>
-
-                    </LinearLayout>
 
                     <com.google.android.material.button.MaterialButton
-                        android:id="@+id/buttonViewProfile"
+                        android:id="@+id/buttonViewStations"
                         android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:layout_marginTop="15dp"
-                        android:text="View my profile  →"
+                        android:layout_height="52dp"
+                        android:layout_marginTop="14dp"
+                        android:text="Find stations  →"
                         android:textAllCaps="false"
-                        android:textColor="@color/white"
+                        android:textColor="@android:color/white"
                         android:textStyle="bold"
                         app:backgroundTint="@color/solar_green"
-                        app:cornerRadius="11dp" />
+                        app:cornerRadius="12dp" />
 
                 </LinearLayout>
 
             </com.google.android.material.card.MaterialCardView>
 
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/buttonViewStations"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="12dp"
-                android:text="Find solar stations"
-                android:textAllCaps="false"
-                app:cornerRadius="11dp" />
-
-
-            <!-- Integration notice -->
+            <!-- =================================
+                 MEMBER 3 - MY RESERVATIONS
+            ================================== -->
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                app:cardBackgroundColor="@color/solar_green_extra_light"
-                app:cardCornerRadius="14dp"
-                app:cardElevation="0dp"
-                app:strokeColor="@color/solar_border_green"
+                app:cardBackgroundColor="@color/solar_surface"
+                app:cardCornerRadius="18dp"
+                app:cardElevation="2dp"
+                app:strokeColor="@color/solar_border"
                 app:strokeWidth="1dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:padding="13dp">
+                    android:orientation="vertical"
+                    android:padding="17dp">
+
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="ⓘ"
-                        android:textColor="@color/solar_green"
-                        android:textSize="17sp" />
+                        android:text="My Reservations"
+                        android:textColor="@color/solar_text_primary"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
 
                     <TextView
-                        android:layout_width="0dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="9dp"
-                        android:layout_weight="1"
-                        android:text="Explore solar stations using the map above. Reservation and QR features will appear as the remaining modules are integrated."
+                        android:layout_marginTop="4dp"
+                        android:text="View pending, approved and previous energy reservations."
                         android:textColor="@color/solar_text_secondary"
-                        android:textSize="10sp" />
+                        android:textSize="13sp" />
+
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/buttonMyReservations"
+                        android:layout_width="match_parent"
+                        android:layout_height="52dp"
+                        android:layout_marginTop="14dp"
+                        android:text="My reservations  →"
+                        android:textAllCaps="false"
+                        android:textColor="@android:color/white"
+                        android:textStyle="bold"
+                        app:backgroundTint="@color/solar_green"
+                        app:cornerRadius="12dp" />
 
                 </LinearLayout>
 
             </com.google.android.material.card.MaterialCardView>
 
 
+            <!-- =================================
+                 PROFILE
+            ================================== -->
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                app:cardBackgroundColor="@color/solar_surface"
+                app:cardCornerRadius="18dp"
+                app:cardElevation="2dp"
+                app:strokeColor="@color/solar_border"
+                app:strokeWidth="1dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="17dp">
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="My Profile"
+                        android:textColor="@color/solar_text_primary"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="View and update your personal Smart Solar account information."
+                        android:textColor="@color/solar_text_secondary"
+                        android:textSize="13sp" />
+
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/buttonViewProfile"
+                        style="@style/Widget.Material3.Button.OutlinedButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="52dp"
+                        android:layout_marginTop="14dp"
+                        android:text="View profile"
+                        android:textAllCaps="false"
+                        android:textColor="@color/solar_green_dark"
+                        android:textStyle="bold"
+                        app:cornerRadius="12dp"
+                        app:strokeColor="@color/solar_green" />
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+
+            <!-- =================================
+                 LOGOUT
+            ================================== -->
+
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/buttonLogout"
                 style="@style/Widget.Material3.Button.OutlinedButton"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="13dp"
-                android:text="↪  Sign out"
+                android:layout_height="52dp"
+                android:layout_marginTop="18dp"
+                android:text="Sign out"
                 android:textAllCaps="false"
                 android:textColor="@color/solar_green_dark"
                 android:textStyle="bold"
-                app:cornerRadius="11dp"
-                app:strokeColor="@color/solar_green"
-                app:strokeWidth="1dp" />
-
-
-            <!-- Bottom visual -->
-
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="105dp"
-                android:layout_marginTop="12dp">
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:alpha="0.70"
-                    android:contentDescription="@null"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/smart_solar_mobile_bg" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="#66F5FAF7" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="start|center_vertical"
-                    android:layout_marginStart="8dp"
-                    android:text="A CLEANER\nBRIGHTER\nTOMORROW"
-                    android:textColor="@color/solar_green_dark"
-                    android:textSize="8sp"
-                    android:textStyle="bold" />
-
-            </FrameLayout>
+                app:cornerRadius="12dp"
+                app:strokeColor="@color/solar_green" />
 
         </LinearLayout>
 
