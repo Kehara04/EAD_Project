@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    activity_qr_display.xml
+    Prosumer screen that shows a transaction QR code for an approved reservation.
+-->
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F0F4F8">
+
+    <!-- Top app bar -->
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="4dp">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbarQrDisplay"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="#1B4332"
+            app:title="Transaction QR Code"
+            app:titleTextColor="#FFFFFF"
+            app:navigationIcon="@android:drawable/ic_menu_revert"
+            app:navigationIconTint="#FFFFFF"/>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+
+    <!-- Scrollable body -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:padding="24dp">
+
+            <!-- Progress indicator shown while fetching the QR payload -->
+            <ProgressBar
+                android:id="@+id/progressQrDisplay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="48dp"
+                android:visibility="gone"/>
+
+
+            <!-- Card containing QR image and reservation details -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardQrContent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:visibility="gone"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="6dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center_horizontal"
+                    android:padding="24dp">
+
+                    <!-- Instruction label -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Show this QR to the Grid Operator"
+                        android:textSize="14sp"
+                        android:textColor="#5A6B7C"
+                        android:layout_marginBottom="16dp"/>
+
+                    <!-- QR code image -->
+                    <ImageView
+                        android:id="@+id/imageQrCode"
+                        android:layout_width="300dp"
+                        android:layout_height="300dp"
+                        android:contentDescription="Transaction QR Code"
+                        android:scaleType="fitCenter"/>
+
+                    <!-- Divider -->
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#E0E7EF"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginBottom="16dp"/>
+
+                    <!-- Station info -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="8dp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Station"
+                            android:textColor="#5A6B7C"
+                            android:textSize="13sp"/>
+
+                        <TextView
+                            android:id="@+id/textQrStation"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2"
+                            android:text="—"
+                            android:textColor="#1B2A3A"
+                            android:textSize="13sp"
+                            android:gravity="end"/>
+                    </LinearLayout>
+
+                    <!-- Slot info -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="8dp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Slot"
+                            android:textColor="#5A6B7C"
+                            android:textSize="13sp"/>
+
+                        <TextView
+                            android:id="@+id/textQrSlot"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2"
+                            android:text="—"
+                            android:textColor="#1B2A3A"
+                            android:textSize="13sp"
+                            android:gravity="end"/>
+                    </LinearLayout>
+
+                    <!-- Schedule info -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Scheduled"
+                            android:textColor="#5A6B7C"
+                            android:textSize="13sp"/>
+
+                        <TextView
+                            android:id="@+id/textQrSchedule"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2"
+                            android:text="—"
+                            android:textColor="#1B2A3A"
+                            android:textSize="13sp"
+                            android:gravity="end"/>
+                    </LinearLayout>
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+
+            <!-- Done / back button -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/buttonQrBack"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginTop="24dp"
+                android:text="Done"
+                android:textAllCaps="false"
+                android:textSize="16sp"
+                app:backgroundTint="#1B4332"
+                app:cornerRadius="12dp"/>
+
+        </LinearLayout>
+    </ScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

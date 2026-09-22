@@ -57,16 +57,20 @@
 package com.smartsolar.data.remote;
 
 import com.smartsolar.model.AvailableSlot;
+import com.smartsolar.model.CompleteTransferRequest;
 import com.smartsolar.model.CreateReservationRequest;
 import com.smartsolar.model.EnergyReservation;
 import com.smartsolar.model.LoginRequest;
 import com.smartsolar.model.LoginResponse;
+import com.smartsolar.model.OperatorDashboardStats;
 import com.smartsolar.model.Prosumer;
 import com.smartsolar.model.ProsumerActionResponse;
+import com.smartsolar.model.QrPayload;
 import com.smartsolar.model.RegisterProsumerRequest;
 import com.smartsolar.model.SolarStation;
 import com.smartsolar.model.UpdateProsumerRequest;
 import com.smartsolar.model.UpdateReservationRequest;
+import com.smartsolar.model.VerifyQrResponse;
 
 import java.util.List;
 
@@ -176,4 +180,43 @@ public interface ApiService {
     Call<EnergyReservation> cancelReservation(
             @Path("id") String id
     );
+
+
+    /* =========================================
+       OPERATOR – QR + TRANSFER (Member 4)
+    ========================================= */
+
+    /**
+     * Fetches a signed QR payload for an approved reservation.
+     * Called by the Prosumer to display the QR code.
+     */
+    @GET("operator/reservations/{id}/qr")
+    Call<QrPayload> getQrPayload(
+            @Path("id") String reservationId
+    );
+
+    /**
+     * Submits a scanned QR payload for server-side verification.
+     * Called by the Grid Operator after scanning.
+     */
+    @POST("operator/verify")
+    Call<VerifyQrResponse> verifyQr(
+            @Body QrPayload payload
+    );
+
+    /**
+     * Finalises the energy transfer for a verified reservation.
+     * Called by the Grid Operator after confirming the scan result.
+     */
+    @POST("operator/complete")
+    Call<EnergyReservation> completeTransfer(
+            @Body CompleteTransferRequest request
+    );
+
+    /**
+     * Retrieves today's reservation counts and per-station
+     * completion totals for the operator dashboard.
+     */
+    @GET("operator/dashboard")
+    Call<OperatorDashboardStats> getOperatorDashboard();
 }
