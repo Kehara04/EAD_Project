@@ -20,6 +20,16 @@ const backofficeLinks = [
     to: "/backoffice/prosumers",
     label: "Prosumer Management",
     short: "P"
+  },
+  {
+    to: "/backoffice/stations",
+    label: "Station Management",
+    short: "S"
+  },
+  {
+    to: "/backoffice/reservations",
+    label: "Reservations",
+    short: "R"
   }
 ];
 
@@ -38,7 +48,10 @@ export default function DashboardLayout({
   subtitle,
   children
 }) {
-  const navigate = useNavigate();
+
+  const navigate =
+    useNavigate();
+
 
   const user =
     getCurrentUser();
@@ -51,11 +64,15 @@ export default function DashboardLayout({
 
 
   function handleLogout() {
+
     logout();
 
-    navigate("/", {
-      replace: true
-    });
+    navigate(
+      "/",
+      {
+        replace: true
+      }
+    );
   }
 
 
@@ -99,12 +116,17 @@ export default function DashboardLayout({
             {links.map((link) => (
 
               <NavLink
+
                 key={link.to}
+
                 to={link.to}
+
                 end={
-                  link.to === "/backoffice" ||
+                  link.to === "/backoffice"
+                  ||
                   link.to === "/operator"
                 }
+
                 className={({ isActive }) =>
                   `sidebar-link ${
                     isActive
@@ -168,9 +190,13 @@ export default function DashboardLayout({
           {/* LOGOUT */}
 
           <button
+
             type="button"
+
             className="sidebar-logout"
+
             onClick={handleLogout}
+
           >
 
             <span className="logout-icon">

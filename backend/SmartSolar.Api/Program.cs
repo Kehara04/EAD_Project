@@ -197,6 +197,14 @@ builder.Services.AddScoped<SeedService>();
 
 builder.Services.AddScoped<DatabaseInitializerService>();
 
+builder.Services.AddScoped<StationService>();
+
+builder.Services.AddScoped<ReservationService>();
+
+builder.Services.AddScoped<QrService>();
+
+builder.Services.AddScoped<OperatorService>();
+
 
 // ---------------------------------------------------------
 // Read JWT configuration
@@ -230,6 +238,15 @@ var key =
     Encoding.UTF8.GetBytes(
         jwtSettings.Key
     );
+
+if (key.Length < 32)
+{
+    throw new InvalidOperationException(
+        "JWT_KEY must contain at least 32 UTF-8 bytes (256 bits) for HS256. " +
+        "Generate a random secret with 'openssl rand -hex 32', " +
+        "set JWT_KEY in the .env file, and restart the API."
+    );
+}
 
 
 // ---------------------------------------------------------

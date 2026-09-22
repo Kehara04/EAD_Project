@@ -41,4 +41,20 @@ public class MongoDbContext
         _database.GetCollection<Prosumer>(
             "Prosumers"
         );
+
+        public IMongoCollection<SolarStation> Stations =>
+    _database.GetCollection<SolarStation>(
+        "Stations"
+    );
+
+    public IMongoCollection<EnergyBookingSlot> BookingSlots =>
+        _database.GetCollection<EnergyBookingSlot>(
+                "EnergyBookingSlots"
+        );
+
+
+    public IMongoCollection<EnergyReservation> Reservations =>
+        _database.GetCollection<EnergyReservation>(
+                "EnergyReservations"
+        );
 }

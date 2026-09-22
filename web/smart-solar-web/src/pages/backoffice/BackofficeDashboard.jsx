@@ -1,201 +1,1229 @@
-import { useEffect, useMemo, useState } from "react";
-import { Link } from "react-router-dom";
-import DashboardLayout from "../../components/DashboardLayout";
-import StatCard from "../../components/StatCard";
-import StatusBadge from "../../components/StatusBadge";
-import { getUsers } from "../../services/userService";
-import { getProsumers } from "../../services/prosumerService";
-import { getApiError } from "../../services/errorService";
+import {
+  useEffect,
+  useMemo,
+  useState
+} from "react";
+
+import {
+  Link
+} from "react-router-dom";
+
+import DashboardLayout
+  from "../../components/DashboardLayout";
+
+import StatCard
+  from "../../components/StatCard";
+
+import StatusBadge
+  from "../../components/StatusBadge";
+
+import {
+  getStations
+} from "../../services/stationService";
+
+import {
+  getUsers
+} from "../../services/userService";
+
+import {
+  getProsumers
+} from "../../services/prosumerService";
+
+import {
+  getReservations
+} from "../../services/reservationService";
+
+import {
+  getApiError
+} from "../../services/errorService";
+
 
 export default function BackofficeDashboard() {
-  const [users, setUsers] = useState([]);
-  const [prosumers, setProsumers] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+
+  const [
+    stations,
+    setStations
+  ] = useState([]);
+
+  const [
+    users,
+    setUsers
+  ] = useState([]);
+
+  const [
+    prosumers,
+    setProsumers
+  ] = useState([]);
+
+  const [
+    reservations,
+    setReservations
+  ] = useState([]);
+
+  const [
+    loading,
+    setLoading
+  ] = useState(true);
+
+  const [
+    error,
+    setError
+  ] = useState("");
+
+
+  /* =========================================
+     LOAD DASHBOARD DATA
+  ========================================= */
 
   useEffect(() => {
+
     async function loadDashboard() {
+
       try {
+
         setLoading(true);
+
         setError("");
-        const [usersData, prosumersData] = await Promise.all([
+
+
+        const [
+          usersData,
+          prosumersData,
+          stationsData,
+          reservationsData
+        ] = await Promise.all([
+
           getUsers(),
-          getProsumers()
+
+          getProsumers(),
+
+          getStations(),
+
+          getReservations()
+
         ]);
-        setUsers(usersData);
-        setProsumers(prosumersData);
+
+
+        setUsers(
+          Array.isArray(usersData)
+            ? usersData
+            : []
+        );
+
+
+        setProsumers(
+          Array.isArray(prosumersData)
+            ? prosumersData
+            : []
+        );
+
+
+        setStations(
+          Array.isArray(stationsData)
+            ? stationsData
+            : []
+        );
+
+
+        setReservations(
+          Array.isArray(reservationsData)
+            ? reservationsData
+            : []
+        );
+
+
       } catch (err) {
-        setError(getApiError(err, "Unable to load dashboard data."));
+
+        setError(
+          getApiError(
+            err,
+            "Unable to load dashboard data."
+          )
+        );
+
       } finally {
+
         setLoading(false);
       }
     }
 
+
     loadDashboard();
+
   }, []);
 
-  const metrics = useMemo(() => {
-    const webUsers = users.filter((user) => user.role !== "Prosumer");
 
-    return {
-      webUsers: webUsers.length,
-      activeWebUsers: webUsers.filter((user) => user.status === "Active").length,
-      prosumers: prosumers.length,
-      pending: prosumers.filter((p) => p.status === "Pending").length,
-      deactivation: prosumers.filter(
-        (p) => p.status === "DeactivationRequested"
-      ).length
-    };
-  }, [users, prosumers]);
+  /* =========================================
+     DASHBOARD METRICS
+  ========================================= */
 
-  const recentProsumers = useMemo(
-    () =>
-      [...prosumers]
-        .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-        .slice(0, 5),
-    [prosumers]
-  );
+  const metrics =
+    useMemo(() => {
+
+      const webUsers =
+        users.filter(
+          (user) =>
+            user.role !== "Prosumer"
+        );
+
+
+      return {
+
+        /* USERS */
+
+        webUsers:
+          webUsers.length,
+
+        activeWebUsers:
+          webUsers.filter(
+            (user) =>
+              user.status === "Active"
+          ).length,
+
+
+        /* PROSUMERS */
+
+        prosumers:
+          prosumers.length,
+
+        pending:
+          prosumers.filter(
+            (prosumer) =>
+              prosumer.status === "Pending"
+          ).length,
+
+        deactivation:
+          prosumers.filter(
+            (prosumer) =>
+              prosumer.status ===
+              "DeactivationRequested"
+          ).length,
+
+
+        /* STATIONS */
+
+        totalStations:
+          stations.length,
+
+        activeStations:
+          stations.filter(
+            (station) =>
+              station.status === "Active"
+          ).length,
+
+        inactiveStations:
+          stations.filter(
+            (station) =>
+              station.status === "Inactive"
+          ).length,
+
+        availableStations:
+          stations.filter(
+            (station) =>
+              station.availableSlots > 0
+          ).length,
+
+
+        /* RESERVATIONS */
+
+        reservations:
+          reservations.length,
+
+        pendingReservations:
+          reservations.filter(
+            (reservation) =>
+              reservation.status ===
+              "Pending"
+          ).length,
+
+        approvedReservations:
+          reservations.filter(
+            (reservation) =>
+              reservation.status ===
+              "Approved"
+          ).length,
+
+        cancelledReservations:
+          reservations.filter(
+            (reservation) =>
+              reservation.status ===
+              "Cancelled"
+          ).length,
+
+        completedReservations:
+          reservations.filter(
+            (reservation) =>
+              reservation.status ===
+              "Completed"
+          ).length
+
+      };
+
+    }, [
+      users,
+      prosumers,
+      stations,
+      reservations
+    ]);
+
+
+  /* =========================================
+     RECENT PROSUMERS
+  ========================================= */
+
+  const recentProsumers =
+    useMemo(() => {
+
+      return [
+        ...prosumers
+      ]
+        .sort(
+          (a, b) =>
+            new Date(
+              b.createdAt
+            )
+            -
+            new Date(
+              a.createdAt
+            )
+        )
+        .slice(
+          0,
+          5
+        );
+
+    }, [prosumers]);
+
+
+  /* =========================================
+     RECENT RESERVATIONS
+  ========================================= */
+
+  const recentReservations =
+    useMemo(() => {
+
+      return [
+        ...reservations
+      ]
+        .sort(
+          (a, b) =>
+            new Date(
+              b.createdAt
+            )
+            -
+            new Date(
+              a.createdAt
+            )
+        )
+        .slice(
+          0,
+          5
+        );
+
+    }, [reservations]);
+
 
   return (
+
     <DashboardLayout
+
       title="Backoffice Overview"
-      subtitle="Monitor account activity and manage Smart Solar access from one place."
+
+      subtitle="Monitor account activity, station operations and Smart Solar reservations from one place."
+
     >
-      {error && <div className="alert alert-danger app-alert">{error}</div>}
+
+      {/* =====================================
+          ERROR
+      ====================================== */}
+
+      {error && (
+
+        <div
+          className="alert alert-danger app-alert"
+          role="alert"
+        >
+          {error}
+        </div>
+
+      )}
+
+
+      {/* =====================================
+          ACCOUNT METRICS
+      ====================================== */}
 
       <div className="row g-4 mb-4">
+
         <div className="col-12 col-md-6 col-xl-3">
+
           <StatCard
+
             label="Web users"
-            value={loading ? "—" : metrics.webUsers}
-            helper={`${metrics.activeWebUsers} active accounts`}
+
+            value={
+              loading
+                ? "—"
+                : metrics.webUsers
+            }
+
+            helper={
+              `${metrics.activeWebUsers} active accounts`
+            }
+
             icon="WU"
+
           />
+
         </div>
+
+
         <div className="col-12 col-md-6 col-xl-3">
+
           <StatCard
+
             label="Total prosumers"
-            value={loading ? "—" : metrics.prosumers}
+
+            value={
+              loading
+                ? "—"
+                : metrics.prosumers
+            }
+
             helper="Registered solar prosumers"
+
             icon="PR"
+
           />
+
         </div>
+
+
         <div className="col-12 col-md-6 col-xl-3">
+
           <StatCard
+
             label="Pending activation"
-            value={loading ? "—" : metrics.pending}
+
+            value={
+              loading
+                ? "—"
+                : metrics.pending
+            }
+
             helper="Require Backoffice review"
+
             icon="PA"
+
           />
+
         </div>
+
+
         <div className="col-12 col-md-6 col-xl-3">
+
           <StatCard
+
             label="Deactivation requests"
-            value={loading ? "—" : metrics.deactivation}
+
+            value={
+              loading
+                ? "—"
+                : metrics.deactivation
+            }
+
             helper="Awaiting action"
+
             icon="DR"
+
           />
+
         </div>
+
       </div>
+
+
+      {/* =====================================
+          RESERVATION SECTION
+      ====================================== */}
+
+      <div className="card-heading-row flex-wrap gap-3">
+
+        <div>
+
+          <h3>
+            Energy reservations
+          </h3>
+
+          <p>
+            Booking activity across the Smart Solar network.
+          </p>
+
+        </div>
+
+
+        <Link
+          className="btn btn-soft"
+          to="/backoffice/reservations"
+        >
+          Manage reservations
+        </Link>
+
+      </div>
+
+
+      <div className="row g-4 mb-4">
+
+        <div className="col-12 col-md-6 col-xl-3">
+
+          <StatCard
+
+            label="Total reservations"
+
+            value={
+              loading
+                ? "—"
+                : metrics.reservations
+            }
+
+            helper="All energy bookings"
+
+            icon="RS"
+
+          />
+
+        </div>
+
+
+        <div className="col-12 col-md-6 col-xl-3">
+
+          <StatCard
+
+            label="Pending reservations"
+
+            value={
+              loading
+                ? "—"
+                : metrics.pendingReservations
+            }
+
+            helper="Require approval"
+
+            icon="PN"
+
+          />
+
+        </div>
+
+
+        <div className="col-12 col-md-6 col-xl-3">
+
+          <StatCard
+
+            label="Approved reservations"
+
+            value={
+              loading
+                ? "—"
+                : metrics.approvedReservations
+            }
+
+            helper="Approved energy bookings"
+
+            icon="AP"
+
+          />
+
+        </div>
+
+
+        <div className="col-12 col-md-6 col-xl-3">
+
+          <StatCard
+
+            label="Completed reservations"
+
+            value={
+              loading
+                ? "—"
+                : metrics.completedReservations
+            }
+
+            helper="Completed energy transfers"
+
+            icon="CP"
+
+          />
+
+        </div>
+
+      </div>
+
+
+      {/* =====================================
+          STATION NETWORK
+      ====================================== */}
+
+      <div className="card-heading-row flex-wrap gap-3">
+
+        <div>
+
+          <h3>
+            Station network
+          </h3>
+
+          <p>
+            Capacity and operating status across your microgrid stations.
+          </p>
+
+        </div>
+
+
+        <Link
+          className="btn btn-soft"
+          to="/backoffice/stations"
+        >
+          Manage stations
+        </Link>
+
+      </div>
+
+
+      <div className="row g-4 mb-4">
+
+        {[
+          [
+            "Total stations",
+            metrics.totalStations,
+            "All registered stations",
+            "ST"
+          ],
+
+          [
+            "Active stations",
+            metrics.activeStations,
+            "Currently active in the network",
+            "AS"
+          ],
+
+          [
+            "Inactive stations",
+            metrics.inactiveStations,
+            "Currently inactive",
+            "IS"
+          ],
+
+          [
+            "Stations with available slots",
+            metrics.availableStations,
+            "Stations with free energy slots",
+            "AV"
+          ]
+
+        ].map(
+          (
+            [
+              label,
+              value,
+              helper,
+              icon
+            ]
+          ) => (
+
+            <div
+              className="col-12 col-md-6 col-xl-3"
+              key={label}
+            >
+
+              <StatCard
+
+                label={label}
+
+                value={
+                  loading || error
+                    ? "—"
+                    : value
+                }
+
+                helper={helper}
+
+                icon={icon}
+
+              />
+
+            </div>
+
+          )
+        )}
+
+      </div>
+
+
+      {/* =====================================
+          RECENT CONTENT
+      ====================================== */}
 
       <div className="row g-4">
+
+        {/* =================================
+            RECENT RESERVATIONS
+        ================================== */}
+
         <div className="col-12 col-xl-8">
+
           <div className="dashboard-card">
+
             <div className="card-heading-row">
+
               <div>
-                <h3>Recent prosumer registrations</h3>
-                <p>Newest accounts received through the mobile registration flow.</p>
+
+                <h3>
+                  Recent reservations
+                </h3>
+
+                <p>
+                  Latest energy bookings submitted by prosumers.
+                </p>
+
               </div>
-              <Link className="btn btn-soft" to="/backoffice/prosumers">
+
+
+              <Link
+                className="btn btn-soft"
+                to="/backoffice/reservations"
+              >
                 View all
               </Link>
+
             </div>
+
 
             {loading ? (
+
               <div className="loading-state">
-                <div className="spinner-border text-success" />
-                <span>Loading registrations...</span>
+
+                <div
+                  className="spinner-border text-success"
+                />
+
+                <span>
+                  Loading reservations...
+                </span>
+
               </div>
-            ) : recentProsumers.length === 0 ? (
-              <div className="empty-state">No prosumer registrations yet.</div>
+
+            ) : recentReservations.length === 0 ? (
+
+              <div className="empty-state">
+                No reservations yet.
+              </div>
+
             ) : (
+
               <div className="table-responsive">
+
                 <table className="table app-table align-middle mb-0">
+
                   <thead>
+
                     <tr>
-                      <th>Prosumer</th>
-                      <th>NIC</th>
-                      <th>Status</th>
-                      <th>Registered</th>
+
+                      <th>
+                        Prosumer
+                      </th>
+
+                      <th>
+                        Station
+                      </th>
+
+                      <th>
+                        Schedule
+                      </th>
+
+                      <th>
+                        Status
+                      </th>
+
                     </tr>
+
                   </thead>
+
+
                   <tbody>
-                    {recentProsumers.map((prosumer) => (
-                      <tr key={prosumer.nic}>
-                        <td>
-                          <strong>{prosumer.name}</strong>
-                          <span className="table-subtext">{prosumer.email}</span>
-                        </td>
-                        <td>{prosumer.nic}</td>
-                        <td>
-                          <StatusBadge status={prosumer.status} />
-                        </td>
-                        <td>{formatDate(prosumer.createdAt)}</td>
-                      </tr>
-                    ))}
+
+                    {recentReservations.map(
+                      (reservation) => (
+
+                        <tr
+                          key={
+                            reservation.id
+                          }
+                        >
+
+                          <td>
+
+                            <strong>
+
+                              {
+                                reservation.prosumerName
+                                ||
+                                "Prosumer"
+                              }
+
+                            </strong>
+
+
+                            <span className="table-subtext">
+
+                              {
+                                reservation.prosumerId
+                                ||
+                                "—"
+                              }
+
+                            </span>
+
+                          </td>
+
+
+                          <td>
+
+                            <strong>
+
+                              {
+                                reservation.stationName
+                                ||
+                                "Unknown station"
+                              }
+
+                            </strong>
+
+
+                            <span className="table-subtext">
+
+                              Slot{" "}
+
+                              {
+                                reservation.slotNumber
+                                ??
+                                "—"
+                              }
+
+                            </span>
+
+                          </td>
+
+
+                          <td>
+
+                            {
+                              formatDateTime(
+                                reservation.scheduledAt
+                              )
+                            }
+
+                          </td>
+
+
+                          <td>
+
+                            <StatusBadge
+                              status={
+                                reservation.status
+                              }
+                            />
+
+                          </td>
+
+                        </tr>
+
+                      )
+                    )}
+
                   </tbody>
+
                 </table>
+
               </div>
+
             )}
+
           </div>
+
         </div>
+
+
+        {/* =================================
+            QUICK ACTIONS
+        ================================== */}
 
         <div className="col-12 col-xl-4">
+
           <div className="dashboard-card h-100">
+
             <div className="card-heading-row">
+
               <div>
-                <h3>Quick actions</h3>
-                <p>Common account-management tasks.</p>
+
+                <h3>
+                  Quick actions
+                </h3>
+
+                <p>
+                  Common Smart Solar administration tasks.
+                </p>
+
               </div>
+
             </div>
+
 
             <div className="quick-actions">
-              <Link to="/backoffice/users" className="quick-action-item">
-                <span className="quick-action-icon">+</span>
+
+              {/* CREATE USER */}
+
+              <Link
+                to="/backoffice/users"
+                className="quick-action-item"
+              >
+
+                <span className="quick-action-icon">
+                  +
+                </span>
+
+
                 <div>
-                  <strong>Create web user</strong>
-                  <span>Add Backoffice or Grid Operator access</span>
+
+                  <strong>
+                    Create web user
+                  </strong>
+
+                  <span>
+                    Add Backoffice or Grid Operator access
+                  </span>
+
                 </div>
+
               </Link>
 
-              <Link to="/backoffice/prosumers" className="quick-action-item">
-                <span className="quick-action-icon">✓</span>
+
+              {/* PENDING PROSUMERS */}
+
+              <Link
+                to="/backoffice/prosumers"
+                className="quick-action-item"
+              >
+
+                <span className="quick-action-icon">
+                  ✓
+                </span>
+
+
                 <div>
-                  <strong>Review pending accounts</strong>
-                  <span>Activate newly registered prosumers</span>
+
+                  <strong>
+                    Review pending accounts
+                  </strong>
+
+                  <span>
+                    Activate newly registered prosumers
+                  </span>
+
                 </div>
+
               </Link>
 
-              <Link to="/backoffice/prosumers" className="quick-action-item">
-                <span className="quick-action-icon">!</span>
+
+              {/* RESERVATIONS */}
+
+              <Link
+                to="/backoffice/reservations"
+                className="quick-action-item"
+              >
+
+                <span className="quick-action-icon">
+                  R
+                </span>
+
+
                 <div>
-                  <strong>Deactivation requests</strong>
-                  <span>Review and approve account requests</span>
+
+                  <strong>
+                    Review reservations
+                  </strong>
+
+                  <span>
+
+                    {metrics.pendingReservations > 0
+
+                      ? `${metrics.pendingReservations} booking(s) awaiting approval`
+
+                      : "No pending reservations"}
+
+                  </span>
+
                 </div>
+
               </Link>
+
+
+              {/* DEACTIVATION */}
+
+              <Link
+                to="/backoffice/prosumers"
+                className="quick-action-item"
+              >
+
+                <span className="quick-action-icon">
+                  !
+                </span>
+
+
+                <div>
+
+                  <strong>
+                    Deactivation requests
+                  </strong>
+
+                  <span>
+                    Review and approve account requests
+                  </span>
+
+                </div>
+
+              </Link>
+
             </div>
+
           </div>
+
         </div>
+
       </div>
+
+
+      {/* =====================================
+          RECENT PROSUMERS
+      ====================================== */}
+
+      <div className="dashboard-card mt-4">
+
+        <div className="card-heading-row">
+
+          <div>
+
+            <h3>
+              Recent prosumer registrations
+            </h3>
+
+            <p>
+              Newest accounts received through the mobile registration flow.
+            </p>
+
+          </div>
+
+
+          <Link
+            className="btn btn-soft"
+            to="/backoffice/prosumers"
+          >
+            View all
+          </Link>
+
+        </div>
+
+
+        {loading ? (
+
+          <div className="loading-state">
+
+            <div
+              className="spinner-border text-success"
+            />
+
+            <span>
+              Loading registrations...
+            </span>
+
+          </div>
+
+        ) : recentProsumers.length === 0 ? (
+
+          <div className="empty-state">
+            No prosumer registrations yet.
+          </div>
+
+        ) : (
+
+          <div className="table-responsive">
+
+            <table className="table app-table align-middle mb-0">
+
+              <thead>
+
+                <tr>
+
+                  <th>
+                    Prosumer
+                  </th>
+
+                  <th>
+                    NIC
+                  </th>
+
+                  <th>
+                    Status
+                  </th>
+
+                  <th>
+                    Registered
+                  </th>
+
+                </tr>
+
+              </thead>
+
+
+              <tbody>
+
+                {recentProsumers.map(
+                  (prosumer) => (
+
+                    <tr
+                      key={
+                        prosumer.nic
+                      }
+                    >
+
+                      <td>
+
+                        <strong>
+                          {prosumer.name}
+                        </strong>
+
+
+                        <span className="table-subtext">
+                          {prosumer.email}
+                        </span>
+
+                      </td>
+
+
+                      <td>
+                        {prosumer.nic}
+                      </td>
+
+
+                      <td>
+
+                        <StatusBadge
+                          status={
+                            prosumer.status
+                          }
+                        />
+
+                      </td>
+
+
+                      <td>
+
+                        {
+                          formatDate(
+                            prosumer.createdAt
+                          )
+                        }
+
+                      </td>
+
+                    </tr>
+
+                  )
+                )}
+
+              </tbody>
+
+            </table>
+
+          </div>
+
+        )}
+
+      </div>
+
     </DashboardLayout>
   );
 }
 
+
+/* =========================================
+   DATE
+========================================= */
+
 function formatDate(value) {
-  if (!value) return "—";
-  return new Intl.DateTimeFormat("en", {
-    year: "numeric",
-    month: "short",
-    day: "2-digit"
-  }).format(new Date(value));
+
+  if (!value) {
+    return "—";
+  }
+
+
+  const date =
+    new Date(value);
+
+
+  if (
+    Number.isNaN(
+      date.getTime()
+    )
+  ) {
+
+    return "—";
+  }
+
+
+  return new Intl.DateTimeFormat(
+    "en",
+    {
+      year: "numeric",
+      month: "short",
+      day: "2-digit"
+    }
+  ).format(date);
+}
+
+
+/* =========================================
+   DATE + TIME
+========================================= */
+
+function formatDateTime(value) {
+
+  if (!value) {
+    return "—";
+  }
+
+
+  const date =
+    new Date(value);
+
+
+  if (
+    Number.isNaN(
+      date.getTime()
+    )
+  ) {
+
+    return "—";
+  }
+
+
+  return new Intl.DateTimeFormat(
+    "en",
+    {
+      year: "numeric",
+      month: "short",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit"
+    }
+  ).format(date);
 }
