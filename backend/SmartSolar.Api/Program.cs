@@ -199,6 +199,12 @@ builder.Services.AddScoped<DatabaseInitializerService>();
 
 builder.Services.AddScoped<StationService>();
 
+builder.Services.AddScoped<ReservationService>();
+
+builder.Services.AddScoped<QrService>();
+
+builder.Services.AddScoped<OperatorService>();
+
 
 // ---------------------------------------------------------
 // Read JWT configuration

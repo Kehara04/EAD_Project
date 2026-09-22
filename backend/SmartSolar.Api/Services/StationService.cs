@@ -1,5 +1,6 @@
-using MongoDB.Driver;
 using MongoDB.Bson;
+using MongoDB.Driver;
+using SmartSolar.Api.Constants;
 using SmartSolar.Api.Data;
 using SmartSolar.Api.DTOs;
 using SmartSolar.Api.Models;
@@ -17,6 +18,10 @@ public class StationService
     }
 
 
+    /* =========================================
+       GET ALL STATIONS
+    ========================================= */
+
     public async Task<List<SolarStation>>
         GetAllAsync(
             string? status = null)
@@ -25,15 +30,17 @@ public class StationService
             Builders<SolarStation>
                 .Filter.Empty;
 
+
         if (!string.IsNullOrWhiteSpace(status))
         {
             filter =
                 Builders<SolarStation>
                     .Filter.Eq(
                         x => x.Status,
-                        status
+                        status.Trim()
                     );
         }
+
 
         return await _context.Stations
             .Find(filter)
@@ -42,28 +49,54 @@ public class StationService
     }
 
 
+    /* =========================================
+       GET STATION BY ID
+    ========================================= */
+
     public async Task<SolarStation?>
         GetByIdAsync(
             string id)
     {
+        if (
+            string.IsNullOrWhiteSpace(id) ||
+            !ObjectId.TryParse(
+                id,
+                out _
+            )
+        )
+        {
+            return null;
+        }
+
+
         return await _context.Stations
-            .Find(x => x.Id == id)
+            .Find(
+                x => x.Id == id
+            )
             .FirstOrDefaultAsync();
     }
 
+
+    /* =========================================
+       CREATE STATION
+    ========================================= */
 
     public async Task<SolarStation>
         CreateAsync(
             StationRequest request)
     {
+        var stationName =
+            request.Name.Trim();
+
+
         var existing =
             await _context.Stations
                 .Find(x =>
                     x.Name.ToLower() ==
-                    request.Name
-                        .Trim()
-                        .ToLower())
+                    stationName.ToLower()
+                )
                 .FirstOrDefaultAsync();
+
 
         if (existing != null)
         {
@@ -72,14 +105,21 @@ public class StationService
             );
         }
 
+
+        ValidateStationRequest(
+            request
+        );
+
+
         var now =
             DateTime.UtcNow;
+
 
         var station =
             new SolarStation
             {
                 Name =
-                    request.Name.Trim(),
+                    stationName,
 
                 Address =
                     request.Address.Trim(),
@@ -115,12 +155,20 @@ public class StationService
                     now
             };
 
+
         await _context.Stations
-            .InsertOneAsync(station);
+            .InsertOneAsync(
+                station
+            );
+
 
         return station;
     }
 
+
+    /* =========================================
+       UPDATE STATION
+    ========================================= */
 
     public async Task<SolarStation?>
         UpdateAsync(
@@ -130,18 +178,29 @@ public class StationService
         var existing =
             await GetByIdAsync(id);
 
+
         if (existing == null)
             return null;
+
+
+        ValidateStationRequest(
+            request
+        );
+
+
+        var stationName =
+            request.Name.Trim();
+
 
         var duplicate =
             await _context.Stations
                 .Find(x =>
                     x.Id != id &&
                     x.Name.ToLower() ==
-                    request.Name
-                        .Trim()
-                        .ToLower())
+                    stationName.ToLower()
+                )
                 .FirstOrDefaultAsync();
+
 
         if (duplicate != null)
         {
@@ -150,69 +209,106 @@ public class StationService
             );
         }
 
-        var bookedSlots =
-            Math.Max(
-                0,
-                existing.TotalSlots -
-                existing.AvailableSlots
+
+        /*
+         * Count current active/future reservations
+         * for this station.
+         *
+         * These reservations represent occupied
+         * booking slots.
+         */
+        var activeReservations =
+            await GetActiveReservationCountAsync(
+                id
             );
 
+
+        /*
+         * Do not allow Backoffice to reduce the
+         * physical slot count below the number of
+         * currently reserved slots.
+         */
+        if (
+            request.TotalSlots <
+            activeReservations
+        )
+        {
+            throw new InvalidOperationException(
+                "Total slots cannot be reduced below the number of active reservations."
+            );
+        }
+
+
+        var bookedSlots = Math.Max(activeReservations,
+            Math.Max(0, existing.TotalSlots - existing.AvailableSlots));
         if (request.TotalSlots < bookedSlots)
         {
             throw new InvalidOperationException(
                 "Total slots cannot be reduced below the number of booked slots.");
         }
 
-        var newAvailable =
+        var newAvailableSlots =
             Math.Max(
                 0,
                 request.TotalSlots -
                 bookedSlots
             );
 
+
         var update =
             Builders<SolarStation>
                 .Update
+
                 .Set(
                     x => x.Name,
-                    request.Name.Trim()
+                    stationName
                 )
+
                 .Set(
                     x => x.Address,
                     request.Address.Trim()
                 )
+
                 .Set(
                     x => x.Latitude,
                     request.Latitude
                 )
+
                 .Set(
                     x => x.Longitude,
                     request.Longitude
                 )
+
                 .Set(
                     x => x.CapacityKw,
                     request.CapacityKw
                 )
+
                 .Set(
                     x => x.TotalSlots,
                     request.TotalSlots
                 )
+
                 .Set(
                     x => x.AvailableSlots,
-                    newAvailable
+                    newAvailableSlots
                 )
+
                 .Set(
                     x => x.OpeningTime,
                     request.OpeningTime.Trim()
                 )
+
                 .Set(
                     x => x.ClosingTime,
                     request.ClosingTime.Trim()
                 )
+
                 .Set(
                     x => x.UpdatedAt,
                     DateTime.UtcNow
                 );
+
 
         await _context.Stations
             .UpdateOneAsync(
@@ -220,9 +316,16 @@ public class StationService
                 update
             );
 
-        return await GetByIdAsync(id);
+
+        return await GetByIdAsync(
+            id
+        );
     }
 
+
+    /* =========================================
+       UPDATE STATION STATUS
+    ========================================= */
 
     public async Task<SolarStation?>
         UpdateStatusAsync(
@@ -232,11 +335,16 @@ public class StationService
         var station =
             await GetByIdAsync(id);
 
+
         if (station == null)
             return null;
 
+
         var normalized =
-            status.Trim();
+            NormalizeStatus(
+                status
+            );
+
 
         if (
             normalized != "Active" &&
@@ -248,25 +356,55 @@ public class StationService
             );
         }
 
+
+        /*
+         * Important Member 3 integration:
+         *
+         * Backoffice must not deactivate a station
+         * when it still has future Pending or
+         * Approved reservations.
+         */
+        if (
+            normalized == "Inactive"
+        )
+        {
+            var hasActiveReservations =
+                await HasActiveReservationsAsync(
+                    id
+                );
+
+
+            if (hasActiveReservations)
+            {
+                throw new InvalidOperationException(
+                    "Cannot deactivate this station while it has active reservations. " +
+                    "Complete or cancel the active reservations first."
+                );
+            }
+        }
+
+
         var update =
             Builders<SolarStation>
                 .Update
+
                 .Set(
                     x => x.Status,
                     normalized
                 )
+
                 .Set(
                     x => x.UpdatedAt,
                     DateTime.UtcNow
                 );
 
+
         var filter = Builders<SolarStation>.Filter.Eq(x => x.Id, id);
         if (normalized == "Inactive")
         {
-            // Interim reservation guard: occupied slots represent current bookings.
-            // Member 3 must integrate reservation data here and coordinate booking
-            // creation with deactivation; see backend/docs/station-reservations.md.
-            // Check within the write so a concurrent slot change cannot bypass it.
+            // Preserve the atomic booked-slot guard in addition to the
+            // reservation lookup above. Cross-collection coordination remains
+            // necessary to prevent concurrent reservation creation.
             filter &= new BsonDocument("$expr", new BsonDocument("$gte",
                 new BsonArray { "$AvailableSlots", "$TotalSlots" }));
         }
@@ -282,9 +420,16 @@ public class StationService
                 "Complete or cancel its active reservations first.");
         }
 
-        return await GetByIdAsync(id);
+
+        return await GetByIdAsync(
+            id
+        );
     }
 
+
+    /* =========================================
+       GET NEARBY ACTIVE STATIONS
+    ========================================= */
 
     public async Task<List<SolarStation>>
         GetNearbyAsync(
@@ -292,11 +437,45 @@ public class StationService
             double longitude,
             double radiusKm)
     {
+        if (
+            latitude < -90 ||
+            latitude > 90
+        )
+        {
+            throw new InvalidOperationException(
+                "Latitude must be between -90 and 90."
+            );
+        }
+
+
+        if (
+            longitude < -180 ||
+            longitude > 180
+        )
+        {
+            throw new InvalidOperationException(
+                "Longitude must be between -180 and 180."
+            );
+        }
+
+
+        if (
+            radiusKm <= 0
+        )
+        {
+            throw new InvalidOperationException(
+                "Radius must be greater than zero."
+            );
+        }
+
+
         var stations =
             await _context.Stations
                 .Find(x =>
-                    x.Status == "Active")
+                    x.Status == "Active"
+                )
                 .ToListAsync();
+
 
         return stations
             .Where(station =>
@@ -307,6 +486,7 @@ public class StationService
                     station.Longitude
                 ) <= radiusKm
             )
+
             .OrderBy(station =>
                 CalculateDistanceKm(
                     latitude,
@@ -315,65 +495,399 @@ public class StationService
                     station.Longitude
                 )
             )
+
             .ToList();
     }
 
 
-    private static double CalculateDistanceKm(
-        double lat1,
-        double lon1,
-        double lat2,
-        double lon2)
+    /* =========================================
+       CHECK IF STATION HAS ACTIVE RESERVATIONS
+    ========================================= */
+
+    public async Task<bool>
+        HasActiveReservationsAsync(
+            string stationId)
+    {
+        /*
+         * A station is considered to have active
+         * reservations when:
+         *
+         * - reservation belongs to this station
+         * - reservation is Pending or Approved
+         * - reservation is scheduled in the future
+         */
+
+        return await _context.Reservations
+            .Find(x =>
+                x.StationId ==
+                    stationId
+                &&
+                (
+                    x.Status ==
+                        ReservationStatuses.Pending
+                    ||
+                    x.Status ==
+                        ReservationStatuses.Approved
+                )
+                &&
+                x.ScheduledAt >
+                    DateTime.UtcNow
+            )
+            .AnyAsync();
+    }
+
+
+    /* =========================================
+       COUNT ACTIVE RESERVATIONS
+    ========================================= */
+
+    public async Task<int>
+        GetActiveReservationCountAsync(
+            string stationId)
+    {
+        var count =
+            await _context.Reservations
+                .CountDocumentsAsync(
+                    x =>
+                        x.StationId ==
+                            stationId
+                        &&
+                        (
+                            x.Status ==
+                                ReservationStatuses.Pending
+                            ||
+                            x.Status ==
+                                ReservationStatuses.Approved
+                        )
+                        &&
+                        x.ScheduledAt >
+                            DateTime.UtcNow
+                );
+
+
+        return checked(
+            (int)count
+        );
+    }
+
+
+    /* =========================================
+       REFRESH AVAILABLE SLOT COUNT
+    ========================================= */
+
+    public async Task<SolarStation?>
+        RefreshAvailableSlotsAsync(
+            string stationId)
+    {
+        var station =
+            await GetByIdAsync(
+                stationId
+            );
+
+
+        if (station == null)
+            return null;
+
+
+        var reservedCount =
+            await GetActiveReservationCountAsync(
+                stationId
+            );
+
+
+        var available =
+            Math.Max(
+                0,
+                station.TotalSlots -
+                reservedCount
+            );
+
+
+        var update =
+            Builders<SolarStation>
+                .Update
+
+                .Set(
+                    x => x.AvailableSlots,
+                    available
+                )
+
+                .Set(
+                    x => x.UpdatedAt,
+                    DateTime.UtcNow
+                );
+
+
+        await _context.Stations
+            .UpdateOneAsync(
+                x => x.Id ==
+                    stationId,
+                update
+            );
+
+
+        return await GetByIdAsync(
+            stationId
+        );
+    }
+
+
+    /* =========================================
+       STATION REQUEST VALIDATION
+    ========================================= */
+
+    private static void
+        ValidateStationRequest(
+            StationRequest request)
+    {
+        if (
+            string.IsNullOrWhiteSpace(
+                request.Name
+            )
+        )
+        {
+            throw new InvalidOperationException(
+                "Station name is required."
+            );
+        }
+
+
+        if (
+            string.IsNullOrWhiteSpace(
+                request.Address
+            )
+        )
+        {
+            throw new InvalidOperationException(
+                "Station address is required."
+            );
+        }
+
+
+        if (
+            request.Latitude < -90 ||
+            request.Latitude > 90
+        )
+        {
+            throw new InvalidOperationException(
+                "Latitude must be between -90 and 90."
+            );
+        }
+
+
+        if (
+            request.Longitude < -180 ||
+            request.Longitude > 180
+        )
+        {
+            throw new InvalidOperationException(
+                "Longitude must be between -180 and 180."
+            );
+        }
+
+
+        if (
+            request.CapacityKw <= 0
+        )
+        {
+            throw new InvalidOperationException(
+                "Station capacity must be greater than zero."
+            );
+        }
+
+
+        if (
+            request.TotalSlots <= 0
+        )
+        {
+            throw new InvalidOperationException(
+                "Total slots must be greater than zero."
+            );
+        }
+
+
+        if (
+            string.IsNullOrWhiteSpace(
+                request.OpeningTime
+            )
+        )
+        {
+            throw new InvalidOperationException(
+                "Opening time is required."
+            );
+        }
+
+
+        if (
+            string.IsNullOrWhiteSpace(
+                request.ClosingTime
+            )
+        )
+        {
+            throw new InvalidOperationException(
+                "Closing time is required."
+            );
+        }
+
+
+        /*
+         * Your DTO currently stores operating
+         * times as strings.
+         *
+         * Validate HH:mm format here.
+         */
+        if (
+            !TimeOnly.TryParse(
+                request.OpeningTime,
+                out var openingTime
+            )
+        )
+        {
+            throw new InvalidOperationException(
+                "Opening time is invalid."
+            );
+        }
+
+
+        if (
+            !TimeOnly.TryParse(
+                request.ClosingTime,
+                out var closingTime
+            )
+        )
+        {
+            throw new InvalidOperationException(
+                "Closing time is invalid."
+            );
+        }
+
+
+        if (
+            closingTime <= openingTime
+        )
+        {
+            throw new InvalidOperationException(
+                "Closing time must be later than opening time."
+            );
+        }
+    }
+
+
+    /* =========================================
+       NORMALIZE STATUS
+    ========================================= */
+
+    private static string NormalizeStatus(
+        string status)
+    {
+        if (
+            string.IsNullOrWhiteSpace(
+                status
+            )
+        )
+        {
+            return string.Empty;
+        }
+
+
+        var value =
+            status
+                .Trim()
+                .ToLowerInvariant();
+
+
+        return value switch
+        {
+            "active" =>
+                "Active",
+
+            "inactive" =>
+                "Inactive",
+
+            _ =>
+                status.Trim()
+        };
+    }
+
+
+    /* =========================================
+       HAVERSINE DISTANCE
+    ========================================= */
+
+    private static double
+        CalculateDistanceKm(
+            double lat1,
+            double lon1,
+            double lat2,
+            double lon2)
     {
         const double earthRadius =
             6371.0;
+
 
         var latDistance =
             DegreesToRadians(
                 lat2 - lat1
             );
 
+
         var lonDistance =
             DegreesToRadians(
                 lon2 - lon1
             );
 
+
         var a =
             Math.Sin(
                 latDistance / 2
-            ) *
+            )
+            *
             Math.Sin(
                 latDistance / 2
-            ) +
+            )
+            +
             Math.Cos(
-                DegreesToRadians(lat1)
-            ) *
+                DegreesToRadians(
+                    lat1
+                )
+            )
+            *
             Math.Cos(
-                DegreesToRadians(lat2)
-            ) *
+                DegreesToRadians(
+                    lat2
+                )
+            )
+            *
             Math.Sin(
                 lonDistance / 2
-            ) *
+            )
+            *
             Math.Sin(
                 lonDistance / 2
             );
 
+
         var c =
-            2 *
+            2
+            *
             Math.Atan2(
                 Math.Sqrt(a),
                 Math.Sqrt(1 - a)
             );
 
+
         return earthRadius * c;
     }
 
 
-    private static double DegreesToRadians(
-        double degrees)
+    private static double
+        DegreesToRadians(
+            double degrees)
     {
-        return degrees *
-               Math.PI /
+        return degrees
+               *
+               Math.PI
+               /
                180.0;
     }
 }
