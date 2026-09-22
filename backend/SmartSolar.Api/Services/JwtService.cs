@@ -1,3 +1,11 @@
+/*
+ * File: JwtService.cs
+ * Project: Smart Solar Microgrid Trading System
+ * Description:
+ * Generates JWT access tokens for authenticated users and includes
+ * identity, role, and reference claims for request authorization.
+ */
+
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -12,11 +20,17 @@ public class JwtService
 {
     private readonly JwtSettings _settings;
 
+    // ---------------------------------------------------------
+    // Constructor: Initializes the JWT settings from dependency injection.
+    // ---------------------------------------------------------
     public JwtService(IOptions<JwtSettings> settings)
     {
         _settings = settings.Value;
     }
 
+    // ---------------------------------------------------------
+    // GenerateToken: Creates and signs a JWT for the given user.
+    // ---------------------------------------------------------
     public string GenerateToken(User user)
     {
         var claims = new List<Claim>

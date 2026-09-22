@@ -1,3 +1,11 @@
+/*
+ * File: JwtSettings.cs
+ * Project: Smart Solar Microgrid Trading System
+ * Description:
+ * Stores the token configuration values used to
+ * validate JWTs during authentication and authorization.
+ */
+
 namespace SmartSolar.Api.Configuration;
 
 public class JwtSettings

@@ -19,6 +19,9 @@ public class AuthController : ControllerBase
 {
     private readonly AuthService _authService;
 
+    // ---------------------------------------------------------
+    // Constructor: Stores the authentication service used for login requests.
+    // ---------------------------------------------------------
     public AuthController(
         AuthService authService)
     {
@@ -28,6 +31,9 @@ public class AuthController : ControllerBase
 
     [AllowAnonymous]
     [HttpPost("login")]
+    // ---------------------------------------------------------
+    // Login: Authenticates a user and returns a JWT when valid credentials are supplied.
+    // ---------------------------------------------------------
     public async Task<IActionResult> Login(
         LoginRequest request)
     {

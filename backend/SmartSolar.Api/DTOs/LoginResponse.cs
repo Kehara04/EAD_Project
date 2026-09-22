@@ -1,3 +1,11 @@
+/*
+ * File: LoginResponse.cs
+ * Project: Smart Solar Microgrid Trading System
+ * Description:
+ * Returns the JWT token and safe profile information
+ * after a successful login request.
+ */
+
 namespace SmartSolar.Api.DTOs;
 
 public class LoginResponse

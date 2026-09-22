@@ -20,6 +20,9 @@ public class UsersController : ControllerBase
 {
     private readonly UserService _userService;
 
+    // ---------------------------------------------------------
+    // Constructor: Stores the user service dependency for account management endpoints.
+    // ---------------------------------------------------------
     public UsersController(
         UserService userService)
     {
@@ -28,6 +31,9 @@ public class UsersController : ControllerBase
     }
 
     [HttpGet]
+    // ---------------------------------------------------------
+    // GetAll: Returns all registered system users to authorized backoffice staff.
+    // ---------------------------------------------------------
     public async Task<IActionResult> GetAll()
     {
         // Return all Backoffice, Grid Operator
@@ -39,6 +45,9 @@ public class UsersController : ControllerBase
     }
 
     [HttpGet("{id}")]
+    // ---------------------------------------------------------
+    // GetById: Retrieves a single user account by their unique ID.
+    // ---------------------------------------------------------
     public async Task<IActionResult> GetById(
         string id)
     {
@@ -60,6 +69,9 @@ public class UsersController : ControllerBase
     }
 
     [HttpPost]
+    // ---------------------------------------------------------
+    // Create: Creates a new Backoffice or Grid Operator account.
+    // ---------------------------------------------------------
     public async Task<IActionResult> Create(
         CreateUserRequest request)
     {
@@ -85,6 +97,9 @@ public class UsersController : ControllerBase
     }
 
     [HttpPatch("{id}/status")]
+    // ---------------------------------------------------------
+    // UpdateStatus: Activates or deactivates a user account status.
+    // ---------------------------------------------------------
     public async Task<IActionResult>
         UpdateStatus(
             string id,
