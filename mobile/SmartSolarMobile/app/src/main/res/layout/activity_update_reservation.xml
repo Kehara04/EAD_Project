@@ -38,6 +38,7 @@
                 android:orientation="vertical"
                 android:padding="20dp">
 
+                <!-- Back navigation method: returns to the reservation details screen -->
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/buttonUpdateReservationBack"
                     style="@style/Widget.Material3.Button.TextButton"
@@ -114,6 +115,7 @@
                         android:textStyle="bold" />
 
 
+                    <!-- Date update method: opens the picker for a new reservation date -->
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/buttonUpdateReservationDate"
                         style="@style/Widget.Material3.Button.OutlinedButton"
@@ -135,6 +137,7 @@
                         android:textStyle="bold" />
 
 
+                    <!-- Slot update method: loads available slots for the chosen date -->
                     <Spinner
                         android:id="@+id/spinnerUpdateReservationSlot"
                         android:layout_width="match_parent"
@@ -142,6 +145,7 @@
                         android:layout_marginTop="6dp" />
 
 
+                    <!-- Notes update method: captures optional changes to the reservation notes -->
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -178,6 +182,7 @@
                         android:visibility="gone" />
 
 
+                    <!-- Save update method: validates the edited booking and submits changes -->
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/buttonSaveReservationUpdate"
                         android:layout_width="match_parent"

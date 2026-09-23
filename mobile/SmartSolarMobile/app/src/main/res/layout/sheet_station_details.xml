@@ -17,7 +17,6 @@
         android:paddingEnd="24dp"
         android:paddingBottom="24dp">
 
-        <!-- SECTION LABEL -->
 
         <TextView
             android:layout_width="wrap_content"
@@ -217,8 +216,7 @@
             android:visibility="gone" />
 
 
-        <!-- RESERVATION BUTTON -->
-
+        <!-- Reserve station method: opens the reservation screen for this station -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/buttonReserveStation"
             android:layout_width="match_parent"
@@ -233,8 +231,8 @@
             app:cornerRadius="12dp" />
 
 
-        <!-- CLOSE BUTTON -->
 
+        <!-- Close sheet method: dismisses the station details panel -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/buttonCloseStation"
             style="@style/Widget.Material3.Button.OutlinedButton"

@@ -69,6 +69,7 @@
             android:textSize="12sp"
             android:textStyle="bold" />
 
+        <!-- View details method: opens the selected reservation -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/buttonViewReservation"
             style="@style/Widget.Material3.Button.OutlinedButton"

@@ -14,10 +14,6 @@
         android:orientation="vertical">
 
 
-        <!-- =====================================
-             SMART SOLAR HERO
-        ====================================== -->
-
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="260dp">
@@ -90,10 +86,6 @@
         </FrameLayout>
 
 
-        <!-- =====================================
-             PAGE CONTENT
-        ====================================== -->
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -103,10 +95,6 @@
             android:paddingEnd="17dp"
             android:paddingBottom="30dp">
 
-
-            <!-- =================================
-                 ACCOUNT STATUS CARD
-            ================================== -->
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
@@ -181,10 +169,6 @@
             </com.google.android.material.card.MaterialCardView>
 
 
-            <!-- =================================
-                 QUICK ACTION TITLE
-            ================================== -->
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -244,6 +228,7 @@
                         android:textSize="13sp" />
 
 
+                    <!-- View stations method: opens the station map or station list -->
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/buttonViewStations"
                         android:layout_width="match_parent"
@@ -260,10 +245,6 @@
 
             </com.google.android.material.card.MaterialCardView>
 
-
-            <!-- =================================
-                 MEMBER 3 - MY RESERVATIONS
-            ================================== -->
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
@@ -300,6 +281,7 @@
                         android:textSize="13sp" />
 
 
+                    <!-- My reservations method: opens the reservation management screen -->
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/buttonMyReservations"
                         android:layout_width="match_parent"
@@ -316,10 +298,6 @@
 
             </com.google.android.material.card.MaterialCardView>
 
-
-            <!-- =================================
-                 PROFILE
-            ================================== -->
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
@@ -356,6 +334,7 @@
                         android:textSize="13sp" />
 
 
+                    <!-- View profile method: opens the user's profile details -->
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/buttonViewProfile"
                         style="@style/Widget.Material3.Button.OutlinedButton"
@@ -374,10 +353,7 @@
             </com.google.android.material.card.MaterialCardView>
 
 
-            <!-- =================================
-                 LOGOUT
-            ================================== -->
-
+            <!-- Logout method: signs the prosumer out of the app -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/buttonLogout"
                 style="@style/Widget.Material3.Button.OutlinedButton"

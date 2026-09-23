@@ -1,3 +1,17 @@
+/*
+ * File: ReservationActivity.java
+ * Project: Smart Solar Microgrid Trading System
+ * Component: Energy Slot Reservation Management
+ *
+ * Description:
+ * Provides the Android interface for creating energy reservations.
+ * Receives station information from the station map, allows the
+ * prosumer to select a date and time, retrieves available slots,
+ * and submits the selected booking details to the backend API.
+ *
+ * The screen performs client-side validation while the backend
+ * remains responsible for enforcing reservation business rules.
+ */
 package com.smartsolar.ui.reservation;
 
 import android.app.DatePickerDialog;
@@ -32,6 +46,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+//Manages the Android interface for creating energy slot reservations.
 public class ReservationActivity
         extends AppCompatActivity {
 
@@ -60,6 +75,7 @@ public class ReservationActivity
             new ArrayList<>();
 
 
+        // Initializes the reservation screen and receives the selected station details.
     @Override
     protected void onCreate(
             Bundle savedInstanceState) {
@@ -163,11 +179,7 @@ public class ReservationActivity
         );
     }
 
-
-    /* =========================================
-       DATE
-    ========================================= */
-
+        // Opens the date picker and restricts selection to the allowed booking period.
     private void selectDate() {
 
         Calendar now =
@@ -249,22 +261,12 @@ public class ReservationActivity
                 );
 
 
-        /*
-         * Cannot choose dates
-         * before today.
-         */
         dialog.getDatePicker()
                 .setMinDate(
                         System.currentTimeMillis()
                 );
 
 
-        /*
-         * UI assistance only.
-         *
-         * Backend still enforces the
-         * actual 7-day business rule.
-         */
         Calendar maxDate =
                 Calendar.getInstance();
 
@@ -283,11 +285,7 @@ public class ReservationActivity
         dialog.show();
     }
 
-
-    /* =========================================
-       AVAILABLE SLOTS
-    ========================================= */
-
+        // Retrieves available booking slots for the selected station and date.
     private void loadSlotsIfReady() {
 
         if (
@@ -362,7 +360,7 @@ public class ReservationActivity
                 );
     }
 
-
+        // Updates the dropdown with available and already-booked energy slots.
     private void updateSlotSpinner() {
 
         ArrayAdapter<AvailableSlot> adapter =
@@ -433,11 +431,7 @@ public class ReservationActivity
         );
     }
 
-
-    /* =========================================
-       CREATE RESERVATION
-    ========================================= */
-
+        // Validates and submits a new energy reservation to the backend.
     private void createReservation() {
 
         hideError();
@@ -569,11 +563,7 @@ public class ReservationActivity
                 );
     }
 
-
-    /* =========================================
-       DATE FOR ASP.NET API
-    ========================================= */
-
+        // Converts the selected reservation date into UTC format for the ASP.NET API.
     private String toUtcApiDate() {
 
         SimpleDateFormat format =
@@ -595,11 +585,7 @@ public class ReservationActivity
         );
     }
 
-
-    /* =========================================
-       UI HELPERS
-    ========================================= */
-
+        // Controls the loading indicator and reservation button state.
     private void setLoading(
             boolean loading) {
 
@@ -628,7 +614,7 @@ public class ReservationActivity
         );
     }
 
-
+        // Hides previously displayed reservation error messages.
     private void hideError() {
 
         errorText.setVisibility(

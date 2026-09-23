@@ -37,6 +37,7 @@
                 android:orientation="vertical"
                 android:padding="20dp">
 
+                <!-- Back navigation method: returns the user to the station screen -->
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/buttonReservationBack"
                     style="@style/Widget.Material3.Button.TextButton"
@@ -117,6 +118,7 @@
                         android:textStyle="bold" />
 
 
+                    <!-- Date selection method: opens the picker and stores the chosen reservation date -->
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/buttonReservationDate"
                         style="@style/Widget.Material3.Button.OutlinedButton"
@@ -139,6 +141,7 @@
                         android:textStyle="bold" />
 
 
+                    <!-- Slot selection method: loads available booking times for the selected date -->
                     <Spinner
                         android:id="@+id/spinnerReservationSlot"
                         android:layout_width="match_parent"
@@ -146,6 +149,7 @@
                         android:layout_marginTop="5dp" />
 
 
+                    <!-- Notes input method: captures optional remarks for the reservation -->
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -186,6 +190,7 @@
                         android:visibility="gone" />
 
 
+                    <!-- Reservation submission method: validates the form and creates the booking -->
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/buttonCreateReservation"
                         android:layout_width="match_parent"

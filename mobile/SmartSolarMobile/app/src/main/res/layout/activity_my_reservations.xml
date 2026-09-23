@@ -92,6 +92,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
 
+        <!-- Search method: filters reservations by station name -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/buttonReservationSearch"
             android:layout_width="match_parent"
@@ -114,6 +115,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
+                <!-- Filter method: shows all reservation records -->
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/buttonFilterAll"
                     style="@style/Widget.Material3.Button.OutlinedButton"
@@ -122,6 +124,7 @@
                     android:text="All"
                     android:textAllCaps="false" />
 
+                <!-- Filter method: shows pending reservations -->
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/buttonFilterPending"
                     style="@style/Widget.Material3.Button.OutlinedButton"
@@ -131,6 +134,7 @@
                     android:text="Pending"
                     android:textAllCaps="false" />
 
+                <!-- Filter method: shows approved reservations -->
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/buttonFilterApproved"
                     style="@style/Widget.Material3.Button.OutlinedButton"
@@ -140,6 +144,7 @@
                     android:text="Approved"
                     android:textAllCaps="false" />
 
+                <!-- Filter method: shows reservation history -->
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/buttonFilterHistory"
                     style="@style/Widget.Material3.Button.OutlinedButton"

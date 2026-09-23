@@ -13,8 +13,6 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <!-- HERO -->
-
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="200dp">
@@ -37,6 +35,7 @@
                 android:orientation="vertical"
                 android:padding="20dp">
 
+                <!-- Back navigation method: returns to the reservation list -->
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/buttonReservationDetailBack"
                     style="@style/Widget.Material3.Button.TextButton"
@@ -75,9 +74,6 @@
             </LinearLayout>
 
         </FrameLayout>
-
-
-        <!-- CONTENT -->
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -243,7 +239,7 @@
                 android:visibility="gone" />
 
 
-            <!-- Show QR Code – visible only when status is Approved (set in Java) -->
+            <!-- QR display method: shows the reservation QR code when approved -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/buttonShowQr"
                 android:layout_width="match_parent"
