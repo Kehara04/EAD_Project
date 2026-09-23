@@ -18,9 +18,7 @@ public class UserService
 {
     private readonly MongoDbContext _context;
 
-    // ---------------------------------------------------------
     // Constructor: Initializes the MongoDB context for user operations.
-    // ---------------------------------------------------------
     public UserService(
         MongoDbContext context)
     {
@@ -28,9 +26,7 @@ public class UserService
         _context = context;
     }
 
-    // ---------------------------------------------------------
     // GetAllAsync: Retrieves all system users in a safe response format.
-    // ---------------------------------------------------------
     public async Task<List<UserResponse>>
         GetAllAsync()
     {
@@ -46,9 +42,7 @@ public class UserService
         ).ToList();
     }
 
-    // ---------------------------------------------------------
     // GetByIdAsync: Finds a single user using a valid MongoDB ObjectId.
-    // ---------------------------------------------------------
     public async Task<UserResponse?> GetByIdAsync(
         string id)
     {
@@ -66,9 +60,7 @@ public class UserService
             : MapToResponse(user);
     }
 
-    // ---------------------------------------------------------
     // CreateAsync: Creates a new Backoffice or Grid Operator account.
-    // ---------------------------------------------------------
     public async Task<UserResponse> CreateAsync(
         CreateUserRequest request)
     {
@@ -150,9 +142,7 @@ public class UserService
         return MapToResponse(user);
     }
 
-    // ---------------------------------------------------------
     // UpdateStatusAsync: Updates the active status of a user account.
-    // ---------------------------------------------------------
     public async Task<UserResponse?>
         UpdateStatusAsync(
             string id,
@@ -212,9 +202,7 @@ public class UserService
         return MapToResponse(user);
     }
 
-    // ---------------------------------------------------------
     // MapToResponse: Converts the MongoDB entity into a safe API response model.
-    // ---------------------------------------------------------
     private static UserResponse MapToResponse(
         User user)
     {

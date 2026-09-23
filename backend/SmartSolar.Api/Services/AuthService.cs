@@ -17,9 +17,7 @@ public class AuthService
     private readonly MongoDbContext _context;
     private readonly JwtService _jwtService;
 
-    // ---------------------------------------------------------
     // Constructor: Initializes the MongoDB context and JWT service.
-    // ---------------------------------------------------------
     public AuthService(
         MongoDbContext context,
         JwtService jwtService)
@@ -29,9 +27,7 @@ public class AuthService
         _jwtService = jwtService;
     }
 
-    // ---------------------------------------------------------
     // LoginAsync: Validates the supplied credentials and returns a JWT when the user is active.
-    // ---------------------------------------------------------
     public async Task<LoginResponse?> LoginAsync(
         LoginRequest request)
     {

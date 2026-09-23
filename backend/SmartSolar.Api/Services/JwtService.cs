@@ -20,17 +20,13 @@ public class JwtService
 {
     private readonly JwtSettings _settings;
 
-    // ---------------------------------------------------------
     // Constructor: Initializes the JWT settings from dependency injection.
-    // ---------------------------------------------------------
     public JwtService(IOptions<JwtSettings> settings)
     {
         _settings = settings.Value;
     }
 
-    // ---------------------------------------------------------
     // GenerateToken: Creates and signs a JWT for the given user.
-    // ---------------------------------------------------------
     public string GenerateToken(User user)
     {
         var claims = new List<Claim>

@@ -205,6 +205,10 @@ builder.Services.AddScoped<QrService>();
 
 builder.Services.AddScoped<OperatorService>();
 
+builder.Services.AddScoped<AccountService>();
+
+builder.Services.AddScoped<PasswordResetService>();
+
 
 // ---------------------------------------------------------
 // Read JWT configuration

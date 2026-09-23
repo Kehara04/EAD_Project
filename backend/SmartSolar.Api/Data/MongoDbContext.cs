@@ -19,42 +19,37 @@ public class MongoDbContext
     public MongoDbContext(
         IOptions<MongoDbSettings> settings)
     {
-        // Create the MongoDB Atlas client.
-        var client =
-            new MongoClient(
-                settings.Value.ConnectionString
-            );
+        var client = new MongoClient(
+            settings.Value.ConnectionString
+        );
 
-        // Connect to the configured Smart Solar database.
-        _database =
-            client.GetDatabase(
-                settings.Value.DatabaseName
-            );
+        _database = client.GetDatabase(
+            settings.Value.DatabaseName
+        );
     }
 
     public IMongoCollection<User> Users =>
-        _database.GetCollection<User>(
-            "Users"
-        );
+        _database.GetCollection<User>("Users");
 
     public IMongoCollection<Prosumer> Prosumers =>
-        _database.GetCollection<Prosumer>(
-            "Prosumers"
-        );
+        _database.GetCollection<Prosumer>("Prosumers");
 
-        public IMongoCollection<SolarStation> Stations =>
-    _database.GetCollection<SolarStation>(
-        "Stations"
-    );
+    public IMongoCollection<SolarStation> Stations =>
+        _database.GetCollection<SolarStation>("Stations");
 
     public IMongoCollection<EnergyBookingSlot> BookingSlots =>
         _database.GetCollection<EnergyBookingSlot>(
-                "EnergyBookingSlots"
+            "EnergyBookingSlots"
         );
-
 
     public IMongoCollection<EnergyReservation> Reservations =>
         _database.GetCollection<EnergyReservation>(
-                "EnergyReservations"
+            "EnergyReservations"
+        );
+
+    // New collection for password recovery.
+    public IMongoCollection<PasswordResetToken> PasswordResetTokens =>
+        _database.GetCollection<PasswordResetToken>(
+            "PasswordResetTokens"
         );
 }

@@ -19,21 +19,20 @@ namespace SmartSolar.Api.Controllers;
 public class UsersController : ControllerBase
 {
     private readonly UserService _userService;
+    private readonly AccountService _accountService;
 
-    // ---------------------------------------------------------
     // Constructor: Stores the user service dependency for account management endpoints.
-    // ---------------------------------------------------------
     public UsersController(
-        UserService userService)
+        UserService userService,
+        AccountService accountService)
     {
         // Store user service.
         _userService = userService;
+        _accountService = accountService;
     }
 
     [HttpGet]
-    // ---------------------------------------------------------
     // GetAll: Returns all registered system users to authorized backoffice staff.
-    // ---------------------------------------------------------
     public async Task<IActionResult> GetAll()
     {
         // Return all Backoffice, Grid Operator
@@ -45,9 +44,7 @@ public class UsersController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    // ---------------------------------------------------------
     // GetById: Retrieves a single user account by their unique ID.
-    // ---------------------------------------------------------
     public async Task<IActionResult> GetById(
         string id)
     {
@@ -69,9 +66,7 @@ public class UsersController : ControllerBase
     }
 
     [HttpPost]
-    // ---------------------------------------------------------
     // Create: Creates a new Backoffice or Grid Operator account.
-    // ---------------------------------------------------------
     public async Task<IActionResult> Create(
         CreateUserRequest request)
     {
@@ -97,9 +92,7 @@ public class UsersController : ControllerBase
     }
 
     [HttpPatch("{id}/status")]
-    // ---------------------------------------------------------
     // UpdateStatus: Activates or deactivates a user account status.
-    // ---------------------------------------------------------
     public async Task<IActionResult>
         UpdateStatus(
             string id,
@@ -121,6 +114,36 @@ public class UsersController : ControllerBase
                 {
                     message =
                         "User was not found."
+                });
+            }
+
+            return Ok(user);
+        }
+        catch (InvalidOperationException ex)
+        {
+            return BadRequest(new
+            {
+                message = ex.Message
+            });
+        }
+    }
+
+    [HttpPut("{id}")]
+    // UpdateUser: Updates a user's profile details from the admin management screen.
+    public async Task<IActionResult> UpdateUser(
+        string id,
+        UpdateAccountRequest request)
+    {
+        try
+        {
+            var user = await _accountService
+                .UpdateUserByAdminAsync(id, request);
+
+            if (user == null)
+            {
+                return NotFound(new
+                {
+                    message = "User was not found."
                 });
             }
 
