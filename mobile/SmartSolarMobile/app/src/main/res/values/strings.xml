@@ -2,6 +2,7 @@
 <string name="app_name">Smart Solar</string>
 <string name="solar_stations">Solar stations</string>
 <string name="retry_stations">Retry</string>
+<!-- Station discovery messages include loading, empty, map and API error states. -->
 <string name="stations_loading">Loading active stations…</string>
 <string name="stations_empty">No active stations are available right now.</string>
 <string name="stations_coordinates_unsupported">Active stations are available, but their coordinates cannot be displayed. Please ask the station operator to update their locations.</string>

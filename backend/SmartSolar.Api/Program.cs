@@ -197,6 +197,13 @@ builder.Services.AddScoped<SeedService>();
 
 builder.Services.AddScoped<DatabaseInitializerService>();
 
+builder.Services.AddDataProtection();
+builder.Services.AddMemoryCache();
+builder.Services.AddHttpClient<StationGeocodingService>(client =>
+{
+    client.Timeout = TimeSpan.FromSeconds(10);
+}).RemoveAllLoggers(); // Provider URLs include the private API key.
+
 builder.Services.AddScoped<StationService>();
 
 builder.Services.AddScoped<ReservationService>();

@@ -21,6 +21,7 @@
         android:hint="@string/station_search_hint"
         app:endIconMode="clear_text">
 
+        <!-- Search locally within the stations already loaded from the API. -->
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/stationSearch"
             android:layout_width="match_parent"
@@ -38,6 +39,7 @@
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
+        <!-- Hide stations without free slots when the availability switch is enabled. -->
         <com.google.android.material.materialswitch.MaterialSwitch
             android:id="@+id/availableStationsOnly"
             android:layout_width="0dp"
@@ -63,6 +65,7 @@
         android:paddingEnd="16dp"
         android:orientation="horizontal">
 
+        <!-- Choose all Active stations or a location-based 5 km / 10 km search. -->
         <com.google.android.material.button.MaterialButtonToggleGroup
             android:id="@+id/stationRadiusOptions"
             android:layout_width="0dp"
@@ -152,12 +155,14 @@
             android:text="@string/location_my_location" />
     </LinearLayout>
 
+    <!-- OpenStreetMap occupies the remaining screen space below the discovery controls. -->
     <org.osmdroid.views.MapView
         android:id="@+id/stationMap"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" />
 
+    <!-- Keep OpenStreetMap attribution visible beneath the map. -->
     <TextView
         android:id="@+id/mapAttribution"
         android:layout_width="match_parent"

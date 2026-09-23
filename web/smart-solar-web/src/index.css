@@ -2107,6 +2107,7 @@ textarea {
    TABLES
 ========================================================= */
 
+/* Limit the station list height while keeping its column headings visible on scroll. */
 .station-table-scroll {
   max-height: 60vh;
   overflow: auto;
@@ -3218,4 +3219,27 @@ span:not(
     max-width: 165px;
   }
 
+}
+
+
+/* Station address selection */
+/* Bound address suggestions so the station form remains usable with several matches. */
+.station-address-suggestions {
+  max-height: 260px;
+  overflow-y: auto;
+  font-size: 0.8rem;
+}
+
+.station-address-suggestions button:focus-visible {
+  outline: 2px solid var(--green-600);
+  outline-offset: -3px;
+}
+
+.station-location-preview {
+  padding: 0.8rem;
+  border: 1px solid var(--mint-200);
+  border-radius: 11px;
+  background: var(--mint-75);
+  color: var(--green-800);
+  font-size: 0.8rem;
 }

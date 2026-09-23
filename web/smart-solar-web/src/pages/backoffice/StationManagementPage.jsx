@@ -1,3 +1,4 @@
+import StationAddressField from "../../components/StationAddressField";
 import StatusBadge from "../../components/StatusBadge";
 import {
   useEffect,
@@ -23,8 +24,6 @@ import {
 const emptyForm = {
   name: "",
   address: "",
-  latitude: "",
-  longitude: "",
   capacityKw: "",
   totalSlots: "",
   openingTime: "08:00",
@@ -33,6 +32,7 @@ const emptyForm = {
 
 
 export default function StationManagementPage() {
+  const [selectedLocation, setSelectedLocation] = useState(null);
   const [statusFilter, setStatusFilter] = useState("All");
   const [availabilityFilter, setAvailabilityFilter] = useState("All");
   const [actionId, setActionId] = useState(null);
@@ -78,6 +78,7 @@ export default function StationManagementPage() {
   }, []);
 
 
+  // Load the management list from the API; search and dropdown filters are applied locally.
   async function loadStations() {
     try {
       setLoading(true);
@@ -114,8 +115,11 @@ export default function StationManagementPage() {
   }
 
 
+  // Keep the saved coordinates until the admin selects a replacement address.
   function editStation(station) {
     setEditingId(station.id);
+    setSelectedLocation({ address: station.address, latitude: station.latitude,
+      longitude: station.longitude, locationToken: null });
 
     setForm({
       name:
@@ -123,12 +127,6 @@ export default function StationManagementPage() {
 
       address:
         station.address ?? "",
-
-      latitude:
-        station.latitude ?? "",
-
-      longitude:
-        station.longitude ?? "",
 
       capacityKw:
         station.capacityKw ?? "",
@@ -150,12 +148,15 @@ export default function StationManagementPage() {
   }
 
 
+  // Clear both the form and selected location before returning to create mode.
   function cancelEdit() {
+    setSelectedLocation(null);
     setEditingId(null);
     setForm(emptyForm);
   }
 
 
+  // Create and edit share one payload; coordinates come from the protected address selection.
   async function handleSubmit(event) {
     event.preventDefault();
 
@@ -169,6 +170,12 @@ export default function StationManagementPage() {
       return;
     }
 
+  // Changing the address invalidates the previous location, so require another selection.
+    if (!selectedLocation || selectedLocation.address !== form.address.trim()) {
+      setError("Choose an address suggestion to set the station's map location.");
+      return;
+    }
+
     const payload = {
       name:
         form.name.trim(),
@@ -176,11 +183,7 @@ export default function StationManagementPage() {
       address:
         form.address.trim(),
 
-      latitude:
-        Number(form.latitude),
-
-      longitude:
-        Number(form.longitude),
+      locationToken: selectedLocation.locationToken,
 
       capacityKw:
         Number(form.capacityKw),
@@ -211,6 +214,7 @@ export default function StationManagementPage() {
       }
 
       setForm(emptyForm);
+      setSelectedLocation(null);
       setEditingId(null);
 
       await loadStations();
@@ -228,6 +232,7 @@ export default function StationManagementPage() {
   }
 
 
+  // The API enforces reservation rules; surface its rejection message without changing local status.
   async function toggleStatus(station) {
     if (actionId) return;
     const nextStatus =
@@ -259,6 +264,7 @@ export default function StationManagementPage() {
   }
 
 
+  // Combine name/address search, station status and free-slot availability.
   const filteredStations = useMemo(() => {
     const query = search.trim().toLowerCase();
     return stations.filter((station) => {
@@ -295,25 +301,18 @@ export default function StationManagementPage() {
                     value={form.name} onChange={handleChange} placeholder="e.g. Negombo Solar Hub"
                     required minLength={2} maxLength={100} />
                 </div>
-                <div className="mb-3">
-                  <label className="form-label" htmlFor="station-address">Address</label>
-                  <input id="station-address" className="form-control app-input" name="address"
-                    value={form.address} onChange={handleChange} placeholder="Street address and city"
-                    required minLength={3} maxLength={250} />
-                </div>
+                <StationAddressField value={form.address} location={selectedLocation}
+                  onChange={(address) => {
+                    setForm((current) => ({ ...current, address }));
+                    setSelectedLocation(null);
+                    setError("");
+                  }}
+                  onSelect={(location) => {
+                    setForm((current) => ({ ...current, address: location.address }));
+                    setSelectedLocation(location);
+                    setError("");
+                  }} />
                 <div className="row g-3 mb-3">
-                  <div className="col-6">
-                    <label className="form-label" htmlFor="station-latitude">Latitude</label>
-                    <input id="station-latitude" type="number" step="any" min={-90} max={90} required
-                      className="form-control app-input" name="latitude" placeholder="e.g. 7.2083"
-                      value={form.latitude} onChange={handleChange} />
-                  </div>
-                  <div className="col-6">
-                    <label className="form-label" htmlFor="station-longitude">Longitude</label>
-                    <input id="station-longitude" type="number" step="any" min={-180} max={180} required
-                      className="form-control app-input" name="longitude" placeholder="e.g. 79.8358"
-                      value={form.longitude} onChange={handleChange} />
-                  </div>
                   <div className="col-6">
                     <label className="form-label" htmlFor="station-capacity">Capacity (kW)</label>
                     <input id="station-capacity" type="number" min="0.1" step="any" required

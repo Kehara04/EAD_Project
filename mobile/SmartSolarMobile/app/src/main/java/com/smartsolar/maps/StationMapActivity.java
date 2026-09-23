@@ -1189,9 +1189,7 @@ public class StationMapActivity extends AppCompatActivity {
         if (
                 !hasLocationPermission()
                         &&
-                        !getPreferences(
-                                MODE_PRIVATE
-                        ).getBoolean(
+                        !getSharedPreferences("station_location_permissions", MODE_PRIVATE).getBoolean(
                                 "locationAsked",
                                 false
                         )
@@ -1214,6 +1212,7 @@ public class StationMapActivity extends AppCompatActivity {
        LOCATION PERMISSION
     ========================================= */
 
+    // Accept either precise or approximate foreground location permission.
     private boolean hasLocationPermission() {
 
         return ContextCompat
@@ -1240,11 +1239,10 @@ public class StationMapActivity extends AppCompatActivity {
     }
 
 
+    // Request location access only for user positioning and nearby station discovery.
     private void askLocationPermission() {
 
-        getPreferences(
-                MODE_PRIVATE
-        )
+        getSharedPreferences("station_location_permissions", MODE_PRIVATE)
                 .edit()
                 .putBoolean(
                         "locationAsked",
@@ -1266,6 +1264,7 @@ public class StationMapActivity extends AppCompatActivity {
     }
 
 
+    // Resolve a usable device location before centering the map or searching nearby.
     private void requestUserLocation() {
 
         centerOnLocation =
@@ -1284,9 +1283,7 @@ public class StationMapActivity extends AppCompatActivity {
 
                             ||
 
-                            !getPreferences(
-                                    MODE_PRIVATE
-                            ).getBoolean(
+                            !getSharedPreferences("station_location_permissions", MODE_PRIVATE).getBoolean(
                                     "locationAsked",
                                     false
                             )
@@ -1407,6 +1404,7 @@ public class StationMapActivity extends AppCompatActivity {
     }
 
 
+    // Listen for fresh foreground fixes to update the user marker and nearby origin.
     private void startLocationUpdates() {
 
         if (
@@ -1570,6 +1568,7 @@ public class StationMapActivity extends AppCompatActivity {
     }
 
 
+    // Display the Prosumer separately from station markers and update nearby discovery when needed.
     private void showUserLocation(
             Location location
     ) {
@@ -1823,6 +1822,7 @@ public class StationMapActivity extends AppCompatActivity {
     }
 
 
+    // Release listeners and pending timeout callbacks when location tracking stops.
     private void stopLocationUpdates() {
 
         locationHandler
@@ -1850,6 +1850,7 @@ public class StationMapActivity extends AppCompatActivity {
        LOAD STATIONS
     ========================================= */
 
+    // Cancel the earlier request; nearby mode waits for a fresh location before calling the API.
     private void loadStations() {
 
         if (
@@ -2064,6 +2065,7 @@ public class StationMapActivity extends AppCompatActivity {
     }
 
 
+    // Remove station overlays independently of the current-user marker.
     private void clearStationMarkers() {
 
         if (
@@ -2100,6 +2102,7 @@ public class StationMapActivity extends AppCompatActivity {
     }
 
 
+    // Clear cached results while a new station request is being prepared.
     private void resetStationData() {
 
         loadedStations.clear();
@@ -2130,6 +2133,7 @@ public class StationMapActivity extends AppCompatActivity {
        SEARCH / FILTER
     ========================================= */
 
+    // Filter the loaded Active/nearby results and keep the map and list counts consistent.
     private void applyStationFilters() {
 
         if (
@@ -2226,6 +2230,7 @@ public class StationMapActivity extends AppCompatActivity {
        STATION LIST DIALOG
     ========================================= */
 
+    // Provide a text-based alternative for browsing the current filtered station results.
     private void showStationList() {
 
         List<SolarStation> displayed =
@@ -2300,6 +2305,7 @@ public class StationMapActivity extends AppCompatActivity {
        SHOW STATIONS ON MAP
     ========================================= */
 
+    // Build station markers from API coordinates and skip coordinates the map cannot display.
     private void showStations(
             List<SolarStation> stations
     ) {
@@ -2680,6 +2686,7 @@ public class StationMapActivity extends AppCompatActivity {
     }
 
 
+    // Avoid using an old device fix as the origin for a nearby search.
     private boolean hasFreshLocation() {
 
         return currentLocation != null
@@ -2709,6 +2716,7 @@ public class StationMapActivity extends AppCompatActivity {
        STATION DETAILS BOTTOM SHEET
     ========================================= */
 
+    // Show cached details immediately, then request the latest station data from the API.
     private void showStationDetails(
             SolarStation station
     ) {
@@ -3128,6 +3136,7 @@ public class StationMapActivity extends AppCompatActivity {
        BIND STATION DETAILS
     ========================================= */
 
+    // Present capacity, free slots, operating hours and location from the station response.
     private void bindStationDetails(
             View content,
             SolarStation station
@@ -3351,6 +3360,7 @@ public class StationMapActivity extends AppCompatActivity {
     ========================================= */
 
     @Override
+    // Preserve discovery filters and map state across activity recreation.
     protected void onSaveInstanceState(
             Bundle outState
     ) {
@@ -3449,6 +3459,7 @@ public class StationMapActivity extends AppCompatActivity {
 
 
     @Override
+    // Pause map rendering and foreground location tracking when the screen is not visible.
     protected void onPause() {
 
         stopLocationUpdates();
@@ -3466,6 +3477,7 @@ public class StationMapActivity extends AppCompatActivity {
 
 
     @Override
+    // Cancel pending calls and release dialogs/map resources when the activity is destroyed.
     protected void onDestroy() {
 
         if (

@@ -1,3 +1,11 @@
+/*
+ * File: StationService.cs
+ * Project: Smart Solar Microgrid Trading System
+ * Description:
+ * Manages station persistence, location selection, capacity rules,
+ * reservation checks and distance-based station discovery.
+ */
+
 using MongoDB.Bson;
 using MongoDB.Driver;
 using SmartSolar.Api.Constants;
@@ -10,11 +18,13 @@ namespace SmartSolar.Api.Services;
 public class StationService
 {
     private readonly MongoDbContext _context;
+    private readonly StationGeocodingService _geocoding;
 
     public StationService(
-        MongoDbContext context)
+        MongoDbContext context, StationGeocodingService geocoding)
     {
         _context = context;
+        _geocoding = geocoding;
     }
 
 
@@ -26,6 +36,7 @@ public class StationService
         GetAllAsync(
             string? status = null)
     {
+        // An empty filter includes both Active and Inactive stations for management.
         FilterDefinition<SolarStation> filter =
             Builders<SolarStation>
                 .Filter.Empty;
@@ -57,6 +68,7 @@ public class StationService
         GetByIdAsync(
             string id)
     {
+        // Invalid ObjectIds are treated as missing stations instead of query errors.
         if (
             string.IsNullOrWhiteSpace(id) ||
             !ObjectId.TryParse(
@@ -111,6 +123,9 @@ public class StationService
         );
 
 
+        // Read coordinates from the backend-issued selection, never from client input.
+        var location = _geocoding.ResolveSelection(request.Address, request.LocationToken);
+
         var now =
             DateTime.UtcNow;
 
@@ -125,10 +140,10 @@ public class StationService
                     request.Address.Trim(),
 
                 Latitude =
-                    request.Latitude,
+                    location.Latitude,
 
                 Longitude =
-                    request.Longitude,
+                    location.Longitude,
 
                 CapacityKw =
                     request.CapacityKw,
@@ -136,6 +151,7 @@ public class StationService
                 TotalSlots =
                     request.TotalSlots,
 
+                // A newly created station starts with all physical slots available.
                 AvailableSlots =
                     request.TotalSlots,
 
@@ -188,6 +204,13 @@ public class StationService
         );
 
 
+        // Unchanged addresses keep existing map coordinates, including legacy stations.
+        // A selected suggestion always replaces the location, even for the same address.
+        var location = string.IsNullOrWhiteSpace(request.LocationToken)
+            && request.Address.Trim() == existing.Address
+            ? new ResolvedStationLocation(existing.Address, existing.Latitude, existing.Longitude)
+            : _geocoding.ResolveSelection(request.Address, request.LocationToken);
+
         var stationName =
             request.Name.Trim();
 
@@ -239,6 +262,7 @@ public class StationService
         }
 
 
+        // Retain the larger count so legacy occupied slots are not lost during an edit.
         var bookedSlots = Math.Max(activeReservations,
             Math.Max(0, existing.TotalSlots - existing.AvailableSlots));
         if (request.TotalSlots < bookedSlots)
@@ -271,12 +295,12 @@ public class StationService
 
                 .Set(
                     x => x.Latitude,
-                    request.Latitude
+                    location.Latitude
                 )
 
                 .Set(
                     x => x.Longitude,
-                    request.Longitude
+                    location.Longitude
                 )
 
                 .Set(
@@ -410,6 +434,7 @@ public class StationService
         }
 
         var result = await _context.Stations.UpdateOneAsync(filter, update);
+        // Distinguish a removed station from a station blocked by the slot guard.
         if (result.MatchedCount == 0)
         {
             if (await GetByIdAsync(id) == null)
@@ -477,6 +502,7 @@ public class StationService
                 .ToListAsync();
 
 
+        // Apply the radius to straight-line distance, then show the closest stations first.
         return stations
             .Where(station =>
                 CalculateDistanceKm(
@@ -665,28 +691,6 @@ public class StationService
 
 
         if (
-            request.Latitude < -90 ||
-            request.Latitude > 90
-        )
-        {
-            throw new InvalidOperationException(
-                "Latitude must be between -90 and 90."
-            );
-        }
-
-
-        if (
-            request.Longitude < -180 ||
-            request.Longitude > 180
-        )
-        {
-            throw new InvalidOperationException(
-                "Longitude must be between -180 and 180."
-            );
-        }
-
-
-        if (
             request.CapacityKw <= 0
         )
         {
@@ -731,10 +735,8 @@ public class StationService
 
 
         /*
-         * Your DTO currently stores operating
-         * times as strings.
-         *
-         * Validate HH:mm format here.
+         * Operating times arrive as strings. Parse them before
+         * checking that closing time is later than opening time.
          */
         if (
             !TimeOnly.TryParse(
@@ -821,6 +823,7 @@ public class StationService
             double lat2,
             double lon2)
     {
+        // Haversine calculates great-circle distance; this is not a road travel distance.
         const double earthRadius =
             6371.0;
 

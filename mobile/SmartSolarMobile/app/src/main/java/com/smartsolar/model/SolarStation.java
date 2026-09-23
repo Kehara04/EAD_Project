@@ -8,6 +8,7 @@ public class SolarStation {
 
     private String address;
 
+    // Decimal degrees from the backend are used directly for OpenStreetMap marker positions.
     private double latitude;
 
     private double longitude;
@@ -16,8 +17,10 @@ public class SolarStation {
 
     private int totalSlots;
 
+    // Free-slot count supports availability filtering and the station detail display.
     private int availableSlots;
 
+    // Operating hours are returned as display strings by the station API.
     private String openingTime;
 
     private String closingTime;

@@ -20,6 +20,7 @@ import com.smartsolar.R;
 import com.smartsolar.data.remote.ApiClient;
 import com.smartsolar.data.remote.ApiService;
 import com.smartsolar.model.QrPayload;
+import com.smartsolar.utils.ApiErrorUtil;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -121,8 +122,16 @@ public class QrDisplayActivity extends AppCompatActivity {
                             return;
                         }
 
+                        // Approval is only one possible cause; preserve the server's real error.
+                        String fallback = response.code() >= 500
+                                ? "The QR service is unavailable. Please try again after the server is fixed."
+                                : response.code() == 401
+                                ? "Your session has expired. Please sign in again."
+                                : response.code() == 403
+                                ? "You do not have permission to view this QR code."
+                                : "Could not load the QR code. Please refresh the reservation and try again.";
                         Toast.makeText(QrDisplayActivity.this,
-                                "Could not load QR code. The reservation may not be approved.",
+                                ApiErrorUtil.getMessage(response, fallback),
                                 Toast.LENGTH_LONG).show();
                         finish();
                     }

@@ -244,6 +244,7 @@
                         android:textSize="13sp" />
 
 
+                    <!-- Entry point for the station map, search, nearby stations and station details. -->
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/buttonViewStations"
                         android:layout_width="match_parent"

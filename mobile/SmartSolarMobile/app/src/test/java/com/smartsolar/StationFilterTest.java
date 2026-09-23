@@ -7,6 +7,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class StationFilterTest {
+    // Deserialize realistic API field names so filtering tests use the mobile station model.
     private SolarStation station(int slots) {
         return new Gson().fromJson("{\"name\":\"Negombo Solar Hub\","
                 + "\"address\":\"25 Beach Road, Negombo\",\"availableSlots\":" + slots + "}", SolarStation.class);
@@ -18,6 +19,7 @@ public class StationFilterTest {
         assertFalse(StationFilter.matches(station(4), "Kandy", false));
     }
 
+    // Search and availability must both match when the free-slot filter is enabled.
     @Test public void availabilityCanBeCombinedWithSearch() {
         assertTrue(StationFilter.matches(station(4), "Negombo", true));
         assertFalse(StationFilter.matches(station(0), "Negombo", true));

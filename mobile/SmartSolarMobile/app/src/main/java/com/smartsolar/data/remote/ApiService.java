@@ -121,16 +121,19 @@ public interface ApiService {
        STATIONS
     ========================================= */
 
+    // Load the default Active list using the status query supplied by the map.
     @GET("stations")
     Call<List<SolarStation>> getStations(
             @Query("status") String status
     );
 
+    // Refresh the selected station before showing its full details.
     @GET("stations/{id}")
     Call<SolarStation> getStation(
             @Path("id") String id
     );
 
+    // Send the current location and radius in kilometres to the nearby-stations endpoint.
     @GET("stations/nearby")
     Call<List<SolarStation>> getNearbyStations(
             @Query("latitude") double latitude,

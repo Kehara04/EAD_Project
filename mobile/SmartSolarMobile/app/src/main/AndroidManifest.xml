@@ -1,6 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 <uses-permission android:name="android.permission.INTERNET"/>
 <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+<!-- Station discovery requests foreground location access at runtime. -->
 <uses-permission
     android:name="android.permission.ACCESS_FINE_LOCATION" />
 
@@ -22,6 +23,7 @@
 </intent-filter>
 </activity>
 
+<!-- Open station discovery from inside the signed-in application. -->
 <activity
     android:name=".maps.StationMapActivity"
     android:exported="false" />

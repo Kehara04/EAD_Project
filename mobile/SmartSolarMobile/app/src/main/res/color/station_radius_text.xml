@@ -1,4 +1,5 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Keep selected radius text readable against its highlighted background. -->
     <item android:state_checked="true" android:color="@color/white" />
     <item android:color="@color/solar_green_dark" />
 </selector>
