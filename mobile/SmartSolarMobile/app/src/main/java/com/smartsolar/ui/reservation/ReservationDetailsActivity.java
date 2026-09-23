@@ -16,6 +16,7 @@ import com.smartsolar.R;
 import com.smartsolar.data.remote.ApiClient;
 import com.smartsolar.data.remote.ApiService;
 import com.smartsolar.model.EnergyReservation;
+import com.smartsolar.ui.reservation.QrDisplayActivity;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -47,6 +48,7 @@ public class ReservationDetailsActivity
 
     private MaterialButton updateButton;
     private MaterialButton cancelButton;
+    private MaterialButton showQrButton;
 
     private ProgressBar progressBar;
 
@@ -153,6 +155,11 @@ public class ReservationDetailsActivity
                         R.id.buttonCancelReservation
                 );
 
+        showQrButton =
+                findViewById(
+                        R.id.buttonShowQr
+                );
+
         progressBar =
                 findViewById(
                         R.id.reservationDetailProgress
@@ -173,6 +180,15 @@ public class ReservationDetailsActivity
 
         cancelButton.setOnClickListener(
                 v -> confirmCancellation()
+        );
+
+
+        // Opens QR display for Approved reservations.
+        showQrButton.setOnClickListener(
+                v -> QrDisplayActivity.open(
+                        this,
+                        reservationId
+                )
         );
     }
 
@@ -352,6 +368,17 @@ public class ReservationDetailsActivity
 
         cancelButton.setEnabled(
                 canModify
+        );
+
+
+        // Show QR button only for Approved reservations.
+        boolean isApproved =
+                "Approved".equalsIgnoreCase(status);
+
+        showQrButton.setVisibility(
+                isApproved
+                        ? View.VISIBLE
+                        : View.GONE
         );
 
 

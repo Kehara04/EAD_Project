@@ -243,11 +243,28 @@
                 android:visibility="gone" />
 
 
+            <!-- Show QR Code – visible only when status is Approved (set in Java) -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/buttonShowQr"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:layout_marginTop="14dp"
+                android:text="Show QR Code"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white"
+                android:textStyle="bold"
+                android:visibility="gone"
+                app:backgroundTint="#1B4332"
+                app:cornerRadius="12dp"
+                app:icon="@android:drawable/ic_menu_camera"
+                app:iconTint="@android:color/white"/>
+
+
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/buttonUpdateReservation"
                 android:layout_width="match_parent"
                 android:layout_height="52dp"
-                android:layout_marginTop="14dp"
+                android:layout_marginTop="10dp"
                 android:text="Update reservation"
                 android:textAllCaps="false"
                 android:textColor="@android:color/white"
