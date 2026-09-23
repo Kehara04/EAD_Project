@@ -196,6 +196,20 @@ public class OperatorService
             );
         }
 
+        // ── 5. Recent Completed History ────────────────────────────────────
+        var recentCompleted =
+            await _context.Reservations
+                .Find(x => x.Status == ReservationStatuses.Completed)
+                .SortByDescending(x => x.CompletedAt)
+                .Limit(10)
+                .ToListAsync();
+
+        foreach (var reservation in recentCompleted)
+        {
+            var resResponse = await BuildResponseAsync(reservation.Id!);
+            response.CompletedHistory.Add(resResponse);
+        }
+
         return response;
     }
 

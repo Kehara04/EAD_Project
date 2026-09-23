@@ -61,16 +61,13 @@
 
   /* Shadow */
   --shadow-sm:
-    0 5px 16px
-    rgba(0, 67, 52, 0.045);
+    0 5px 16px rgba(0, 67, 52, 0.045);
 
   --shadow:
-    0 12px 34px
-    rgba(0, 67, 52, 0.075);
+    0 12px 34px rgba(0, 67, 52, 0.075);
 
   --shadow-lg:
-    0 24px 65px
-    rgba(0, 67, 52, 0.12);
+    0 24px 65px rgba(0, 67, 52, 0.12);
 }
 
 
@@ -130,19 +127,16 @@ textarea {
     13px;
 
   background:
-    linear-gradient(
-      90deg,
+    linear-gradient(90deg,
       #13af6d,
-      #078e5c
-    );
+      #078e5c);
 
   color: #ffffff;
 
   font-weight: 750;
 
   box-shadow:
-    0 10px 22px
-    rgba(8, 148, 91, 0.20);
+    0 10px 22px rgba(8, 148, 91, 0.20);
 
   transition:
     0.18s ease;
@@ -153,18 +147,15 @@ textarea {
   color: #ffffff;
 
   background:
-    linear-gradient(
-      90deg,
+    linear-gradient(90deg,
       #0da161,
-      #067c50
-    );
+      #067c50);
 
   transform:
     translateY(-1px);
 
   box-shadow:
-    0 13px 26px
-    rgba(8, 148, 91, 0.26);
+    0 13px 26px rgba(8, 148, 91, 0.26);
 }
 
 
@@ -175,8 +166,7 @@ textarea {
     0.55rem 1rem;
 
   border:
-    1px solid
-    var(--line-green);
+    1px solid var(--line-green);
 
   border-radius:
     10px;
@@ -229,8 +219,7 @@ textarea {
     0.72rem 0.9rem;
 
   border:
-    1px solid
-    #d9e5df;
+    1px solid #d9e5df;
 
   border-radius:
     11px;
@@ -260,9 +249,7 @@ textarea {
     var(--green-500);
 
   box-shadow:
-    0 0 0 4px
-    rgba(18, 173, 112, 0.09)
-    !important;
+    0 0 0 4px rgba(18, 173, 112, 0.09) !important;
 }
 
 .app-input.is-invalid {
@@ -320,8 +307,7 @@ textarea {
     grid;
 
   grid-template-columns:
-    minmax(0, 1.15fr)
-    minmax(430px, 0.85fr);
+    minmax(0, 1.15fr) minmax(430px, 0.85fr);
 
   background:
     #ffffff;
@@ -342,11 +328,9 @@ textarea {
     center;
 
   padding:
-    clamp(
-      3.8rem,
+    clamp(3.8rem,
       6vw,
-      6.3rem
-    );
+      6.3rem);
 
   background-image:
     url("/images/smart-solar-login-bg.png");
@@ -369,23 +353,15 @@ textarea {
   inset: 0;
 
   background:
-    linear-gradient(
-      90deg,
-      rgba(0, 54, 45, 0.90)
-      0%,
+    linear-gradient(90deg,
+      rgba(0, 54, 45, 0.90) 0%,
 
-      rgba(0, 74, 61, 0.70)
-      45%,
+      rgba(0, 74, 61, 0.70) 45%,
 
-      rgba(0, 74, 61, 0.20)
-      100%
-    ),
-    linear-gradient(
-      0deg,
+      rgba(0, 74, 61, 0.20) 100%),
+    linear-gradient(0deg,
       rgba(0, 40, 32, 0.50),
-      rgba(0, 40, 32, 0.04)
-      60%
-    );
+      rgba(0, 40, 32, 0.04) 60%);
 }
 
 
@@ -425,8 +401,7 @@ textarea {
     0.52rem 0.9rem;
 
   border:
-    1px solid
-    rgba(174, 255, 74, 0.78);
+    1px solid rgba(174, 255, 74, 0.78);
 
   border-radius:
     999px;
@@ -466,11 +441,9 @@ textarea {
     #ffffff;
 
   font-size:
-    clamp(
-      3rem,
+    clamp(3rem,
       5.3vw,
-      5.5rem
-    );
+      5.5rem);
 
   font-weight:
     820;
@@ -482,8 +455,7 @@ textarea {
     -0.055em;
 
   text-shadow:
-    0 3px 20px
-    rgba(0, 0, 0, 0.16);
+    0 3px 20px rgba(0, 0, 0, 0.16);
 }
 
 
@@ -493,7 +465,7 @@ textarea {
 }
 
 
-.showcase-content > p {
+.showcase-content>p {
   max-width:
     590px;
 
@@ -560,22 +532,19 @@ textarea {
     50%;
 
   background:
-    linear-gradient(
-      145deg,
+    linear-gradient(145deg,
       #9fe93f,
-      #1cad66
-    );
+      #1cad66);
 
   color:
     #ffffff;
 
   box-shadow:
-    0 8px 20px
-    rgba(20, 160, 92, 0.32);
+    0 8px 20px rgba(20, 160, 92, 0.32);
 }
 
 
-.showcase-feature > div:last-child {
+.showcase-feature>div:last-child {
   display:
     grid;
 
@@ -639,20 +608,15 @@ textarea {
     center;
 
   padding:
-    3rem
-    clamp(
-      2.3rem,
+    3rem clamp(2.3rem,
       5vw,
-      5rem
-    );
+      5rem);
 
   background:
-    linear-gradient(
-      145deg,
+    linear-gradient(145deg,
       #ffffff 0%,
       #fbfefc 60%,
-      #f4fbf7 100%
-    );
+      #f4fbf7 100%);
 }
 
 
@@ -682,11 +646,9 @@ textarea {
     -270px;
 
   background:
-    linear-gradient(
-      145deg,
+    linear-gradient(145deg,
       rgba(17, 171, 105, 0.17),
-      rgba(168, 239, 69, 0.05)
-    );
+      rgba(168, 239, 69, 0.05));
 }
 
 
@@ -757,18 +719,15 @@ textarea {
     16px;
 
   background:
-    linear-gradient(
-      145deg,
+    linear-gradient(145deg,
       #0baa67,
-      #087f57
-    );
+      #087f57);
 
   color:
     #ffffff;
 
   box-shadow:
-    0 11px 26px
-    rgba(7, 139, 85, 0.21);
+    0 11px 26px rgba(7, 139, 85, 0.21);
 }
 
 
@@ -910,8 +869,7 @@ textarea {
     46px;
 
   border:
-    1px solid
-    #dae5e0;
+    1px solid #dae5e0;
 
   border-radius:
     13px;
@@ -1047,8 +1005,7 @@ textarea {
     grid;
 
   grid-template-columns:
-    250px
-    minmax(0, 1fr);
+    250px minmax(0, 1fr);
 
   background:
     var(--page);
@@ -1088,12 +1045,10 @@ textarea {
     1.45rem 1rem;
 
   background:
-    linear-gradient(
-      180deg,
+    linear-gradient(180deg,
       #005d51 0%,
       #004d43 55%,
-      #00443c 100%
-    );
+      #00443c 100%);
 
   color:
     #ffffff;
@@ -1129,13 +1084,41 @@ textarea {
 }
 
 
-.sidebar-main,
+.sidebar-main {
+  position:
+    relative;
+
+  z-index:
+    2;
+
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-bottom: 1rem;
+}
+
+/* Hide scrollbar for cleaner look if desired */
+.sidebar-main::-webkit-scrollbar {
+  width: 4px;
+}
+
+.sidebar-main::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.sidebar-main::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
 .sidebar-footer {
   position:
     relative;
 
   z-index:
     2;
+
+  flex-shrink: 0;
 }
 
 
@@ -1180,18 +1163,15 @@ textarea {
     12px;
 
   background:
-    linear-gradient(
-      145deg,
+    linear-gradient(145deg,
       #b7ff47,
-      #4fe37c
-    );
+      #4fe37c);
 
   color:
     #063d30;
 
   box-shadow:
-    0 9px 20px
-    rgba(17, 238, 127, 0.17);
+    0 9px 20px rgba(17, 238, 127, 0.17);
 }
 
 
@@ -1284,7 +1264,7 @@ textarea {
     relative;
 
   min-height:
-    48px;
+    42px;
 
   display:
     flex;
@@ -1296,7 +1276,7 @@ textarea {
     0.72rem;
 
   padding:
-    0.55rem 0.7rem;
+    0.45rem 0.7rem;
 
   border:
     1px solid transparent;
@@ -1332,18 +1312,15 @@ textarea {
     #ffffff;
 
   background:
-    linear-gradient(
-      90deg,
+    linear-gradient(90deg,
       rgba(145, 237, 70, 0.19),
-      rgba(63, 203, 116, 0.13)
-    );
+      rgba(63, 203, 116, 0.13));
 
   border-color:
     rgba(181, 255, 79, 0.08);
 
   box-shadow:
-    inset 3px 0 0
-    var(--lime-bright);
+    inset 3px 0 0 var(--lime-bright);
 }
 
 
@@ -1380,8 +1357,7 @@ textarea {
 }
 
 
-.sidebar-link.active
-.nav-icon {
+.sidebar-link.active .nav-icon {
   background:
     rgba(182, 255, 77, 0.14);
 
@@ -1408,8 +1384,7 @@ textarea {
     1.15rem;
 
   border-top:
-    1px solid
-    rgba(255, 255, 255, 0.10);
+    1px solid rgba(255, 255, 255, 0.10);
 }
 
 
@@ -1455,11 +1430,9 @@ textarea {
 
 .sidebar-avatar {
   background:
-    linear-gradient(
-      145deg,
+    linear-gradient(145deg,
       #49d681,
-      #228c65
-    );
+      #228c65);
 
   color:
     #ffffff;
@@ -1524,8 +1497,7 @@ textarea {
     0.5rem;
 
   border:
-    1px solid
-    rgba(255, 255, 255, 0.20);
+    1px solid rgba(255, 255, 255, 0.20);
 
   border-radius:
     9px;
@@ -1592,14 +1564,10 @@ textarea {
   inset: 0;
 
   background:
-    linear-gradient(
-      to bottom,
+    linear-gradient(to bottom,
       #00443c 0%,
-      rgba(0, 68, 60, 0.68)
-      35%,
-      rgba(0, 53, 46, 0.18)
-      100%
-    );
+      rgba(0, 68, 60, 0.68) 35%,
+      rgba(0, 53, 46, 0.18) 100%);
 }
 
 
@@ -1660,11 +1628,9 @@ textarea {
     0;
 
   background:
-    radial-gradient(
-      circle at 80% -15%,
+    radial-gradient(circle at 80% -15%,
       rgba(20, 180, 105, 0.10),
-      transparent 26%
-    ),
+      transparent 26%),
     var(--page);
 }
 
@@ -1702,8 +1668,7 @@ textarea {
     1.45rem 2.1rem;
 
   border-bottom:
-    1px solid
-    rgba(219, 233, 226, 0.83);
+    1px solid rgba(219, 233, 226, 0.83);
 
   background:
     rgba(250, 254, 252, 0.91);
@@ -1742,11 +1707,9 @@ textarea {
     #0e1612;
 
   font-size:
-    clamp(
-      1.65rem,
+    clamp(1.65rem,
       3vw,
-      2.15rem
-    );
+      2.15rem);
 
   font-weight:
     830;
@@ -1826,11 +1789,9 @@ textarea {
 
 .avatar-light {
   background:
-    linear-gradient(
-      145deg,
+    linear-gradient(145deg,
       #d8f8e5,
-      #aaf0c9
-    );
+      #aaf0c9);
 
   color:
     var(--green-850);
@@ -1896,8 +1857,7 @@ textarea {
     1.35rem;
 
   border:
-    1px solid
-    rgba(220, 235, 227, 0.95);
+    1px solid rgba(220, 235, 227, 0.95);
 
   border-radius:
     17px;
@@ -2129,10 +2089,7 @@ textarea {
 }
 
 
-.app-table
-> :not(caption)
-> *
-> * {
+.app-table> :not(caption)>*>* {
   padding:
     0.9rem 0.8rem;
 
@@ -2441,8 +2398,7 @@ textarea {
     0.8rem;
 
   border:
-    1px solid
-    var(--line);
+    1px solid var(--line);
 
   border-radius:
     12px;
@@ -2466,8 +2422,7 @@ textarea {
     #fbfefc;
 
   box-shadow:
-    0 8px 20px
-    rgba(0, 83, 60, 0.055);
+    0 8px 20px rgba(0, 83, 60, 0.055);
 }
 
 
@@ -2519,10 +2474,7 @@ textarea {
 }
 
 
-.quick-action-item
-span:not(
-  .quick-action-icon
-) {
+.quick-action-item span:not(.quick-action-icon) {
   margin-top:
     0.1rem;
 
@@ -2543,10 +2495,8 @@ span:not(
     grid;
 
   grid-template-columns:
-    repeat(
-      5,
-      minmax(0, 1fr)
-    );
+    repeat(5,
+      minmax(0, 1fr));
 
   gap:
     0.75rem;
@@ -2573,8 +2523,7 @@ span:not(
     0.85rem 0.95rem;
 
   border:
-    1px solid
-    var(--line);
+    1px solid var(--line);
 
   border-radius:
     13px;
@@ -2622,18 +2571,15 @@ span:not(
     var(--green-600);
 
   background:
-    linear-gradient(
-      135deg,
+    linear-gradient(135deg,
       #0da26a,
-      #087958
-    );
+      #087958);
 
   color:
     #ffffff;
 
   box-shadow:
-    0 8px 19px
-    rgba(7, 137, 86, 0.15);
+    0 8px 19px rgba(7, 137, 86, 0.15);
 }
 
 
@@ -2649,8 +2595,7 @@ span:not(
 
 .form-card {
   border-top:
-    3px solid
-    var(--green-500);
+    3px solid var(--green-500);
 }
 
 
@@ -2669,8 +2614,7 @@ span:not(
     1.8rem;
 
   border-left:
-    4px solid
-    var(--lime);
+    4px solid var(--lime);
 }
 
 
@@ -2728,16 +2672,12 @@ span:not(
    MOBILE / RESPONSIVE
 ========================================================= */
 
-@media (
-  max-width: 1199px
-) {
+@media (max-width: 1199px) {
 
   .prosumer-summary-grid {
     grid-template-columns:
-      repeat(
-        3,
-        minmax(0, 1fr)
-      );
+      repeat(3,
+        minmax(0, 1fr));
   }
 
   .topbar-tagline {
@@ -2747,9 +2687,7 @@ span:not(
 }
 
 
-@media (
-  max-width: 991px
-) {
+@media (max-width: 991px) {
 
   .login-page {
     display:
@@ -2794,10 +2732,8 @@ span:not(
 
   .sidebar-nav {
     grid-template-columns:
-      repeat(
-        3,
-        minmax(0, 1fr)
-      );
+      repeat(3,
+        minmax(0, 1fr));
   }
 
 
@@ -2820,9 +2756,7 @@ span:not(
 }
 
 
-@media (
-  max-width: 767px
-) {
+@media (max-width: 767px) {
 
   .login-panel {
     padding:
@@ -2877,10 +2811,8 @@ span:not(
 
   .prosumer-summary-grid {
     grid-template-columns:
-      repeat(
-        2,
-        minmax(0, 1fr)
-      );
+      repeat(2,
+        minmax(0, 1fr));
   }
 
 
@@ -2898,9 +2830,7 @@ span:not(
 }
 
 
-@media (
-  max-width: 480px
-) {
+@media (max-width: 480px) {
 
   .prosumer-summary-grid {
     grid-template-columns:
@@ -2954,11 +2884,9 @@ span:not(
 
   color: var(--ink);
 
-  font-size: clamp(
-    1.8rem,
-    2.6vw,
-    2.25rem
-  );
+  font-size: clamp(1.8rem,
+      2.6vw,
+      2.25rem);
 
   font-weight: 750;
   line-height: 1.12;
@@ -3056,12 +2984,10 @@ span:not(
 
   margin-top: 24px;
 
-  color: rgba(
-    255,
-    255,
-    255,
-    0.76
-  );
+  color: rgba(255,
+      255,
+      255,
+      0.76);
 
   font-size: 0.67rem;
   font-weight: 700;
@@ -3156,8 +3082,7 @@ span:not(
 
   padding: 24px 18px 22px;
 
-  border-bottom: 1px solid
-    rgba(255, 255, 255, 0.10);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.10);
 }
 
 

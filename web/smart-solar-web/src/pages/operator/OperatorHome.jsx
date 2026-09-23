@@ -2,17 +2,41 @@ import { useState, useEffect } from "react";
 import DashboardLayout from "../../components/DashboardLayout";
 import { getOperatorDashboardStats } from "../../services/operatorService";
 
+const formatDateTime = (value) => {
+  if (!value) return "—";
+
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return "—";
+
+  return date.toLocaleString([], {
+    dateStyle: "medium",
+    timeStyle: "short"
+  });
+};
+
 export default function OperatorHome() {
   const [stats, setStats] = useState(null);
+  const [completedHistory, setCompletedHistory] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
   const loadDashboard = async () => {
     setLoading(true);
     setError("");
+
     try {
-      const data = await getOperatorDashboardStats();
-      setStats(data);
+      const statsResponse = await getOperatorDashboardStats();
+
+      setStats(statsResponse);
+
+      const history = statsResponse.completedHistory || [];
+      const sorted = [...history].sort((a, b) => {
+        const aDate = new Date(a.completedAt || a.updatedAt || a.scheduledAt || 0).getTime();
+        const bDate = new Date(b.completedAt || b.updatedAt || b.scheduledAt || 0).getTime();
+        return bDate - aDate;
+      });
+
+      setCompletedHistory(sorted);
     } catch (err) {
       console.error(err);
       setError("Could not load dashboard stats.");
@@ -88,14 +112,59 @@ export default function OperatorHome() {
               <h4 className="mb-3">Station Completions Today</h4>
               <div className="dashboard-card mb-4">
                 {stats?.stationSummaries && stats.stationSummaries.length > 0 ? (
-                  stats.stationSummaries.map(s => (
-                    <div key={s.stationId} className="d-flex justify-content-between align-items-center mb-2 pb-2 border-bottom">
+                  stats.stationSummaries.map((s) => (
+                    <div
+                      key={s.stationId}
+                      className="d-flex justify-content-between align-items-center mb-2 pb-2 border-bottom"
+                    >
                       <span className="fw-bold">{s.stationName}</span>
                       <span className="text-success">{s.completedToday} completed today</span>
                     </div>
                   ))
                 ) : (
-                  <p className="text-muted mb-0" style={{ fontSize: '13px' }}>No completed transfers at any station today.</p>
+                  <p className="text-muted mb-0" style={{ fontSize: "13px" }}>
+                    No completed transfers at any station today.
+                  </p>
+                )}
+              </div>
+
+              <h4 className="mb-3">Completed Reservation History</h4>
+              <div className="dashboard-card mb-4">
+                {completedHistory.length === 0 ? (
+                  <p className="text-muted mb-0" style={{ fontSize: "13px" }}>
+                    No completed reservation history recorded yet.
+                  </p>
+                ) : (
+                  <div className="table-responsive">
+                    <table className="table app-table align-middle mb-0">
+                      <thead>
+                        <tr>
+                          <th>Prosumer</th>
+                          <th>NIC / ID</th>
+                          <th>Station</th>
+                          <th>Scheduled</th>
+                          <th>Completed</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {completedHistory.slice(0, 8).map((reservation) => (
+                          <tr key={reservation.id || reservation._id || reservation.bookingSlotId}>
+                            <td>
+                              <strong>{reservation.prosumerName || "Prosumer"}</strong>
+                            </td>
+                            <td className="small text-muted">
+                              {reservation.prosumerId || "—"}
+                            </td>
+                            <td>
+                              <span>{reservation.stationName || "Unknown Station"}</span>
+                            </td>
+                            <td>{formatDateTime(reservation.scheduledAt)}</td>
+                            <td>{formatDateTime(reservation.completedAt || reservation.updatedAt)}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
                 )}
               </div>
 
