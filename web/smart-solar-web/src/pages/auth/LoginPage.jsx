@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import {
   getCurrentUser,
@@ -504,6 +504,15 @@ export default function LoginPage() {
               </div>
 
             </div>
+
+            <div className="text-end mb-3">
+  <Link
+    to="/forgot-password"
+    className="account-forgot-link"
+  >
+    Forgot password?
+  </Link>
+</div>
 
 
             {/* LOGIN BUTTON */}

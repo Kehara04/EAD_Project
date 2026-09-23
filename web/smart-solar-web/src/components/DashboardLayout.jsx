@@ -1,9 +1,19 @@
-import { NavLink, useNavigate } from "react-router-dom";
+
+import {
+  Link,
+  NavLink,
+  useNavigate
+} from "react-router-dom";
+
 import {
   getCurrentUser,
   logout
 } from "../services/authService";
 
+
+/* ============================================
+   BACKOFFICE NAVIGATION
+============================================ */
 
 const backofficeLinks = [
   {
@@ -34,6 +44,10 @@ const backofficeLinks = [
 ];
 
 
+/* ============================================
+   GRID OPERATOR NAVIGATION
+============================================ */
+
 const operatorLinks = [
   {
     to: "/operator",
@@ -49,13 +63,14 @@ export default function DashboardLayout({
   children
 }) {
 
-  const navigate =
-    useNavigate();
+  const navigate = useNavigate();
+
+  const user = getCurrentUser();
 
 
-  const user =
-    getCurrentUser();
-
+  /* ==========================================
+     ROLE-BASED NAVIGATION
+  ========================================== */
 
   const links =
     user.role === "Backoffice"
@@ -63,33 +78,33 @@ export default function DashboardLayout({
       : operatorLinks;
 
 
+  /* ==========================================
+     LOGOUT
+  ========================================== */
+
   function handleLogout() {
 
     logout();
 
-    navigate(
-      "/",
-      {
-        replace: true
-      }
-    );
+    navigate("/", {
+      replace: true
+    });
+
   }
 
 
   return (
     <div className="app-shell">
 
-      {/* =========================================
+      {/* ======================================
           SIDEBAR
-      ========================================== */}
+      ======================================= */}
 
       <aside className="sidebar">
 
         <div className="sidebar-main">
 
-          {/* =====================================
-              OFFICIAL SMART SOLAR LOGO
-          ====================================== */}
+          {/* OFFICIAL SMART SOLAR LOGO */}
 
           <div className="brand-block brand-block-logo">
 
@@ -102,36 +117,30 @@ export default function DashboardLayout({
           </div>
 
 
-          {/* =====================================
-              NAVIGATION
-          ====================================== */}
+          {/* WORKSPACE NAVIGATION */}
 
           <div className="sidebar-label">
             Workspace
           </div>
 
 
-          <nav className="sidebar-nav">
+          <nav
+            className="sidebar-nav"
+            aria-label="Workspace navigation"
+          >
 
             {links.map((link) => (
 
               <NavLink
-
                 key={link.to}
-
                 to={link.to}
-
                 end={
-                  link.to === "/backoffice"
-                  ||
+                  link.to === "/backoffice" ||
                   link.to === "/operator"
                 }
-
                 className={({ isActive }) =>
                   `sidebar-link ${
-                    isActive
-                      ? "active"
-                      : ""
+                    isActive ? "active" : ""
                   }`
                 }
               >
@@ -153,9 +162,9 @@ export default function DashboardLayout({
         </div>
 
 
-        {/* =========================================
+        {/* ======================================
             SIDEBAR FOOTER
-        ========================================== */}
+        ======================================= */}
 
         <div className="sidebar-footer">
 
@@ -187,16 +196,12 @@ export default function DashboardLayout({
           </div>
 
 
-          {/* LOGOUT */}
+          {/* SIGN OUT */}
 
           <button
-
             type="button"
-
             className="sidebar-logout"
-
             onClick={handleLogout}
-
           >
 
             <span className="logout-icon">
@@ -213,7 +218,6 @@ export default function DashboardLayout({
           <div className="sidebar-energy-art">
 
             <div className="sidebar-energy-overlay" />
-
 
             <div className="sidebar-energy-copy">
 
@@ -240,15 +244,15 @@ export default function DashboardLayout({
       </aside>
 
 
-      {/* =========================================
+      {/* ======================================
           MAIN CONTENT
-      ========================================== */}
+      ======================================= */}
 
       <main className="main-content">
 
-        {/* =====================================
-            TOPBAR
-        ====================================== */}
+        {/* ====================================
+            HEADER
+        ===================================== */}
 
         <header className="topbar">
 
@@ -281,24 +285,27 @@ export default function DashboardLayout({
 
               CLEAN ENERGY
 
-              <span>
-                •
-              </span>
+              <span>•</span>
 
               CONNECTED
 
-              <span>
-                •
-              </span>
+              <span>•</span>
 
               SUSTAINABLE
 
             </div>
 
 
-            {/* LOGGED IN USER */}
+            {/* ==================================
+                CLICKABLE PROFILE
+            ================================== */}
 
-            <div className="topbar-user">
+            <Link
+              to="/account/profile"
+              className="topbar-user topbar-profile-link"
+              aria-label="Open my profile"
+              title="View my profile"
+            >
 
               <div className="avatar avatar-light">
 
@@ -321,16 +328,35 @@ export default function DashboardLayout({
 
               </div>
 
-            </div>
+
+              <span
+                className="profile-chevron"
+                aria-hidden="true"
+              >
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="m9 18 6-6-6-6" />
+                </svg>
+              </span>
+
+            </Link>
 
           </div>
 
         </header>
 
 
-        {/* =====================================
+        {/* ====================================
             PAGE CONTENT
-        ====================================== */}
+        ===================================== */}
 
         <section className="content-area">
           {children}

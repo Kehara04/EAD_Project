@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { Link } from "react-router-dom";
 import DashboardLayout from "../../components/DashboardLayout";
 import StatusBadge from "../../components/StatusBadge";
 import {
@@ -759,34 +760,48 @@ export default function UserManagementPage() {
                             )}
                           </td>
 
-                          <td className="text-end">
-                            <button
-                              type="button"
-                              className={
-                                user.status ===
-                                "Active"
-                                  ? "btn btn-outline-danger btn-sm action-button"
-                                  : "btn btn-outline-success btn-sm action-button"
-                              }
-                              disabled={
-                                actionId ===
-                                user.id
-                              }
-                              onClick={() =>
-                                handleStatusChange(
-                                  user
-                                )
-                              }
-                            >
-                              {actionId ===
-                              user.id
-                                ? "Updating..."
-                                : user.status ===
-                                    "Active"
-                                  ? "Deactivate"
-                                  : "Activate"}
-                            </button>
-                          </td>
+                          
+<td className="text-end">
+
+  <div className="d-flex justify-content-end align-items-center gap-2">
+
+    {/* ====================================
+        EDIT USER
+    ==================================== */}
+
+    <Link
+      to={`/backoffice/users/${user.id}/edit`}
+      className="btn btn-outline-success btn-sm action-button"
+    >
+      Edit
+    </Link>
+
+
+    {/* ====================================
+        ACTIVATE / DEACTIVATE USER
+        Existing functionality unchanged
+    ==================================== */}
+
+    <button
+      type="button"
+      className={
+        user.status === "Active"
+          ? "btn btn-outline-danger btn-sm action-button"
+          : "btn btn-outline-success btn-sm action-button"
+      }
+      disabled={actionId === user.id}
+      onClick={() => handleStatusChange(user)}
+    >
+      {actionId === user.id
+        ? "Updating..."
+        : user.status === "Active"
+          ? "Deactivate"
+          : "Activate"}
+    </button>
+
+  </div>
+
+</td>
                         </tr>
                       )
                     )}

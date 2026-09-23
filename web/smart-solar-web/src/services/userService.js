@@ -15,6 +15,15 @@ export async function createUser(data) {
   return response.data;
 }
 
+export async function updateUser(id, data) {
+  const response = await apiClient.put(
+    `/users/${id}`,
+    data
+  );
+
+  return response.data;
+}
+
 export async function updateUserStatus(id, status) {
   const response = await apiClient.patch(
     `/users/${id}/status`,

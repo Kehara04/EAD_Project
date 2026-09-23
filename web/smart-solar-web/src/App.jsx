@@ -1,3 +1,4 @@
+
 import {
   BrowserRouter,
   Navigate,
@@ -29,18 +30,51 @@ import OperatorHome
 import ProtectedRoute
   from "./components/ProtectedRoute";
 
+// Account management
+import MyProfilePage
+  from "./pages/account/MyProfilePage";
+
+import ChangePasswordPage
+  from "./pages/account/ChangePasswordPage";
+
+import ForgotPasswordPage
+  from "./pages/auth/ForgotPasswordPage";
+
+import ResetPasswordPage
+  from "./pages/auth/ResetPasswordPage";
+
+import EditUserPage
+  from "./pages/backoffice/EditUserPage";
+
+
 export default function App() {
   return (
-
     <BrowserRouter>
 
       <Routes>
 
+        {/* =====================================
+            LOGIN
+        ====================================== */}
+
         <Route
           path="/"
-          element={
-            <LoginPage />
-          }
+          element={<LoginPage />}
+        />
+
+
+        {/* =====================================
+            PUBLIC PASSWORD RECOVERY
+        ====================================== */}
+
+        <Route
+          path="/forgot-password"
+          element={<ForgotPasswordPage />}
+        />
+
+        <Route
+          path="/reset-password"
+          element={<ResetPasswordPage />}
         />
 
 
@@ -49,109 +83,62 @@ export default function App() {
         ====================================== */}
 
         <Route
-
           path="/backoffice"
-
           element={
-
-            <ProtectedRoute
-              roles={[
-                "Backoffice"
-              ]}
-            >
-
+            <ProtectedRoute roles={["Backoffice"]}>
               <BackofficeDashboard />
-
             </ProtectedRoute>
-
           }
-
         />
 
-
         <Route
-
           path="/backoffice/users"
-
           element={
-
-            <ProtectedRoute
-              roles={[
-                "Backoffice"
-              ]}
-            >
-
+            <ProtectedRoute roles={["Backoffice"]}>
               <UserManagementPage />
-
             </ProtectedRoute>
-
           }
-
         />
 
-
         <Route
-
           path="/backoffice/prosumers"
-
           element={
-
-            <ProtectedRoute
-              roles={[
-                "Backoffice"
-              ]}
-            >
-
+            <ProtectedRoute roles={["Backoffice"]}>
               <ProsumerManagementPage />
-
             </ProtectedRoute>
-
           }
-
         />
 
-
         <Route
-
           path="/backoffice/stations"
-
           element={
-
-            <ProtectedRoute
-              roles={[
-                "Backoffice"
-              ]}
-            >
-
+            <ProtectedRoute roles={["Backoffice"]}>
               <StationManagementPage />
-
             </ProtectedRoute>
-
           }
+        />
 
+        <Route
+          path="/backoffice/reservations"
+          element={
+            <ProtectedRoute roles={["Backoffice"]}>
+              <ReservationManagementPage />
+            </ProtectedRoute>
+          }
         />
 
 
-        {/* MEMBER 3 */}
+        {/* =====================================
+            EDIT USER - BACKOFFICE ONLY
+        ====================================== */}
 
         <Route
-
-          path="/backoffice/reservations"
-
+          path="/backoffice/users/:id/edit"
           element={
-
-            <ProtectedRoute
-              roles={[
-                "Backoffice"
-              ]}
-            >
-
-              <ReservationManagementPage />
-
+            <ProtectedRoute roles={["Backoffice"]}>
+              <EditUserPage />
             </ProtectedRoute>
-
           }
-
         />
 
 
@@ -160,41 +147,55 @@ export default function App() {
         ====================================== */}
 
         <Route
-
           path="/operator"
-
           element={
-
-            <ProtectedRoute
-              roles={[
-                "GridOperator"
-              ]}
-            >
-
+            <ProtectedRoute roles={["GridOperator"]}>
               <OperatorHome />
-
             </ProtectedRoute>
-
           }
-
         />
 
 
         {/* =====================================
-            FALLBACK
+            ACCOUNT MANAGEMENT
+            BACKOFFICE + GRID OPERATOR
         ====================================== */}
 
         <Route
+          path="/account/profile"
+          element={
+            <ProtectedRoute
+              roles={["Backoffice", "GridOperator"]}
+            >
+              <MyProfilePage />
+            </ProtectedRoute>
+          }
+        />
 
+        <Route
+          path="/account/change-password"
+          element={
+            <ProtectedRoute
+              roles={["Backoffice", "GridOperator"]}
+            >
+              <ChangePasswordPage />
+            </ProtectedRoute>
+          }
+        />
+
+
+        {/* =====================================
+            FALLBACK - KEEP LAST
+        ====================================== */}
+
+        <Route
           path="*"
-
           element={
             <Navigate
               to="/"
               replace
             />
           }
-
         />
 
       </Routes>
