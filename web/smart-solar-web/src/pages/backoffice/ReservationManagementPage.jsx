@@ -58,11 +58,13 @@ export default function ReservationManagementPage() {
   ] = useState("");
 
 
+  // Load reservation data when the page first mounts.
   useEffect(() => {
     loadReservations();
   }, []);
 
 
+  // Fetch reservations from the API and update the table state.
   async function loadReservations() {
 
     try {
@@ -194,6 +196,7 @@ export default function ReservationManagementPage() {
     ]);
 
 
+  // Approve a pending reservation after a confirmation prompt.
   async function handleApprove(
     reservation
   ) {
@@ -669,10 +672,6 @@ export default function ReservationManagementPage() {
 }
 
 
-/* =========================================
-   SUMMARY BUTTON
-========================================= */
-
 function SummaryButton({
   label,
   value,
@@ -710,10 +709,6 @@ function SummaryButton({
   );
 }
 
-
-/* =========================================
-   RESERVATION ACTION
-========================================= */
 
 function ReservationAction({
   reservation,
@@ -828,10 +823,6 @@ function ReservationAction({
   );
 }
 
-
-/* =========================================
-   DATE HELPERS
-========================================= */
 
 function formatDateTime(value) {
 
