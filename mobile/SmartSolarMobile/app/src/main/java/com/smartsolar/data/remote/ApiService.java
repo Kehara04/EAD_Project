@@ -163,4 +163,16 @@ public interface ApiService {
      */
     @GET("operator/dashboard")
     Call<OperatorDashboardStats> getOperatorDashboard();
+
+    // PASSWORD RECOVERY
+    @POST("auth/forgot-password")
+    Call<okhttp3.ResponseBody> forgotPassword(
+        @Body java.util.Map<String, String> request
+    );
+
+     // CHANGE PASSWORD
+    @POST("account/change-password")
+    Call<okhttp3.ResponseBody> changePassword(
+        @Body java.util.Map<String, String> request
+    );
 }

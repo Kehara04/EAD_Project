@@ -258,6 +258,23 @@
                 app:backgroundTint="@color/solar_green"
                 app:cornerRadius="11dp" />
 
+            <!-- CHANGE PASSWORD -->
+
+<com.google.android.material.button.MaterialButton
+    android:id="@+id/buttonChangePassword"
+    style="@style/Widget.Material3.Button.OutlinedButton"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:layout_marginTop="9dp"
+    android:text="Change password"
+    android:textAllCaps="false"
+    android:textColor="@color/solar_green_dark"
+    android:textSize="14sp"
+    android:textStyle="bold"
+    app:cornerRadius="11dp"
+    app:strokeColor="@color/solar_green"
+    app:strokeWidth="1dp" />
+
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/buttonRequestDeactivation"
                 style="@style/Widget.Material3.Button.OutlinedButton"

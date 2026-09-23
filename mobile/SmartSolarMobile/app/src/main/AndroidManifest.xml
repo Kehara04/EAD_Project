@@ -53,5 +53,13 @@
     android:name=".ui.operator.ScanResultActivity"
     android:exported="false" />
 
+<activity
+    android:name=".ui.auth.ForgotPasswordActivity"
+    android:exported="false" />
+
+<activity
+    android:name=".ui.prosumer.ChangePasswordActivity"
+    android:exported="false" />
+
 </application>
 </manifest>

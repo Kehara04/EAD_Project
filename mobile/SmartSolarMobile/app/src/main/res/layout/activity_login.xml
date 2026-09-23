@@ -308,6 +308,20 @@
                         app:backgroundTint="@color/solar_green"
                         app:cornerRadius="12dp" />
 
+                    <!-- FORGOT PASSWORD -->
+
+<com.google.android.material.button.MaterialButton
+    android:id="@+id/buttonForgotPassword"
+    style="@style/Widget.Material3.Button.TextButton"
+    android:layout_width="match_parent"
+    android:layout_height="48dp"
+    android:layout_marginTop="5dp"
+    android:text="Forgot password?"
+    android:textAllCaps="false"
+    android:textColor="@color/solar_green_dark"
+    android:textSize="12sp"
+    android:textStyle="bold" />
+
 
                     <!-- DIVIDER -->
 
