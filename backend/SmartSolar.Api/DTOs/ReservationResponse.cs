@@ -1,5 +1,17 @@
+/*
+ * File: ReservationResponse.cs
+ * Project: Smart Solar Microgrid Trading System
+ * Component: Energy Slot Reservation Management
+ *
+ * Description:
+ * Defines the reservation information returned by the API.
+ *
+ * Combines reservation details with the associated prosumer,
+ * station, booking slot, schedule, and current status.
+ */
 namespace SmartSolar.Api.DTOs;
 
+// Provides reservation information to the web and mobile applications.
 public class ReservationResponse
 {
     public string Id { get; set; } =

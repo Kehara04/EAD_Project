@@ -1,3 +1,24 @@
+/*
+ * File: ReservationService.cs
+ * Project: Smart Solar Microgrid Trading System
+ * Component: Energy Slot Reservation Management
+ *
+ * Description:
+ * Implements the core business logic for energy reservations.
+ *
+ * Responsibilities:
+ * - Generate bookable slots based on station configuration.
+ * - Retrieve available slots for a selected schedule.
+ * - Create and retrieve prosumer reservations.
+ * - Validate the seven-day reservation window.
+ * - Enforce the twelve-hour update and cancellation rule.
+ * - Prevent conflicting bookings for the same energy slot.
+ * - Update, cancel, and approve reservations.
+ * - Check whether stations have active reservations.
+ *
+ * Reservation business rules are enforced by the backend
+ * rather than relying only on client-side validation.
+ */
 using MongoDB.Driver;
 using SmartSolar.Api.Constants;
 using SmartSolar.Api.Data;
@@ -17,11 +38,7 @@ public class ReservationService
         _context = context;
     }
 
-
-    /* =========================================
-       GET ALL RESERVATIONS
-    ========================================= */
-
+    // Retrieves all reservations for Backoffice management.
     public async Task<List<ReservationResponse>>
         GetAllAsync(
             string? status = null,
@@ -115,11 +132,7 @@ public class ReservationService
         return responses;
     }
 
-
-    /* =========================================
-       PROSUMER RESERVATIONS
-    ========================================= */
-
+    // Retrieves reservations belonging to the authenticated prosumer with optional filtering.
     public async Task<List<ReservationResponse>>
         GetForProsumerAsync(
             string prosumerId,
@@ -205,11 +218,7 @@ public class ReservationService
         return responses;
     }
 
-
-    /* =========================================
-       GET ONE
-    ========================================= */
-
+    // Retrieves a reservation using its unique identifier.
     public async Task<ReservationResponse?>
         GetByIdAsync(
             string id)
@@ -231,11 +240,7 @@ public class ReservationService
         );
     }
 
-
-    /* =========================================
-       CREATE/SYNC PHYSICAL BOOKING SLOTS
-    ========================================= */
-
+    // Creates or synchronizes bookable slots based on the station's configured total slot count.
     public async Task EnsureStationSlotsAsync(
         string stationId)
     {
@@ -264,9 +269,6 @@ public class ReservationService
                 .ToListAsync();
 
 
-        /*
-         * Create missing slot records.
-         */
         for (
             int number = 1;
             number <= station.TotalSlots;
@@ -311,12 +313,6 @@ public class ReservationService
                 );
         }
 
-
-        /*
-         * If station slot count is reduced,
-         * disable extra slots instead of
-         * deleting history.
-         */
         foreach (
             var slot in existing
         )
@@ -351,11 +347,7 @@ public class ReservationService
         }
     }
 
-
-    /* =========================================
-       AVAILABLE SLOTS
-    ========================================= */
-
+    // Checks slot availability for the selected station, date, and time.
     public async Task<List<AvailableSlotResponse>>
         GetAvailableSlotsAsync(
             string stationId,
@@ -418,10 +410,6 @@ public class ReservationService
             scheduledAt;
 
 
-        /*
-         * One reservation occupies one
-         * physical slot for one hour.
-         */
         var end =
             scheduledAt.AddHours(1);
 
@@ -476,11 +464,7 @@ public class ReservationService
             .ToList();
     }
 
-
-    /* =========================================
-       CREATE RESERVATION
-    ========================================= */
-
+    // Validates the booking rules and creates a new pending energy reservation.
     public async Task<ReservationResponse>
         CreateAsync(
             string prosumerId,
@@ -557,10 +541,6 @@ public class ReservationService
         );
 
 
-        /*
-         * Prevent a Prosumer from making
-         * overlapping reservations.
-         */
         var prosumerReservations =
             await _context.Reservations
                 .Find(x =>
@@ -639,12 +619,8 @@ public class ReservationService
             reservation
         );
     }
-
-
-    /* =========================================
-       UPDATE RESERVATION
-    ========================================= */
-
+    
+    // Updates an existing reservation after validating the twelve-hour rule and slot availability.
     public async Task<ReservationResponse?>
         UpdateAsync(
             string id,
@@ -761,10 +737,6 @@ public class ReservationService
                     request.Notes
                 )
 
-                /*
-                 * Changed reservations go
-                 * back to Pending.
-                 */
                 .Set(
                     x => x.Status,
                     ReservationStatuses
@@ -793,11 +765,7 @@ public class ReservationService
         );
     }
 
-
-    /* =========================================
-       CANCEL
-    ========================================= */
-
+    // Cancels a reservation when at least twelve hours remain before its scheduled time.
     public async Task<ReservationResponse?>
         CancelAsync(
             string id,
@@ -852,11 +820,7 @@ public class ReservationService
         );
     }
 
-
-    /* =========================================
-       APPROVE - BACKOFFICE
-    ========================================= */
-
+    // Approves a pending reservation following Backoffice authorization.
     public async Task<ReservationResponse?>
         ApproveAsync(
             string id)
@@ -925,14 +889,7 @@ public class ReservationService
         );
     }
 
-
-    /* =========================================
-       CHECK ACTIVE STATION RESERVATIONS
-
-       Member 2 uses this when trying to
-       deactivate a station.
-    ========================================= */
-
+    // Checks whether a station has active future reservations before allowing deactivation.
     public async Task<bool>
         HasActiveReservationsAsync(
             string stationId)
@@ -960,11 +917,8 @@ public class ReservationService
             .AnyAsync();
     }
 
-
-    /* =========================================
-       PRIVATE VALIDATION
-    ========================================= */
-
+    // Validates that the reservation date is within the allowed booking period.
+    // Restrict advance bookings to a maximum of seven days.
     private static void
         ValidateBookingDate(
             DateTime scheduledAt)
@@ -994,7 +948,7 @@ public class ReservationService
         }
     }
 
-
+    // Checks whether an existing reservation is eligible for modification.(12 hrs rule)
     private static void
         EnsureCanModify(
             EnergyReservation reservation)
@@ -1031,7 +985,7 @@ public class ReservationService
         }
     }
 
-
+    // Verifies that the selected station and booking slot are available.(prevent double booking)
     private async Task
         EnsureSlotAvailableAsync(
             string stationId,
@@ -1086,11 +1040,7 @@ public class ReservationService
         }
     }
 
-
-    /* =========================================
-       RESPONSE MAPPING
-    ========================================= */
-
+    // Converts reservation data into a response containing associated prosumer and station details.
     private async Task<ReservationResponse>
         ToResponseAsync(
             EnergyReservation reservation)

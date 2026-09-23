@@ -1,8 +1,21 @@
+/*
+ * File: EnergyBookingSlot.cs
+ * Project: Smart Solar Microgrid Trading System
+ * Component: Energy Slot Reservation Management
+ *
+ * Description:
+ * Represents an individual bookable energy slot belonging
+ * to a solar station.
+ *
+ * Each slot contains its station reference, slot number,
+ * label, activation status, and creation timestamp.
+ */
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace SmartSolar.Api.Models;
 
+// Defines the MongoDB model for an individual station booking slot.
 public class EnergyBookingSlot
 {
     [BsonId]

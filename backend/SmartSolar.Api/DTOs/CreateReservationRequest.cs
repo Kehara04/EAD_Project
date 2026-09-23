@@ -1,7 +1,19 @@
+/*
+ * File: CreateReservationRequest.cs
+ * Project: Smart Solar Microgrid Trading System
+ * Component: Energy Slot Reservation Management
+ *
+ * Description:
+ * Defines the request data required to create an energy reservation.
+ *
+ * Accepts the selected station, booking slot, scheduled date
+ * and time, and optional notes from the prosumer.
+ */
 using System.ComponentModel.DataAnnotations;
 
 namespace SmartSolar.Api.DTOs;
 
+// Defines the information received from the mobile application when creating a reservation.
 public class CreateReservationRequest
 {
     [Required(

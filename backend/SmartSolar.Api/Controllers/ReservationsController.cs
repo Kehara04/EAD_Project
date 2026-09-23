@@ -1,3 +1,18 @@
+/*
+ * File: ReservationsController.cs
+ * Project: Smart Solar Microgrid Trading System
+ * Component: Energy Slot Reservation Management
+ *
+ * Description:
+ * Exposes REST API endpoints for managing energy reservations.
+ *
+ * Supports available-slot retrieval, reservation creation,
+ * reservation history, details, updates, cancellation,
+ * and Backoffice approval.
+ *
+ * Uses role-based authorization and delegates reservation
+ * business logic to ReservationService.
+ */
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -7,6 +22,7 @@ using SmartSolar.Api.Services;
 
 namespace SmartSolar.Api.Controllers;
 
+// Defines the reservation API and requires authentication for all endpoints.
 [ApiController]
 [Route("api/[controller]")]
 [Authorize]
@@ -23,11 +39,7 @@ public class ReservationsController
         _service = service;
     }
 
-
-    /* =========================================
-       AVAILABLE SLOTS
-    ========================================= */
-
+    // Retrieves all reservations for authorized Backoffice users.
     [HttpGet("available-slots")]
     public async Task<IActionResult>
         AvailableSlots(
@@ -61,11 +73,7 @@ public class ReservationsController
         }
     }
 
-
-    /* =========================================
-       CREATE
-    ========================================= */
-
+    // Creates a new energy reservation for an authenticated Prosumer
     [Authorize(
         Roles = UserRoles.Prosumer
     )]
@@ -121,11 +129,7 @@ public class ReservationsController
         }
     }
 
-
-    /* =========================================
-       CURRENT PROSUMER RESERVATIONS
-    ========================================= */
-
+    // Retrieves the authenticated Prosumer's reservation history.
     [Authorize(
         Roles = UserRoles.Prosumer
     )]
@@ -164,11 +168,7 @@ public class ReservationsController
         return Ok(result);
     }
 
-
-    /* =========================================
-       GET SINGLE
-    ========================================= */
-
+    // Retrieves the details of a reservation using its identifier.
     [HttpGet("{id}")]
     public async Task<IActionResult>
         GetById(
@@ -189,12 +189,6 @@ public class ReservationsController
                 }
             );
         }
-
-
-        /*
-         * A Prosumer may only view his/her
-         * own reservation.
-         */
         if (
             User.IsInRole(
                 UserRoles.Prosumer
@@ -218,11 +212,7 @@ public class ReservationsController
         return Ok(result);
     }
 
-
-    /* =========================================
-       UPDATE
-    ========================================= */
-
+    // Updates an existing reservation belonging to the authenticated Prosumer.
     [Authorize(
         Roles = UserRoles.Prosumer
     )]
@@ -284,11 +274,7 @@ public class ReservationsController
         }
     }
 
-
-    /* =========================================
-       CANCEL
-    ========================================= */
-
+    // Cancels an existing reservation belonging to the authenticated Prosumer.
     [Authorize(
         Roles = UserRoles.Prosumer
     )]
@@ -348,11 +334,7 @@ public class ReservationsController
         }
     }
 
-
-    /* =========================================
-       BACKOFFICE - ALL RESERVATIONS
-    ========================================= */
-
+    // Retrieves all reservations for authorized Backoffice users.
     [Authorize(
         Roles = UserRoles.Backoffice
     )]
@@ -374,11 +356,7 @@ public class ReservationsController
         );
     }
 
-
-    /* =========================================
-       BACKOFFICE - APPROVE
-    ========================================= */
-
+    // Allows authorized Backoffice users to approve reservations.
     [Authorize(
         Roles = UserRoles.Backoffice
     )]
@@ -421,23 +399,9 @@ public class ReservationsController
         }
     }
 
-
-    /* =========================================
-       GET PROSUMER ID FROM JWT
-    ========================================= */
-
+    // Extracts the Prosumer identifier from the authenticated JWT claims.
     private string? GetProsumerId()
     {
-        /*
-         * Your current project stores
-         * reference_id/referenceId in the
-         * authenticated session.
-         *
-         * Supporting both forms makes the
-         * endpoint tolerant of the JWT naming
-         * already used in your project.
-         */
-
         return
             User.FindFirst(
                 "referenceId"
