@@ -33,6 +33,9 @@ public class OperatorDashboardResponse
     // Per-station breakdown of completed transfers today.
     public List<StationDashboardSummary> StationSummaries { get; set; } =
         new List<StationDashboardSummary>();
+    // Recent completed reservations history
+    public List<ReservationResponse> CompletedHistory { get; set; } =
+        new List<ReservationResponse>();
 }
 
 
