@@ -76,7 +76,6 @@ export default function StationAddressField({ value, location, onChange, onSelec
       )}
       <p className="small text-muted mt-2 mb-0">
         Address search by <a href="https://www.geoapify.com/" target="_blank" rel="noopener noreferrer">Geoapify</a>
-        {" · "}© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap contributors</a>
       </p>
     </div>
   );

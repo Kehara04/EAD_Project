@@ -11,7 +11,6 @@
 <string name="stations_session_expired">Your session has expired. Please sign in again.</string>
 <string name="stations_count">Active stations shown: %1$d. Tap a marker for details.</string>
 <string name="station_details">%1$s · %2$d slots available · %3$s</string>
-<string name="osm_attribution">© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a></string>
 <string name="location_my_location">My location</string>
 <string name="location_you">You are here</string>
 <string name="location_locating">Finding your location…</string>
@@ -56,4 +55,9 @@ Longitude: %2$.5f</string>
 <string name="station_detail_failed">Could not refresh. Showing previously loaded details; availability may have changed.</string>
 <string name="station_detail_removed">This station is no longer available. Close and refresh the station list.</string>
 <string name="smart_solar_logo_description">SmartSolars — Powering a Smarter Tomorrow</string>
+<string name="google_map_loading">Loading Google Maps…</string>
+<string name="google_map_key_missing">Google Maps is not configured. Station search and the station list are still available.</string>
+<string name="google_map_services_missing">Google Play services are needed to display this map. Update them and reopen the map.</string>
+<string name="google_map_unavailable">Map is taking longer than expected. Check your connection or try reopening the map.</string>
+<string name="stations_loaded_without_map">%1$d stations loaded. Use the station list while the map is unavailable.</string>
 </resources>
