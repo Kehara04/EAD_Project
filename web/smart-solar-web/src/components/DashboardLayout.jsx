@@ -225,7 +225,6 @@ export default function DashboardLayout({
 
       </aside>
 
-        //MAIN CONTENT
       <main className="main-content">
 
         <header className="topbar">
@@ -322,7 +321,6 @@ export default function DashboardLayout({
 
         </header>
 
-          //PAGE CONTENT
         <section className="content-area">
           {children}
         </section>

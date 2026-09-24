@@ -161,11 +161,7 @@ public class ReservationActivity
                 );
 
 
-        findViewById(
-                R.id.buttonReservationBack
-        ).setOnClickListener(
-                v -> finish()
-        );
+        ((com.google.android.material.appbar.MaterialToolbar) findViewById(R.id.buttonReservationBack)).setNavigationOnClickListener(v -> finish());
 
 
         dateButton.setOnClickListener(

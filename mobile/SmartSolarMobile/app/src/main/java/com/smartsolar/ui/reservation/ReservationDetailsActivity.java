@@ -181,9 +181,9 @@ public class ReservationDetailsActivity
                 );
 
 
-        findViewById(
+        ((com.google.android.material.appbar.MaterialToolbar) findViewById(
                 R.id.buttonReservationDetailBack
-        ).setOnClickListener(
+        )).setNavigationOnClickListener(
                 v -> finish()
         );
 

@@ -171,11 +171,7 @@ public class UpdateReservationActivity extends AppCompatActivity {
         }
 
 
-        findViewById(
-                R.id.buttonUpdateReservationBack
-        ).setOnClickListener(
-                v -> finish()
-        );
+        ((com.google.android.material.appbar.MaterialToolbar) findViewById(R.id.buttonUpdateReservationBack)).setNavigationOnClickListener(v -> finish());
 
 
         dateButton.setOnClickListener(

@@ -90,8 +90,8 @@ public class ProfileActivity extends AppCompatActivity {
                 R.id.buttonChangePassword
         );
 
-        findViewById(R.id.buttonProfileBack)
-                .setOnClickListener(v -> finish());
+        ((com.google.android.material.appbar.MaterialToolbar) findViewById(R.id.buttonProfileBack))
+                .setNavigationOnClickListener(v -> finish());
 
 
         editButton.setOnClickListener(

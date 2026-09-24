@@ -91,9 +91,12 @@ public class QrDisplayActivity extends AppCompatActivity {
         progressBar  = findViewById(R.id.progressQrDisplay);
         qrCard       = findViewById(R.id.cardQrContent);
 
-        // Back button.
-        findViewById(R.id.buttonQrBack)
-                .setOnClickListener(v -> finish());
+        // Back button in the top toolbar
+        ((com.google.android.material.appbar.MaterialToolbar) findViewById(R.id.toolbarQrDisplay))
+                .setNavigationOnClickListener(v -> finish());
+                
+        // Bottom "Done" button
+        findViewById(R.id.buttonQrBack).setOnClickListener(v -> finish());
 
         loadQrPayload();
     }

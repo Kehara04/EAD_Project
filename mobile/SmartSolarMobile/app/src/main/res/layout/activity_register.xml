@@ -14,10 +14,9 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <!-- IMAGE HERO -->
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="205dp">
+            android:layout_height="225dp">
 
             <ImageView
                 android:layout_width="match_parent"
@@ -29,7 +28,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="#B3004D43" />
+                android:background="#A6004D43" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -39,19 +38,19 @@
                 android:paddingTop="18dp"
                 android:paddingEnd="20dp">
 
-                <com.google.android.material.button.MaterialButton
+                <com.google.android.material.appbar.MaterialToolbar
                     android:id="@+id/buttonBackToLogin"
-                    style="@style/Widget.Material3.Button.TextButton"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="←  Back to sign in"
-                    android:textAllCaps="false"
-                    android:textColor="#E4F4ED" />
+                    android:layout_marginStart="-12dp"
+                    app:navigationIcon="?attr/homeAsUpIndicator"
+                    app:navigationIconTint="#E4F4ED"
+                    android:background="@android:color/transparent" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
+                    android:layout_marginTop="14dp"
                     android:text="PROSUMER REGISTRATION"
                     android:textColor="@color/solar_lime"
                     android:textSize="10sp"
@@ -62,14 +61,14 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:text="Create your account"
-                    android:textColor="@color/white"
-                    android:textSize="27sp"
+                    android:textColor="@android:color/white"
+                    android:textSize="29sp"
                     android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="4dp"
                     android:text="Join the Smart Solar community and start managing your energy journey."
                     android:textColor="#D4E8DF"
                     android:textSize="12sp" />
@@ -83,7 +82,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="-18dp"
             android:orientation="vertical"
             android:paddingStart="17dp"
             android:paddingEnd="17dp"

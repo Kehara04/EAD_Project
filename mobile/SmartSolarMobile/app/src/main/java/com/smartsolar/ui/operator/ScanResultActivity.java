@@ -51,7 +51,6 @@ public class ScanResultActivity extends AppCompatActivity {
     private ApiService apiService;
     private ProgressBar progressBar;
     private MaterialButton confirmButton;
-    private MaterialButton backButton;
 
     // Cached from intent for the confirm call.
     private String reservationId;
@@ -107,10 +106,10 @@ public class ScanResultActivity extends AppCompatActivity {
 
         progressBar   = findViewById(R.id.progressScanResult);
         confirmButton = findViewById(R.id.buttonConfirmTransfer);
-        backButton    = findViewById(R.id.buttonScanResultBack);
 
         // Back button always available.
-        backButton.setOnClickListener(v -> finish());
+        ((com.google.android.material.appbar.MaterialToolbar) findViewById(R.id.buttonScanResultBack))
+                .setNavigationOnClickListener(v -> finish());
 
         if (isValid) {
             textResultBadge.setText("✓ QR Verified");

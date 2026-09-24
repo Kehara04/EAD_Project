@@ -46,7 +46,7 @@ public class EditProfileActivity extends AppCompatActivity {
         saveButton = findViewById(R.id.buttonSaveProfile);
         progressBar = findViewById(R.id.editProfileProgress);
 
-        findViewById(R.id.buttonEditProfileBack).setOnClickListener(v -> finish());
+        ((com.google.android.material.appbar.MaterialToolbar) findViewById(R.id.buttonEditProfileBack)).setNavigationOnClickListener(v -> finish());
         saveButton.setOnClickListener(v -> saveProfile());
 
         loadCurrentProfile();

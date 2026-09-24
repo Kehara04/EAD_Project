@@ -137,9 +137,9 @@ public class MyReservationsActivity extends AppCompatActivity {
         );
 
 
-        findViewById(
+        ((com.google.android.material.appbar.MaterialToolbar) findViewById(
                 R.id.buttonReservationsBack
-        ).setOnClickListener(
+        )).setNavigationOnClickListener(
                 v -> finish()
         );
 

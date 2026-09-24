@@ -35,14 +35,14 @@
                 android:orientation="vertical"
                 android:padding="20dp">
 
-                <com.google.android.material.button.MaterialButton
+                <com.google.android.material.appbar.MaterialToolbar
                     android:id="@+id/buttonReservationDetailBack"
-                    style="@style/Widget.Material3.Button.TextButton"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="←  Reservations"
-                    android:textAllCaps="false"
-                    android:textColor="@android:color/white" />
+                    android:layout_marginStart="-12dp"
+                    app:navigationIcon="?attr/homeAsUpIndicator"
+                    app:navigationIconTint="@android:color/white"
+                    android:background="@android:color/transparent" />
 
                 <TextView
                     android:layout_width="wrap_content"

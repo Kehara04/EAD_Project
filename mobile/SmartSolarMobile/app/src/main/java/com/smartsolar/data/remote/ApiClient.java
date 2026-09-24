@@ -18,9 +18,9 @@ public final class ApiClient {
 
     // Development: run connect-backend.sh after connecting a phone or starting an emulator.
     // ADB reverse forwards this device-local port to the backend on the development computer.
-    private static final String BASE_URL = "http://10.0.2.2:5103/api/";
+    //private static final String BASE_URL = "http://10.0.2.2:5103/api/";
     //private static final String BASE_URL = "http://127.0.0.1:5103/api/";
-    //private static final String BASE_URL = "http://172.20.10.3:5103/api/";
+    private static final String BASE_URL = "http://172.20.10.3:5103/api/";
     private ApiClient() {
     }
 

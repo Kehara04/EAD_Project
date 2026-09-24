@@ -27,14 +27,14 @@
             android:gravity="center_vertical"
             android:layout_marginBottom="20dp">
 
-            <com.google.android.material.button.MaterialButton
+            <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/buttonScanResultBack"
-                style="@style/Widget.Material3.Button.TextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="← Back"
-                android:textColor="@color/solar_green_dark"
-                android:textAllCaps="false"/>
+                android:layout_marginStart="-12dp"
+                app:navigationIcon="?attr/homeAsUpIndicator"
+                app:navigationIconTint="@color/solar_green_dark"
+                android:background="@android:color/transparent" />
 
             <TextView
                 android:layout_width="0dp"

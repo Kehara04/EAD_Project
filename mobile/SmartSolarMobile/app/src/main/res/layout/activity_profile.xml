@@ -17,7 +17,7 @@
         <!-- IMAGE HERO -->
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="190dp">
+            android:layout_height="210dp">
 
             <ImageView
                 android:layout_width="match_parent"
@@ -29,7 +29,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="#B8004D43" />
+                android:background="#A6004D43" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -39,19 +39,19 @@
                 android:paddingTop="17dp"
                 android:paddingEnd="18dp">
 
-                <com.google.android.material.button.MaterialButton
+                <com.google.android.material.appbar.MaterialToolbar
                     android:id="@+id/buttonProfileBack"
-                    style="@style/Widget.Material3.Button.TextButton"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="←  Dashboard"
-                    android:textAllCaps="false"
-                    android:textColor="#E0F2EA" />
+                    android:layout_marginStart="-12dp"
+                    app:navigationIcon="?attr/homeAsUpIndicator"
+                    app:navigationIconTint="#E0F2EA"
+                    android:background="@android:color/transparent" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
+                    android:layout_marginTop="14dp"
                     android:text="PROSUMER ACCOUNT"
                     android:textColor="@color/solar_lime"
                     android:textSize="10sp"
@@ -62,8 +62,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:text="My profile"
-                    android:textColor="@color/white"
-                    android:textSize="27sp"
+                    android:textColor="@android:color/white"
+                    android:textSize="29sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -82,7 +82,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="-16dp"
             android:orientation="vertical"
             android:paddingStart="17dp"
             android:paddingEnd="17dp"
@@ -100,18 +99,21 @@
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
                 app:cardBackgroundColor="@color/solar_surface"
-                app:cardCornerRadius="20dp"
-                app:cardElevation="3dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="2dp"
                 app:strokeColor="@color/solar_border"
                 app:strokeWidth="1dp">
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="18dp">
-
+                    android:paddingTop="12dp"
+                    android:paddingBottom="12dp"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp">
+                    
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -119,118 +121,191 @@
                         android:textColor="@color/solar_green"
                         android:textSize="10sp"
                         android:textStyle="bold" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
 
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                app:cardBackgroundColor="@color/solar_surface"
+                app:cardCornerRadius="10dp"
+                app:strokeColor="@color/solar_border"
+                app:strokeWidth="1dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="14dp">
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
                         android:text="NIC"
                         android:textColor="@color/solar_text_secondary"
                         android:textSize="10sp"
                         android:textStyle="bold" />
-
                     <TextView
                         android:id="@+id/textProfileNic"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
+                        android:layout_marginTop="2dp"
                         android:text="—"
                         android:textColor="@color/solar_text_primary"
                         android:textSize="16sp"
                         android:textStyle="bold" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginTop="15dp"
-                        android:background="@color/solar_border" />
-
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                app:cardBackgroundColor="@color/solar_surface"
+                app:cardCornerRadius="10dp"
+                app:strokeColor="@color/solar_border"
+                app:strokeWidth="1dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="14dp">
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="15dp"
                         android:text="FULL NAME"
                         android:textColor="@color/solar_text_secondary"
                         android:textSize="10sp"
                         android:textStyle="bold" />
-
                     <TextView
                         android:id="@+id/textProfileName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
+                        android:layout_marginTop="2dp"
                         android:text="—"
                         android:textColor="@color/solar_text_primary"
                         android:textSize="15sp" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
 
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                app:cardBackgroundColor="@color/solar_surface"
+                app:cardCornerRadius="10dp"
+                app:strokeColor="@color/solar_border"
+                app:strokeWidth="1dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="14dp">
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="15dp"
                         android:text="EMAIL ADDRESS"
                         android:textColor="@color/solar_text_secondary"
                         android:textSize="10sp"
                         android:textStyle="bold" />
-
                     <TextView
                         android:id="@+id/textProfileEmail"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
+                        android:layout_marginTop="2dp"
                         android:text="—"
                         android:textColor="@color/solar_text_primary"
                         android:textSize="15sp" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
 
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                app:cardBackgroundColor="@color/solar_surface"
+                app:cardCornerRadius="10dp"
+                app:strokeColor="@color/solar_border"
+                app:strokeWidth="1dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="14dp">
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="15dp"
                         android:text="PHONE NUMBER"
                         android:textColor="@color/solar_text_secondary"
                         android:textSize="10sp"
                         android:textStyle="bold" />
-
                     <TextView
                         android:id="@+id/textProfilePhone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
+                        android:layout_marginTop="2dp"
                         android:text="—"
                         android:textColor="@color/solar_text_primary"
                         android:textSize="15sp" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
 
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                app:cardBackgroundColor="@color/solar_surface"
+                app:cardCornerRadius="10dp"
+                app:strokeColor="@color/solar_border"
+                app:strokeWidth="1dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="14dp">
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="15dp"
                         android:text="ADDRESS"
                         android:textColor="@color/solar_text_secondary"
                         android:textSize="10sp"
                         android:textStyle="bold" />
-
                     <TextView
                         android:id="@+id/textProfileAddress"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
+                        android:layout_marginTop="2dp"
                         android:text="—"
                         android:textColor="@color/solar_text_primary"
                         android:textSize="15sp" />
-
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+            
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                app:cardBackgroundColor="@color/solar_surface"
+                app:cardCornerRadius="10dp"
+                app:strokeColor="@color/solar_border"
+                app:strokeWidth="1dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:padding="14dp">
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="15dp"
                         android:text="ACCOUNT STATUS"
                         android:textColor="@color/solar_text_secondary"
                         android:textSize="10sp"
                         android:textStyle="bold" />
-
                     <TextView
                         android:id="@+id/textProfileStatus"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="6dp"
                         android:background="@color/solar_success_background"
                         android:paddingStart="11dp"
                         android:paddingTop="6dp"
@@ -240,9 +315,7 @@
                         android:textColor="@color/solar_success"
                         android:textSize="12sp"
                         android:textStyle="bold" />
-
                 </LinearLayout>
-
             </com.google.android.material.card.MaterialCardView>
 
 

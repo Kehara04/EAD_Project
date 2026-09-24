@@ -107,9 +107,9 @@ public class RegisterActivity extends AppCompatActivity {
         );
 
         // Return to login screen.
-        findViewById(
+        ((com.google.android.material.appbar.MaterialToolbar) findViewById(
                 R.id.buttonBackToLogin
-        ).setOnClickListener(
+        )).setNavigationOnClickListener(
                 v -> finish()
         );
     }

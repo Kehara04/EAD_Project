@@ -40,41 +40,21 @@
             android:paddingBottom="30dp">
 
                  //BRAND / LOGO
-            <com.google.android.material.card.MaterialCardView
+            <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="160dp"
-                app:cardBackgroundColor="@color/white"
-                app:cardCornerRadius="20dp"
-                app:cardElevation="5dp">
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:padding="8dp"
-                    android:contentDescription="@string/smart_solar_logo_description"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/smart_solar_logo" />
-
-            </com.google.android.material.card.MaterialCardView>
-
+                android:padding="8dp"
+                android:contentDescription="@string/smart_solar_logo_description"
+                android:scaleType="fitCenter"
+                android:src="@drawable/smart_solar_logo" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="13dp"
-                android:text="Smart Solar"
-                android:textColor="@color/white"
-                android:textSize="28sp"
-                android:textStyle="bold" />
-
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
+                android:layout_marginTop="12dp"
                 android:text="Microgrid Trading System"
                 android:textColor="#D5E8DF"
-                android:textSize="13sp" />
+                android:textSize="14sp" />
 
 
             <LinearLayout
@@ -154,8 +134,9 @@
 
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:gravity="center"
                         android:text="Welcome back"
                         android:textColor="@color/solar_text_primary"
                         android:textSize="22sp"

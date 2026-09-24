@@ -62,8 +62,7 @@ public class QrScanActivity extends AppCompatActivity {
         scanButton  = findViewById(R.id.buttonStartScan);
 
         // Back button.
-        findViewById(R.id.buttonQrScanBack)
-                .setOnClickListener(v -> finish());
+        ((com.google.android.material.appbar.MaterialToolbar) findViewById(R.id.buttonQrScanBack)).setNavigationOnClickListener(v -> finish());
 
         // Scan QR button.
         scanButton.setOnClickListener(v -> launchScanner());
