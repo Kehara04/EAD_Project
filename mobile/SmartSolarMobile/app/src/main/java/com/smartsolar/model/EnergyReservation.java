@@ -1,3 +1,16 @@
+/*
+ * File: EnergyReservation.java
+ * Project: Smart Solar Microgrid Trading System
+ * Component: Energy Slot Reservation Management
+ *
+ * Description:
+ * Represents an energy reservation retrieved from the backend API.
+ * Contains the associated prosumer, station, booking slot,
+ * scheduled date and time, reservation status, and timestamps.
+ *
+ * This model is used to display reservation details and history
+ * throughout the Android application.
+ */
 package com.smartsolar.model;
 
 public class EnergyReservation {

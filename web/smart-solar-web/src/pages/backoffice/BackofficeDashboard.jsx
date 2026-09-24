@@ -70,11 +70,6 @@ export default function BackofficeDashboard() {
     setError
   ] = useState("");
 
-
-  /* =========================================
-     LOAD DASHBOARD DATA
-  ========================================= */
-
   useEffect(() => {
 
     async function loadDashboard() {
@@ -152,10 +147,6 @@ export default function BackofficeDashboard() {
 
   }, []);
 
-
-  /* =========================================
-     DASHBOARD METRICS
-  ========================================= */
 
   const metrics =
     useMemo(() => {
@@ -266,11 +257,6 @@ export default function BackofficeDashboard() {
       reservations
     ]);
 
-
-  /* =========================================
-     RECENT PROSUMERS
-  ========================================= */
-
   const recentProsumers =
     useMemo(() => {
 
@@ -293,11 +279,6 @@ export default function BackofficeDashboard() {
         );
 
     }, [prosumers]);
-
-
-  /* =========================================
-     RECENT RESERVATIONS
-  ========================================= */
 
   const recentReservations =
     useMemo(() => {
@@ -333,10 +314,6 @@ export default function BackofficeDashboard() {
 
     >
 
-      {/* =====================================
-          ERROR
-      ====================================== */}
-
       {error && (
 
         <div
@@ -347,11 +324,6 @@ export default function BackofficeDashboard() {
         </div>
 
       )}
-
-
-      {/* =====================================
-          ACCOUNT METRICS
-      ====================================== */}
 
       <div className="row g-4 mb-4">
 
@@ -441,11 +413,6 @@ export default function BackofficeDashboard() {
         </div>
 
       </div>
-
-
-      {/* =====================================
-          RESERVATION SECTION
-      ====================================== */}
 
       <div className="card-heading-row flex-wrap gap-3">
 
@@ -559,11 +526,6 @@ export default function BackofficeDashboard() {
 
       </div>
 
-
-      {/* =====================================
-          STATION NETWORK
-      ====================================== */}
-
       <div className="card-heading-row flex-wrap gap-3">
 
         <div>
@@ -658,16 +620,7 @@ export default function BackofficeDashboard() {
 
       </div>
 
-
-      {/* =====================================
-          RECENT CONTENT
-      ====================================== */}
-
       <div className="row g-4">
-
-        {/* =================================
-            RECENT RESERVATIONS
-        ================================== */}
 
         <div className="col-12 col-xl-8">
 
@@ -852,11 +805,6 @@ export default function BackofficeDashboard() {
 
         </div>
 
-
-        {/* =================================
-            QUICK ACTIONS
-        ================================== */}
-
         <div className="col-12 col-xl-4">
 
           <div className="dashboard-card h-100">
@@ -1000,11 +948,6 @@ export default function BackofficeDashboard() {
         </div>
 
       </div>
-
-
-      {/* =====================================
-          RECENT PROSUMERS
-      ====================================== */}
 
       <div className="dashboard-card mt-4">
 
@@ -1154,11 +1097,6 @@ export default function BackofficeDashboard() {
   );
 }
 
-
-/* =========================================
-   DATE
-========================================= */
-
 function formatDate(value) {
 
   if (!value) {
@@ -1189,11 +1127,6 @@ function formatDate(value) {
     }
   ).format(date);
 }
-
-
-/* =========================================
-   DATE + TIME
-========================================= */
 
 function formatDateTime(value) {
 

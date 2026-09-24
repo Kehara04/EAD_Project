@@ -53,11 +53,6 @@ public class ProsumerDashboardActivity
         apiService =
                 ApiClient.create(this);
 
-
-        /* =====================================
-           VIEW REFERENCES
-        ===================================== */
-
         welcomeText =
                 findViewById(
                         R.id.textProsumerWelcome
@@ -99,11 +94,6 @@ public class ProsumerDashboardActivity
                         R.id.buttonLogout
                 );
 
-
-        /* =====================================
-           SESSION INFORMATION
-        ===================================== */
-
         welcomeText.setText(
                 "Hello, "
                         +
@@ -121,11 +111,6 @@ public class ProsumerDashboardActivity
                 )
         );
 
-
-        /* =====================================
-           PROFILE
-        ===================================== */
-
         profileButton.setOnClickListener(
                 v -> {
 
@@ -138,11 +123,6 @@ public class ProsumerDashboardActivity
                     startActivity(intent);
                 }
         );
-
-
-        /* =====================================
-           STATIONS
-        ===================================== */
 
         stationsButton.setOnClickListener(
                 v -> {
@@ -157,11 +137,6 @@ public class ProsumerDashboardActivity
                 }
         );
 
-
-        /* =====================================
-           MEMBER 3 - MY RESERVATIONS
-        ===================================== */
-
         reservationsButton.setOnClickListener(
                 v -> {
 
@@ -175,20 +150,10 @@ public class ProsumerDashboardActivity
                 }
         );
 
-
-        /* =====================================
-           LOGOUT
-        ===================================== */
-
         logoutButton.setOnClickListener(
                 v -> logout()
         );
     }
-
-
-    /* =========================================
-       REFRESH PROFILE WHEN RETURNING
-    ========================================= */
 
     @Override
     protected void onResume() {
@@ -197,11 +162,6 @@ public class ProsumerDashboardActivity
 
         loadProfileSummary();
     }
-
-
-    /* =========================================
-       PROFILE SUMMARY
-    ========================================= */
 
     private void loadProfileSummary() {
 
@@ -282,11 +242,6 @@ public class ProsumerDashboardActivity
                 );
     }
 
-
-    /* =========================================
-       LOGOUT
-    ========================================= */
-
     private void logout() {
 
         sessionManager.logout();
@@ -310,12 +265,8 @@ public class ProsumerDashboardActivity
 
         finish();
     }
-
-
-    /* =========================================
-       NULL SAFE TEXT
-    ========================================= */
-
+    
+    //NULL SAFE TEXT
     private String safe(
             String value) {
 

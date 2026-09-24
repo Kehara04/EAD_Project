@@ -22,11 +22,6 @@ export default function LoginPage() {
   const [loading, setLoading] =
     useState(false);
 
-
-  /* ==========================================
-     REDIRECT ALREADY LOGGED-IN USERS
-  ========================================== */
-
   useEffect(() => {
     const user = getCurrentUser();
 
@@ -52,11 +47,6 @@ export default function LoginPage() {
       );
     }
   }, [navigate]);
-
-
-  /* ==========================================
-     LOGIN
-  ========================================== */
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -125,10 +115,6 @@ export default function LoginPage() {
 
   return (
     <div className="login-page">
-
-      {/* ======================================
-          LEFT IMAGE / INTRODUCTION PANEL
-      ======================================= */}
 
       <section className="login-showcase d-none d-lg-flex">
 
@@ -284,11 +270,6 @@ export default function LoginPage() {
 
       </section>
 
-
-      {/* ======================================
-          RIGHT LOGIN PANEL
-      ======================================= */}
-
       <section className="login-panel">
 
         <div
@@ -308,10 +289,6 @@ export default function LoginPage() {
 
         <div className="login-card-wrap">
 
-          {/* ==================================
-              OFFICIAL LOGO
-          ================================== */}
-
           <div className="login-official-brand">
 
             <img
@@ -321,11 +298,6 @@ export default function LoginPage() {
             />
 
           </div>
-
-
-          {/* ==================================
-              LOGIN HEADING
-          ================================== */}
 
           <div className="login-heading">
 
@@ -343,11 +315,6 @@ export default function LoginPage() {
             </p>
 
           </div>
-
-
-          {/* ==================================
-              LOGIN ACCESS INFORMATION
-          ================================== */}
 
           <div className="login-access-info">
 
@@ -370,11 +337,6 @@ export default function LoginPage() {
 
           </div>
 
-
-          {/* ==================================
-              ERROR
-          ================================== */}
-
           {error && (
             <div
               className="
@@ -387,11 +349,6 @@ export default function LoginPage() {
               {error}
             </div>
           )}
-
-
-          {/* ==================================
-              FORM
-          ================================== */}
 
           <form
             onSubmit={handleSubmit}
@@ -557,11 +514,6 @@ export default function LoginPage() {
 
           </form>
 
-
-          {/* ==================================
-              BOTTOM NOTE
-          ================================== */}
-
           <div className="login-note">
 
             <span />
@@ -587,12 +539,6 @@ export default function LoginPage() {
     </div>
   );
 }
-
-
-/* ============================================
-   ICONS
-============================================ */
-
 
 function EmailIcon() {
   return (

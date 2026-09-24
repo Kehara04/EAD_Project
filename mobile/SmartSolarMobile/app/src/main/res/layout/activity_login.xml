@@ -6,10 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- =====================================================
-         FULL SCREEN BACKGROUND IMAGE
-    ====================================================== -->
-
+         //FULL SCREEN BACKGROUND IMAGE
     <ImageView
         android:id="@+id/loginBackgroundImage"
         android:layout_width="match_parent"
@@ -19,20 +16,13 @@
         android:src="@drawable/smart_solar_mobile_bg" />
 
 
-    <!-- =====================================================
-         GREEN OVERLAY FOR CONSISTENCY WITH WEB
-    ====================================================== -->
-
+         //GREEN OVERLAY FOR CONSISTENCY WITH WEB
     <View
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#4D004D43" />
 
-
-    <!-- =====================================================
-         MAIN SCROLLABLE CONTENT
-    ====================================================== -->
-
+         //MAIN SCROLLABLE CONTENT
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -49,11 +39,7 @@
             android:paddingEnd="20dp"
             android:paddingBottom="30dp">
 
-
-            <!-- =================================================
-                 BRAND / LOGO
-            ================================================== -->
-
+                 //BRAND / LOGO
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="160dp"
@@ -149,11 +135,7 @@
                 android:layout_marginTop="10dp"
                 android:background="@color/solar_lime" />
 
-
-            <!-- =================================================
-                 LOGIN CARD
-            ================================================== -->
-
+                 //LOGIN CARD
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -387,11 +369,7 @@
 
             </com.google.android.material.card.MaterialCardView>
 
-
-            <!-- =================================================
-                 FOOTER TEXT
-            ================================================== -->
-
+                 //FOOTER TEXT
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

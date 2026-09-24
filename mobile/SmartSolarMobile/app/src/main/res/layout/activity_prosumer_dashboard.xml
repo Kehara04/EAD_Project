@@ -14,10 +14,6 @@
         android:orientation="vertical">
 
 
-        <!-- =====================================
-             SMART SOLAR HERO
-        ====================================== -->
-
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="260dp">
@@ -90,10 +86,6 @@
         </FrameLayout>
 
 
-        <!-- =====================================
-             PAGE CONTENT
-        ====================================== -->
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -103,10 +95,6 @@
             android:paddingEnd="17dp"
             android:paddingBottom="30dp">
 
-
-            <!-- =================================
-                 ACCOUNT STATUS CARD
-            ================================== -->
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
@@ -199,10 +187,6 @@
                 android:textStyle="bold" />
 
 
-            <!-- =================================
-                 FIND STATIONS
-            ================================== -->
-
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -254,10 +238,6 @@
 
             </com.google.android.material.card.MaterialCardView>
 
-
-            <!-- =================================
-                 MEMBER 3 - MY RESERVATIONS
-            ================================== -->
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
@@ -311,10 +291,6 @@
             </com.google.android.material.card.MaterialCardView>
 
 
-            <!-- =================================
-                 PROFILE
-            ================================== -->
-
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -366,11 +342,6 @@
                 </LinearLayout>
 
             </com.google.android.material.card.MaterialCardView>
-
-
-            <!-- =================================
-                 LOGOUT
-            ================================== -->
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/buttonLogout"

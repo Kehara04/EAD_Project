@@ -1,4 +1,3 @@
-
 package com.smartsolar.ui.prosumer;
 
 import android.content.Intent;
@@ -12,7 +11,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.button.MaterialButton;
-
 import com.smartsolar.R;
 import com.smartsolar.data.local.SessionManager;
 import com.smartsolar.data.remote.ApiClient;
@@ -52,11 +50,8 @@ public class ProfileActivity extends AppCompatActivity {
     private TextView addressText;
     private TextView statusText;
 
-    // Existing buttons
     private MaterialButton editButton;
     private MaterialButton deactivateButton;
-
-    // New Change Password button
     private MaterialButton changePasswordButton;
 
     private Prosumer currentProsumer;
@@ -85,10 +80,6 @@ public class ProfileActivity extends AppCompatActivity {
         addressText = findViewById(R.id.textProfileAddress);
         statusText = findViewById(R.id.textProfileStatus);
 
-        // ==========================================
-        // BUTTONS
-        // ==========================================
-
         editButton = findViewById(R.id.buttonEditProfile);
 
         deactivateButton = findViewById(
@@ -99,16 +90,9 @@ public class ProfileActivity extends AppCompatActivity {
                 R.id.buttonChangePassword
         );
 
-        // ==========================================
-        // BACK TO DASHBOARD
-        // ==========================================
-
         findViewById(R.id.buttonProfileBack)
                 .setOnClickListener(v -> finish());
 
-        // ==========================================
-        // EDIT PROFILE
-        // ==========================================
 
         editButton.setOnClickListener(
                 v -> startActivity(
@@ -119,10 +103,6 @@ public class ProfileActivity extends AppCompatActivity {
                 )
         );
 
-        // ==========================================
-        // CHANGE PASSWORD - NEW FEATURE
-        // ==========================================
-
         changePasswordButton.setOnClickListener(
                 v -> startActivity(
                         new Intent(
@@ -132,20 +112,14 @@ public class ProfileActivity extends AppCompatActivity {
                 )
         );
 
-        // ==========================================
-        // REQUEST ACCOUNT DEACTIVATION
-        // ==========================================
-
         deactivateButton.setOnClickListener(
                 v -> confirmDeactivation()
         );
     }
 
 
-    /**
-     * Reload the profile whenever the user returns
-     * from Edit Profile or Change Password.
-     */
+
+     //Reload the profile whenever the user returns from Edit Profile or Change Password.
     @Override
     protected void onResume() {
         super.onResume();
@@ -153,11 +127,7 @@ public class ProfileActivity extends AppCompatActivity {
         loadProfile();
     }
 
-
-    /**
-     * Retrieve the authenticated Prosumer profile
-     * from the backend API.
-     */
+     //Retrieve the authenticated Prosumer profile from the backend API.
     private void loadProfile() {
 
         setLoading(true);
@@ -225,10 +195,7 @@ public class ProfileActivity extends AppCompatActivity {
         );
     }
 
-
-    /**
-     * Display the retrieved Prosumer information.
-     */
+     //Display the retrieved Prosumer information.
     private void bindProfile(Prosumer prosumer) {
 
         nicText.setText(
@@ -291,10 +258,8 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
 
-    /**
-     * Show confirmation before requesting
-     * account deactivation.
-     */
+    
+     //Show confirmation before requesting account deactivation.
     private void confirmDeactivation() {
 
         if (
@@ -332,9 +297,7 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
 
-    /**
-     * Send the deactivation request to the API.
-     */
+    //Send the deactivation request to the API.
     private void requestDeactivation() {
 
         setLoading(true);
@@ -405,11 +368,7 @@ public class ProfileActivity extends AppCompatActivity {
         );
     }
 
-
-    /**
-     * Enable or disable profile actions while
-     * an API request is running.
-     */
+     //Enable or disable profile actions while an API request is running.
     private void setLoading(boolean loading) {
 
         progressBar.setVisibility(
@@ -441,11 +400,7 @@ public class ProfileActivity extends AppCompatActivity {
         );
     }
 
-
-    /**
-     * Clear the local SQLite session and
-     * redirect the user to LoginActivity.
-     */
+     //Clear the local SQLite session and redirect the user to LoginActivity.
     private void forceLogout() {
 
         sessionManager.logout();

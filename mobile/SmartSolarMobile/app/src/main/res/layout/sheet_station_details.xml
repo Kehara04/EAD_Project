@@ -17,7 +17,6 @@
         android:paddingEnd="24dp"
         android:paddingBottom="24dp">
 
-        <!-- SECTION LABEL -->
 
         <TextView
             android:layout_width="wrap_content"
@@ -27,8 +26,6 @@
             android:textSize="11sp"
             android:textStyle="bold" />
 
-
-        <!-- STATION NAME -->
 
         <TextView
             android:id="@+id/stationDetailName"
@@ -40,9 +37,6 @@
             android:textSize="24sp"
             android:textStyle="bold" />
 
-
-        <!-- ADDRESS -->
-
         <TextView
             android:id="@+id/stationDetailAddress"
             android:layout_width="match_parent"
@@ -52,18 +46,12 @@
             android:textColor="@color/solar_text_secondary"
             android:textSize="15sp" />
 
-
-        <!-- DIVIDER -->
-
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="18dp"
             android:background="@color/solar_border" />
-
-
-        <!-- CAPACITY -->
 
         <TextView
             android:layout_width="wrap_content"
@@ -83,8 +71,6 @@
             android:textSize="20sp"
             android:textStyle="bold" />
 
-
-        <!-- AVAILABLE SLOTS -->
 
         <TextView
             android:layout_width="wrap_content"
@@ -106,8 +92,6 @@
             android:textStyle="bold" />
 
 
-        <!-- OPERATING HOURS -->
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -127,8 +111,6 @@
             android:textSize="16sp" />
 
 
-        <!-- STATUS -->
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -147,9 +129,6 @@
             android:textColor="@color/solar_green_dark"
             android:textSize="16sp"
             android:textStyle="bold" />
-
-
-        <!-- GPS -->
 
         <TextView
             android:layout_width="wrap_content"
@@ -171,8 +150,6 @@
             android:textSize="15sp" />
 
 
-        <!-- DISTANCE -->
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -192,9 +169,6 @@
             android:textSize="16sp"
             android:textStyle="bold" />
 
-
-        <!-- DISTANCE NOTE -->
-
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -203,8 +177,6 @@
             android:textColor="@color/solar_text_secondary"
             android:textSize="12sp" />
 
-
-        <!-- REFRESH STATUS -->
 
         <TextView
             android:id="@+id/stationDetailRefreshStatus"
@@ -215,9 +187,6 @@
             android:textColor="@color/solar_text_secondary"
             android:textSize="12sp"
             android:visibility="gone" />
-
-
-        <!-- RESERVATION BUTTON -->
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/buttonReserveStation"
@@ -231,9 +200,6 @@
             android:textStyle="bold"
             app:backgroundTint="@color/solar_green"
             app:cornerRadius="12dp" />
-
-
-        <!-- CLOSE BUTTON -->
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/buttonCloseStation"

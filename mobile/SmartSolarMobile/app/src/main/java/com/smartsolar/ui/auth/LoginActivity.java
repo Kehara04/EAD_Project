@@ -12,7 +12,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
-
 import com.smartsolar.R;
 import com.smartsolar.data.local.SessionManager;
 import com.smartsolar.data.remote.ApiClient;
@@ -39,8 +38,6 @@ public class LoginActivity extends AppCompatActivity {
 
     private MaterialButton loginButton;
     private MaterialButton registerButton;
-
-    // New Forgot Password button.
     private MaterialButton forgotPasswordButton;
 
     private ProgressBar progressBar;
@@ -48,7 +45,6 @@ public class LoginActivity extends AppCompatActivity {
 
     private ApiService apiService;
     private SessionManager sessionManager;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,11 +103,6 @@ public class LoginActivity extends AppCompatActivity {
                         )
                 )
         );
-
-
-        // ==========================================
-        // NEW: FORGOT PASSWORD NAVIGATION
-        // ==========================================
 
         forgotPasswordButton.setOnClickListener(
                 v -> startActivity(

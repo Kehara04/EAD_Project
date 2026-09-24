@@ -29,19 +29,10 @@ import retrofit2.http.Query;
 
 public interface ApiService {
 
-    /* =========================================
-       AUTHENTICATION
-    ========================================= */
-
     @POST("auth/login")
     Call<LoginResponse> login(
             @Body LoginRequest request
     );
-
-
-    /* =========================================
-       PROSUMER
-    ========================================= */
 
     @POST("prosumers/register")
     Call<Prosumer> register(
@@ -60,11 +51,6 @@ public interface ApiService {
     Call<ProsumerActionResponse>
     requestDeactivation();
 
-
-    /* =========================================
-       STATIONS
-    ========================================= */
-
     @GET("stations")
     Call<List<SolarStation>> getStations(
             @Query("status") String status
@@ -81,11 +67,6 @@ public interface ApiService {
             @Query("longitude") double longitude,
             @Query("radiusKm") double radiusKm
     );
-
-
-    /* =========================================
-       RESERVATIONS
-    ========================================= */
 
     @GET("reservations/available-slots")
     Call<List<AvailableSlot>> getAvailableSlots(
@@ -124,11 +105,6 @@ public interface ApiService {
     Call<EnergyReservation> cancelReservation(
             @Path("id") String id
     );
-
-
-    /* =========================================
-       OPERATOR – QR + TRANSFER (Member 4)
-    ========================================= */
 
     /**
      * Fetches a signed QR payload for an approved reservation.

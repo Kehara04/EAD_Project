@@ -53,20 +53,13 @@ export default function App() {
 
       <Routes>
 
-        {/* =====================================
-            LOGIN
-        ====================================== */}
-
+            //LOGIN
         <Route
           path="/"
           element={<LoginPage />}
         />
 
-
-        {/* =====================================
-            PUBLIC PASSWORD RECOVERY
-        ====================================== */}
-
+            //PUBLIC PASSWORD RECOVERY
         <Route
           path="/forgot-password"
           element={<ForgotPasswordPage />}
@@ -77,11 +70,7 @@ export default function App() {
           element={<ResetPasswordPage />}
         />
 
-
-        {/* =====================================
-            BACKOFFICE
-        ====================================== */}
-
+            //BACKOFFICE
         <Route
           path="/backoffice"
           element={
@@ -127,11 +116,7 @@ export default function App() {
           }
         />
 
-
-        {/* =====================================
-            EDIT USER - BACKOFFICE ONLY
-        ====================================== */}
-
+            //EDIT USER - BACKOFFICE ONLY
         <Route
           path="/backoffice/users/:id/edit"
           element={
@@ -141,11 +126,7 @@ export default function App() {
           }
         />
 
-
-        {/* =====================================
-            GRID OPERATOR
-        ====================================== */}
-
+            //GRID OPERATOR
         <Route
           path="/operator"
           element={
@@ -155,12 +136,7 @@ export default function App() {
           }
         />
 
-
-        {/* =====================================
-            ACCOUNT MANAGEMENT
-            BACKOFFICE + GRID OPERATOR
-        ====================================== */}
-
+            //ACCOUNT MANAGEMENT
         <Route
           path="/account/profile"
           element={
@@ -183,11 +159,7 @@ export default function App() {
           }
         />
 
-
-        {/* =====================================
-            FALLBACK - KEEP LAST
-        ====================================== */}
-
+            //FALLBACK - KEEP LAST
         <Route
           path="*"
           element={

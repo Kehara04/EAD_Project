@@ -11,10 +11,7 @@ import {
 } from "../services/authService";
 
 
-/* ============================================
-   BACKOFFICE NAVIGATION
-============================================ */
-
+   //BACKOFFICE NAVIGATION
 const backofficeLinks = [
   {
     to: "/backoffice",
@@ -43,11 +40,7 @@ const backofficeLinks = [
   }
 ];
 
-
-/* ============================================
-   GRID OPERATOR NAVIGATION
-============================================ */
-
+   //GRID OPERATOR NAVIGATION
 const operatorLinks = [
   {
     to: "/operator",
@@ -67,21 +60,14 @@ export default function DashboardLayout({
 
   const user = getCurrentUser();
 
-
-  /* ==========================================
-     ROLE-BASED NAVIGATION
-  ========================================== */
-
+     //ROLE-BASED NAVIGATION
   const links =
     user.role === "Backoffice"
       ? backofficeLinks
       : operatorLinks;
 
 
-  /* ==========================================
-     LOGOUT
-  ========================================== */
-
+  // Sign the current user out and redirect to the login screen.
   function handleLogout() {
 
     logout();
@@ -96,15 +82,11 @@ export default function DashboardLayout({
   return (
     <div className="app-shell">
 
-      {/* ======================================
-          SIDEBAR
-      ======================================= */}
+        //SIDEBAR
 
       <aside className="sidebar">
 
         <div className="sidebar-main">
-
-          {/* OFFICIAL SMART SOLAR LOGO */}
 
           <div className="brand-block brand-block-logo">
 
@@ -243,16 +225,8 @@ export default function DashboardLayout({
 
       </aside>
 
-
-      {/* ======================================
-          MAIN CONTENT
-      ======================================= */}
-
+        //MAIN CONTENT
       <main className="main-content">
-
-        {/* ====================================
-            HEADER
-        ===================================== */}
 
         <header className="topbar">
 
@@ -294,11 +268,6 @@ export default function DashboardLayout({
               SUSTAINABLE
 
             </div>
-
-
-            {/* ==================================
-                CLICKABLE PROFILE
-            ================================== */}
 
             <Link
               to="/account/profile"
@@ -353,11 +322,7 @@ export default function DashboardLayout({
 
         </header>
 
-
-        {/* ====================================
-            PAGE CONTENT
-        ===================================== */}
-
+          //PAGE CONTENT
         <section className="content-area">
           {children}
         </section>

@@ -1,3 +1,18 @@
+/*
+ * File: ReservationDetailsActivity.java
+ * Project: Smart Solar Microgrid Trading System
+ * Component: Energy Slot Reservation Management
+ *
+ * Description:
+ * Displays the complete details of a selected energy reservation.
+ *
+ * Retrieves reservation information from the backend, displays
+ * the associated station and schedule, and allows eligible
+ * reservations to be updated or cancelled.
+ *
+ * Applies client-side checks for reservation status and the
+ * twelve-hour modification restriction.
+ */
 package com.smartsolar.ui.reservation;
 
 import android.app.AlertDialog;
@@ -54,7 +69,7 @@ public class ReservationDetailsActivity
 
     private EnergyReservation reservation;
 
-
+        // Opens the reservation details screen using the selected reservation identifier.
     public static void open(
             Context context,
             String reservationId
@@ -73,7 +88,7 @@ public class ReservationDetailsActivity
         context.startActivity(intent);
     }
 
-
+        // Initializes the reservation details screen and its action buttons.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -192,7 +207,7 @@ public class ReservationDetailsActivity
         );
     }
 
-
+        // Refreshes reservation information when the screen becomes active.
     @Override
     protected void onResume() {
 
@@ -201,7 +216,7 @@ public class ReservationDetailsActivity
         loadReservation();
     }
 
-
+        // Retrieves the selected reservation and its latest status from the backend API.
     private void loadReservation() {
 
         setLoading(true);
@@ -280,7 +295,7 @@ public class ReservationDetailsActivity
                 );
     }
 
-
+        // Displays station, schedule, slot, status, and notes in the corresponding UI fields.
     private void bindReservation() {
 
         stationNameText.setText(
@@ -332,7 +347,7 @@ public class ReservationDetailsActivity
         updateActionState();
     }
 
-
+        // Enables or disables modification actions based on reservation status and time restrictions.
     private void updateActionState() {
 
         String status =
@@ -402,7 +417,7 @@ public class ReservationDetailsActivity
         }
     }
 
-
+        // Opens the reservation update screen with the current booking information.
     private void openUpdateScreen() {
 
         if (
@@ -466,7 +481,7 @@ public class ReservationDetailsActivity
         startActivity(intent);
     }
 
-
+        // Requests confirmation from the prosumer before cancelling the reservation.
     private void confirmCancellation() {
 
         if (
@@ -509,7 +524,7 @@ public class ReservationDetailsActivity
                 .show();
     }
 
-
+        // Sends the cancellation request to the backend and updates the displayed reservation status.
     private void cancelReservation() {
 
         setLoading(true);
@@ -617,7 +632,7 @@ public class ReservationDetailsActivity
                         1000L;
     }
 
-
+        // Parses the reservation timestamp received from the backend API.
     private Date parseApiDate(
             String value
     ) {
@@ -672,7 +687,7 @@ public class ReservationDetailsActivity
         return null;
     }
 
-
+        // Converts the reservation timestamp into a human-readable format for display.
     private String formatDateTime(
             String value
     ) {

@@ -32,6 +32,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+//Manages the Android interface for updating existing energy reservations
 public class UpdateReservationActivity extends AppCompatActivity {
 
     private ApiService apiService;
@@ -55,6 +56,8 @@ public class UpdateReservationActivity extends AppCompatActivity {
             new ArrayList<>();
 
     private boolean dateSelected = false;
+
+    // Initializes the reservation update screen and its components.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -185,7 +188,7 @@ public class UpdateReservationActivity extends AppCompatActivity {
         );
     }
 
-
+        // Opens the date picker and restricts selection to the allowed booking period.
     private void selectDate() {
 
         Calendar now =
@@ -298,7 +301,7 @@ public class UpdateReservationActivity extends AppCompatActivity {
         dialog.show();
     }
 
-
+        // Retrieves available booking slots for the selected station and date.
     private void loadSlotsIfReady() {
 
         if (!dateSelected) {
@@ -403,7 +406,7 @@ public class UpdateReservationActivity extends AppCompatActivity {
                 );
     }
 
-
+        // Updates the dropdown with the available reservation slots.
     private void updateSlotSpinner() {
 
         ArrayAdapter<AvailableSlot> adapter =
@@ -483,7 +486,7 @@ public class UpdateReservationActivity extends AppCompatActivity {
         );
     }
 
-
+        // Checks whether at least one available booking slot exists.
     private boolean hasAvailableSlot() {
 
         for (AvailableSlot slot : availableSlots) {
@@ -495,7 +498,7 @@ public class UpdateReservationActivity extends AppCompatActivity {
         return false;
     }
 
-
+        // Validates and submits the updated reservation to the backend.
     private void updateReservation() {
 
         hideError();
@@ -660,7 +663,7 @@ public class UpdateReservationActivity extends AppCompatActivity {
                 );
     }
 
-
+        // Converts the selected reservation date into UTC format for the ASP.NET API.
     private String toUtcApiDate() {
 
         SimpleDateFormat format =
@@ -682,7 +685,7 @@ public class UpdateReservationActivity extends AppCompatActivity {
         );
     }
 
-
+        // Controls the loading indicator and form component availability.
     private void setLoading(
             boolean loading
     ) {
@@ -711,7 +714,7 @@ public class UpdateReservationActivity extends AppCompatActivity {
         );
     }
 
-
+        // Displays validation or API error messages on the update screen.
     private void showError(
             String message
     ) {
