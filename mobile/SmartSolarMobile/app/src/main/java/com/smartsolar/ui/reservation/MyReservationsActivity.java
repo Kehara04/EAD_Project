@@ -206,7 +206,6 @@ public class MyReservationsActivity extends AppCompatActivity {
                         .toString()
                         .trim();
 
-
         String apiStatus =
                 "History".equals(selectedStatus)
                         ? null

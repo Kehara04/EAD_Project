@@ -152,20 +152,22 @@
             android:text="@string/location_my_location" />
     </LinearLayout>
 
-    <org.osmdroid.views.MapView
+    <!-- Google Maps occupies the remaining screen space below the discovery controls. -->
+    <com.google.android.gms.maps.MapView
         android:id="@+id/stationMap"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" />
 
+    <!-- Google Maps renders its own attribution; this label reports map loading problems. -->
     <TextView
-        android:id="@+id/mapAttribution"
+        android:id="@+id/mapStatus"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minHeight="48dp"
         android:gravity="center_vertical"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
-        android:text="@string/osm_attribution" />
+        android:text="@string/google_map_loading" />
 
 </LinearLayout>

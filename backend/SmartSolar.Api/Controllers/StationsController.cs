@@ -1,3 +1,11 @@
+/*
+ * File: StationsController.cs
+ * Project: Smart Solar Microgrid Trading System
+ * Description:
+ * Exposes authenticated station endpoints for listing, address search,
+ * creation, updates, status changes and nearby station discovery.
+ */
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SmartSolar.Api.Constants;
@@ -19,6 +27,7 @@ public class StationsController : ControllerBase
     }
 
 
+    // Any authenticated client can list stations, optionally restricted by status.
     [Authorize]
     [HttpGet]
     public async Task<IActionResult> GetAll(
@@ -32,6 +41,29 @@ public class StationsController : ControllerBase
     }
 
 
+    // Keep the provider key on the server and restrict address lookup to Backoffice.
+    [Authorize(Roles = UserRoles.Backoffice)]
+    [HttpGet("address-suggestions")]
+    public async Task<IActionResult> AddressSuggestions(
+        [FromQuery] string? query, [FromServices] StationGeocodingService geocoding,
+        CancellationToken cancellationToken)
+    {
+        try
+        {
+            return Ok(await geocoding.SearchAsync(query ?? "", cancellationToken));
+        }
+        catch (InvalidOperationException ex)
+        {
+            return BadRequest(new { message = ex.Message });
+        }
+        // Report provider/configuration failures as a retryable service-unavailable response.
+        catch (GeocodingUnavailableException ex)
+        {
+            return StatusCode(StatusCodes.Status503ServiceUnavailable, new { message = ex.Message });
+        }
+    }
+
+    // Return the saved station details used by the web interface and mobile map.
     [Authorize]
     [HttpGet("{id}")]
     public async Task<IActionResult>
@@ -58,6 +90,7 @@ public class StationsController : ControllerBase
     [Authorize(
         Roles = UserRoles.Backoffice
     )]
+    // The service verifies the selected address before saving its coordinates.
     [HttpPost]
     public async Task<IActionResult>
         Create(
@@ -89,6 +122,7 @@ public class StationsController : ControllerBase
     [Authorize(
         Roles = UserRoles.Backoffice
     )]
+    // Update station details while preserving booking and location safeguards.
     [HttpPut("{id}")]
     public async Task<IActionResult>
         Update(
@@ -130,6 +164,7 @@ public class StationsController : ControllerBase
     [Authorize(
         Roles = UserRoles.Backoffice
     )]
+    // Reservation and booked-slot checks are enforced in the service, not the UI.
     [HttpPatch("{id}/status")]
     public async Task<IActionResult>
         UpdateStatus(
@@ -168,6 +203,7 @@ public class StationsController : ControllerBase
     }
 
 
+    // Radius is measured in kilometres; the service returns only Active stations.
     [Authorize]
     [HttpGet("nearby")]
     public async Task<IActionResult>

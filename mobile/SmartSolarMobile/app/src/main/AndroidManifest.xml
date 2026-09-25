@@ -1,6 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 <uses-permission android:name="android.permission.INTERNET"/>
 <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+<!-- Station discovery requests foreground location access at runtime. -->
 <uses-permission
     android:name="android.permission.ACCESS_FINE_LOCATION" />
 
@@ -8,6 +9,8 @@
     android:name="android.permission.ACCESS_COARSE_LOCATION" />
 <uses-permission android:name="android.permission.CAMERA" />
 <application android:allowBackup="true" android:icon="@mipmap/ic_launcher" android:label="@string/app_name" android:roundIcon="@mipmap/ic_launcher_round" android:supportsRtl="true" android:theme="@style/Theme.SmartSolarMobile" android:usesCleartextTraffic="true">
+    <meta-data android:name="com.google.android.geo.API_KEY" android:value="${MAPS_API_KEY}" />
+
 
 <activity android:name=".ui.prosumer.EditProfileActivity" android:exported="false"/>
 <activity android:name=".ui.prosumer.ProfileActivity" android:exported="false"/>
@@ -22,6 +25,7 @@
 </intent-filter>
 </activity>
 
+<!-- Open station discovery from inside the signed-in application. -->
 <activity
     android:name=".maps.StationMapActivity"
     android:exported="false" />

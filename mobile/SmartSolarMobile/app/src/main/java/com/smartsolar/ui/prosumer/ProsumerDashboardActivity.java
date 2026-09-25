@@ -1,6 +1,8 @@
 package com.smartsolar.ui.prosumer;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -8,6 +10,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.core.content.ContextCompat;
 
 import com.google.android.material.button.MaterialButton;
 import com.smartsolar.R;
@@ -34,6 +39,40 @@ public class ProsumerDashboardActivity
     private TextView emailText;
 
     private ProgressBar progressBar;
+
+    // Request foreground location after login; Android remembers the user's decision.
+    private final ActivityResultLauncher<String[]> locationPermissionRequest =
+            registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), result -> {
+                if (hasLocationPermission() && sessionManager.isLoggedIn()
+                        && "Prosumer".equals(sessionManager.getRole())) {
+                    // The map obtains the device location and centres its blue user marker.
+                    startActivity(new Intent(this, StationMapActivity.class));
+                } else if (!hasLocationPermission()) {
+                    Toast.makeText(this, R.string.location_denied, Toast.LENGTH_LONG).show();
+                }
+            });
+
+    private boolean hasLocationPermission() {
+        return ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED
+                || ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED;
+    }
+
+    private void requestLocationAfterLogin() {
+        if (!sessionManager.isLoggedIn() || !"Prosumer".equals(sessionManager.getRole())
+                || hasLocationPermission()) return;
+
+        // Share prompt history with the map to avoid automatically asking twice after denial.
+        var preferences = getSharedPreferences("station_location_permissions", MODE_PRIVATE);
+        if (preferences.getBoolean("locationAsked", false)) return;
+        preferences.edit().putBoolean("locationAsked", true).apply();
+        locationPermissionRequest.launch(new String[]{
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+        });
+    }
+
 
 
     @Override
@@ -153,6 +192,11 @@ public class ProsumerDashboardActivity
         logoutButton.setOnClickListener(
                 v -> logout()
         );
+
+        // Avoid repeating the prompt during rotation or when returning from the map.
+        if (savedInstanceState == null) {
+            requestLocationAfterLogin();
+        }
     }
 
     @Override

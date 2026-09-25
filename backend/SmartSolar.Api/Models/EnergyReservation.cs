@@ -30,6 +30,8 @@ public class EnergyReservation
     public string StationId { get; set; } =
         string.Empty;
 
+
+    // Booking slot IDs are MongoDB ObjectIds.
     [BsonRepresentation(BsonType.ObjectId)]
     public string BookingSlotId { get; set; } =
         string.Empty;

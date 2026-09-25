@@ -2,6 +2,7 @@
 <string name="app_name">Smart Solar</string>
 <string name="solar_stations">Solar stations</string>
 <string name="retry_stations">Retry</string>
+<!-- Station discovery messages include loading, empty, map and API error states. -->
 <string name="stations_loading">Loading active stations…</string>
 <string name="stations_empty">No active stations are available right now.</string>
 <string name="stations_coordinates_unsupported">Active stations are available, but their coordinates cannot be displayed. Please ask the station operator to update their locations.</string>
@@ -55,4 +56,9 @@ Longitude: %2$.5f</string>
 <string name="station_detail_failed">Could not refresh. Showing previously loaded details; availability may have changed.</string>
 <string name="station_detail_removed">This station is no longer available. Close and refresh the station list.</string>
 <string name="smart_solar_logo_description">SmartSolars — Powering a Smarter Tomorrow</string>
+<string name="google_map_loading">Loading Google Maps…</string>
+<string name="google_map_key_missing">Google Maps is not configured. Station search and the station list are still available.</string>
+<string name="google_map_services_missing">Google Play services are needed to display this map. Update them and reopen the map.</string>
+<string name="google_map_unavailable">Map is taking longer than expected. Check your connection or try reopening the map.</string>
+<string name="stations_loaded_without_map">%1$d stations loaded. Use the station list while the map is unavailable.</string>
 </resources>

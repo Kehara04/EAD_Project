@@ -1,384 +1,10 @@
-// using MongoDB.Driver;
-// using MongoDB.Bson;
-// using SmartSolar.Api.Data;
-// using SmartSolar.Api.DTOs;
-// using SmartSolar.Api.Models;
-
-// namespace SmartSolar.Api.Services;
-
-// public class StationService
-// {
-//     private readonly MongoDbContext _context;
-
-//     public StationService(
-//         MongoDbContext context)
-//     {
-//         _context = context;
-//     }
-
-
-//     public async Task<List<SolarStation>>
-//         GetAllAsync(
-//             string? status = null)
-//     {
-//         FilterDefinition<SolarStation> filter =
-//             Builders<SolarStation>
-//                 .Filter.Empty;
-
-//         if (!string.IsNullOrWhiteSpace(status))
-//         {
-//             filter =
-//                 Builders<SolarStation>
-//                     .Filter.Eq(
-//                         x => x.Status,
-//                         status
-//                     );
-//         }
-
-//         return await _context.Stations
-//             .Find(filter)
-//             .SortBy(x => x.Name)
-//             .ToListAsync();
-//     }
-
-
-//     public async Task<SolarStation?>
-//         GetByIdAsync(
-//             string id)
-//     {
-//         return await _context.Stations
-//             .Find(x => x.Id == id)
-//             .FirstOrDefaultAsync();
-//     }
-
-
-//     public async Task<SolarStation>
-//         CreateAsync(
-//             StationRequest request)
-//     {
-//         var existing =
-//             await _context.Stations
-//                 .Find(x =>
-//                     x.Name.ToLower() ==
-//                     request.Name
-//                         .Trim()
-//                         .ToLower())
-//                 .FirstOrDefaultAsync();
-
-//         if (existing != null)
-//         {
-//             throw new InvalidOperationException(
-//                 "A station with this name already exists."
-//             );
-//         }
-
-//         var now =
-//             DateTime.UtcNow;
-
-//         var station =
-//             new SolarStation
-//             {
-//                 Name =
-//                     request.Name.Trim(),
-
-//                 Address =
-//                     request.Address.Trim(),
-
-//                 Latitude =
-//                     request.Latitude,
-
-//                 Longitude =
-//                     request.Longitude,
-
-//                 CapacityKw =
-//                     request.CapacityKw,
-
-//                 TotalSlots =
-//                     request.TotalSlots,
-
-//                 AvailableSlots =
-//                     request.TotalSlots,
-
-//                 OpeningTime =
-//                     request.OpeningTime.Trim(),
-
-//                 ClosingTime =
-//                     request.ClosingTime.Trim(),
-
-//                 Status =
-//                     "Active",
-
-//                 CreatedAt =
-//                     now,
-
-//                 UpdatedAt =
-//                     now
-//             };
-
-//         await _context.Stations
-//             .InsertOneAsync(station);
-
-//         return station;
-//     }
-
-
-//     public async Task<SolarStation?>
-//         UpdateAsync(
-//             string id,
-//             StationRequest request)
-//     {
-//         var existing =
-//             await GetByIdAsync(id);
-
-//         if (existing == null)
-//             return null;
-
-//         var duplicate =
-//             await _context.Stations
-//                 .Find(x =>
-//                     x.Id != id &&
-//                     x.Name.ToLower() ==
-//                     request.Name
-//                         .Trim()
-//                         .ToLower())
-//                 .FirstOrDefaultAsync();
-
-//         if (duplicate != null)
-//         {
-//             throw new InvalidOperationException(
-//                 "A station with this name already exists."
-//             );
-//         }
-
-//         var bookedSlots =
-//             Math.Max(
-//                 0,
-//                 existing.TotalSlots -
-//                 existing.AvailableSlots
-//             );
-
-//         if (request.TotalSlots < bookedSlots)
-//         {
-//             throw new InvalidOperationException(
-//                 "Total slots cannot be reduced below the number of booked slots.");
-//         }
-
-//         var newAvailable =
-//             Math.Max(
-//                 0,
-//                 request.TotalSlots -
-//                 bookedSlots
-//             );
-
-//         var update =
-//             Builders<SolarStation>
-//                 .Update
-//                 .Set(
-//                     x => x.Name,
-//                     request.Name.Trim()
-//                 )
-//                 .Set(
-//                     x => x.Address,
-//                     request.Address.Trim()
-//                 )
-//                 .Set(
-//                     x => x.Latitude,
-//                     request.Latitude
-//                 )
-//                 .Set(
-//                     x => x.Longitude,
-//                     request.Longitude
-//                 )
-//                 .Set(
-//                     x => x.CapacityKw,
-//                     request.CapacityKw
-//                 )
-//                 .Set(
-//                     x => x.TotalSlots,
-//                     request.TotalSlots
-//                 )
-//                 .Set(
-//                     x => x.AvailableSlots,
-//                     newAvailable
-//                 )
-//                 .Set(
-//                     x => x.OpeningTime,
-//                     request.OpeningTime.Trim()
-//                 )
-//                 .Set(
-//                     x => x.ClosingTime,
-//                     request.ClosingTime.Trim()
-//                 )
-//                 .Set(
-//                     x => x.UpdatedAt,
-//                     DateTime.UtcNow
-//                 );
-
-//         await _context.Stations
-//             .UpdateOneAsync(
-//                 x => x.Id == id,
-//                 update
-//             );
-
-//         return await GetByIdAsync(id);
-//     }
-
-
-//     public async Task<SolarStation?>
-//         UpdateStatusAsync(
-//             string id,
-//             string status)
-//     {
-//         var station =
-//             await GetByIdAsync(id);
-
-//         if (station == null)
-//             return null;
-
-//         var normalized =
-//             status.Trim();
-
-//         if (
-//             normalized != "Active" &&
-//             normalized != "Inactive"
-//         )
-//         {
-//             throw new InvalidOperationException(
-//                 "Invalid station status."
-//             );
-//         }
-
-//         var update =
-//             Builders<SolarStation>
-//                 .Update
-//                 .Set(
-//                     x => x.Status,
-//                     normalized
-//                 )
-//                 .Set(
-//                     x => x.UpdatedAt,
-//                     DateTime.UtcNow
-//                 );
-
-//         var filter = Builders<SolarStation>.Filter.Eq(x => x.Id, id);
-//         if (normalized == "Inactive")
-//         {
-//             // Interim reservation guard: occupied slots represent current bookings.
-//             // Member 3 must integrate reservation data here and coordinate booking
-//             // creation with deactivation; see backend/docs/station-reservations.md.
-//             // Check within the write so a concurrent slot change cannot bypass it.
-//             filter &= new BsonDocument("$expr", new BsonDocument("$gte",
-//                 new BsonArray { "$AvailableSlots", "$TotalSlots" }));
-//         }
-
-//         var result = await _context.Stations.UpdateOneAsync(filter, update);
-//         if (result.MatchedCount == 0)
-//         {
-//             if (await GetByIdAsync(id) == null)
-//                 return null;
-
-//             throw new InvalidOperationException(
-//                 "Cannot deactivate this station while it has booked slots. " +
-//                 "Complete or cancel its active reservations first.");
-//         }
-
-//         return await GetByIdAsync(id);
-//     }
-
-
-//     public async Task<List<SolarStation>>
-//         GetNearbyAsync(
-//             double latitude,
-//             double longitude,
-//             double radiusKm)
-//     {
-//         var stations =
-//             await _context.Stations
-//                 .Find(x =>
-//                     x.Status == "Active")
-//                 .ToListAsync();
-
-//         return stations
-//             .Where(station =>
-//                 CalculateDistanceKm(
-//                     latitude,
-//                     longitude,
-//                     station.Latitude,
-//                     station.Longitude
-//                 ) <= radiusKm
-//             )
-//             .OrderBy(station =>
-//                 CalculateDistanceKm(
-//                     latitude,
-//                     longitude,
-//                     station.Latitude,
-//                     station.Longitude
-//                 )
-//             )
-//             .ToList();
-//     }
-
-
-//     private static double CalculateDistanceKm(
-//         double lat1,
-//         double lon1,
-//         double lat2,
-//         double lon2)
-//     {
-//         const double earthRadius =
-//             6371.0;
-
-//         var latDistance =
-//             DegreesToRadians(
-//                 lat2 - lat1
-//             );
-
-//         var lonDistance =
-//             DegreesToRadians(
-//                 lon2 - lon1
-//             );
-
-//         var a =
-//             Math.Sin(
-//                 latDistance / 2
-//             ) *
-//             Math.Sin(
-//                 latDistance / 2
-//             ) +
-//             Math.Cos(
-//                 DegreesToRadians(lat1)
-//             ) *
-//             Math.Cos(
-//                 DegreesToRadians(lat2)
-//             ) *
-//             Math.Sin(
-//                 lonDistance / 2
-//             ) *
-//             Math.Sin(
-//                 lonDistance / 2
-//             );
-
-//         var c =
-//             2 *
-//             Math.Atan2(
-//                 Math.Sqrt(a),
-//                 Math.Sqrt(1 - a)
-//             );
-
-//         return earthRadius * c;
-//     }
-
-
-//     private static double DegreesToRadians(
-//         double degrees)
-//     {
-//         return degrees *
-//                Math.PI /
-//                180.0;
-//     }
-// }
-
-
+/*
+ * File: StationService.cs
+ * Project: Smart Solar Microgrid Trading System
+ * Description:
+ * Manages station persistence, location selection, capacity rules,
+ * reservation checks and distance-based station discovery.
+ */
 
 using MongoDB.Bson;
 using MongoDB.Driver;
@@ -392,11 +18,13 @@ namespace SmartSolar.Api.Services;
 public class StationService
 {
     private readonly MongoDbContext _context;
+    private readonly StationGeocodingService _geocoding;
 
     public StationService(
-        MongoDbContext context)
+        MongoDbContext context, StationGeocodingService geocoding)
     {
         _context = context;
+        _geocoding = geocoding;
     }
 
 
@@ -408,6 +36,7 @@ public class StationService
         GetAllAsync(
             string? status = null)
     {
+        // An empty filter includes both Active and Inactive stations for management.
         FilterDefinition<SolarStation> filter =
             Builders<SolarStation>
                 .Filter.Empty;
@@ -439,6 +68,7 @@ public class StationService
         GetByIdAsync(
             string id)
     {
+        // Invalid ObjectIds are treated as missing stations instead of query errors.
         if (
             string.IsNullOrWhiteSpace(id) ||
             !ObjectId.TryParse(
@@ -493,6 +123,9 @@ public class StationService
         );
 
 
+        // Read coordinates from the backend-issued selection, never from client input.
+        var location = _geocoding.ResolveSelection(request.Address, request.LocationToken);
+
         var now =
             DateTime.UtcNow;
 
@@ -507,10 +140,10 @@ public class StationService
                     request.Address.Trim(),
 
                 Latitude =
-                    request.Latitude,
+                    location.Latitude,
 
                 Longitude =
-                    request.Longitude,
+                    location.Longitude,
 
                 CapacityKw =
                     request.CapacityKw,
@@ -518,6 +151,7 @@ public class StationService
                 TotalSlots =
                     request.TotalSlots,
 
+                // A newly created station starts with all physical slots available.
                 AvailableSlots =
                     request.TotalSlots,
 
@@ -570,6 +204,13 @@ public class StationService
         );
 
 
+        // Unchanged addresses keep existing map coordinates, including legacy stations.
+        // A selected suggestion always replaces the location, even for the same address.
+        var location = string.IsNullOrWhiteSpace(request.LocationToken)
+            && request.Address.Trim() == existing.Address
+            ? new ResolvedStationLocation(existing.Address, existing.Latitude, existing.Longitude)
+            : _geocoding.ResolveSelection(request.Address, request.LocationToken);
+
         var stationName =
             request.Name.Trim();
 
@@ -621,11 +262,20 @@ public class StationService
         }
 
 
+        // Retain the larger count so legacy occupied slots are not lost during an edit.
+        var bookedSlots = Math.Max(activeReservations,
+            Math.Max(0, existing.TotalSlots - existing.AvailableSlots));
+        if (request.TotalSlots < bookedSlots)
+        {
+            throw new InvalidOperationException(
+                "Total slots cannot be reduced below the number of booked slots.");
+        }
+
         var newAvailableSlots =
             Math.Max(
                 0,
                 request.TotalSlots -
-                activeReservations
+                bookedSlots
             );
 
 
@@ -645,12 +295,12 @@ public class StationService
 
                 .Set(
                     x => x.Latitude,
-                    request.Latitude
+                    location.Latitude
                 )
 
                 .Set(
                     x => x.Longitude,
-                    request.Longitude
+                    location.Longitude
                 )
 
                 .Set(
@@ -773,11 +423,27 @@ public class StationService
                 );
 
 
-        await _context.Stations
-            .UpdateOneAsync(
-                x => x.Id == id,
-                update
-            );
+        var filter = Builders<SolarStation>.Filter.Eq(x => x.Id, id);
+        if (normalized == "Inactive")
+        {
+            // Preserve the atomic booked-slot guard in addition to the
+            // reservation lookup above. Cross-collection coordination remains
+            // necessary to prevent concurrent reservation creation.
+            filter &= new BsonDocument("$expr", new BsonDocument("$gte",
+                new BsonArray { "$AvailableSlots", "$TotalSlots" }));
+        }
+
+        var result = await _context.Stations.UpdateOneAsync(filter, update);
+        // Distinguish a removed station from a station blocked by the slot guard.
+        if (result.MatchedCount == 0)
+        {
+            if (await GetByIdAsync(id) == null)
+                return null;
+
+            throw new InvalidOperationException(
+                "Cannot deactivate this station while it has booked slots. " +
+                "Complete or cancel its active reservations first.");
+        }
 
 
         return await GetByIdAsync(
@@ -836,6 +502,7 @@ public class StationService
                 .ToListAsync();
 
 
+        // Apply the radius to straight-line distance, then show the closest stations first.
         return stations
             .Where(station =>
                 CalculateDistanceKm(
@@ -1024,28 +691,6 @@ public class StationService
 
 
         if (
-            request.Latitude < -90 ||
-            request.Latitude > 90
-        )
-        {
-            throw new InvalidOperationException(
-                "Latitude must be between -90 and 90."
-            );
-        }
-
-
-        if (
-            request.Longitude < -180 ||
-            request.Longitude > 180
-        )
-        {
-            throw new InvalidOperationException(
-                "Longitude must be between -180 and 180."
-            );
-        }
-
-
-        if (
             request.CapacityKw <= 0
         )
         {
@@ -1088,13 +733,6 @@ public class StationService
             );
         }
 
-
-        /*
-         * Your DTO currently stores operating
-         * times as strings.
-         *
-         * Validate HH:mm format here.
-         */
         if (
             !TimeOnly.TryParse(
                 request.OpeningTime,
@@ -1180,6 +818,7 @@ public class StationService
             double lat2,
             double lon2)
     {
+        // Haversine calculates great-circle distance; this is not a road travel distance.
         const double earthRadius =
             6371.0;
 

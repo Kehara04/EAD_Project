@@ -56,6 +56,7 @@ public interface ApiService {
             @Query("status") String status
     );
 
+    // Refresh the selected station before showing its full details.
     @GET("stations/{id}")
     Call<SolarStation> getStation(
             @Path("id") String id
