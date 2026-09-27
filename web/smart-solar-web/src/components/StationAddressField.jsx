@@ -2,11 +2,12 @@ import { useEffect, useState } from "react";
 import { getStationAddressSuggestions } from "../services/stationService";
 import { getApiError } from "../services/errorService";
 
+// Render an address search field with location suggestions and a selected location preview.
 export default function StationAddressField({ value, location, onChange, onSelect }) {
   const [result, setResult] = useState(null);
   const [retry, setRetry] = useState(0);
 
-  // Debounce typing and cancel superseded requests so old suggestions cannot replace newer ones.
+  // Debounce address searches and cancel outdated requests to prevent stale suggestions.
   useEffect(() => {
     if (location || value.trim().length < 3) return;
     const controller = new AbortController();
@@ -21,7 +22,7 @@ export default function StationAddressField({ value, location, onChange, onSelec
           error: getApiError(error, "Unable to search addresses. Please try again.") });
       }
     }, 450);
-  // Abort on a changed query, selected address or unmount to avoid stale updates.
+  
     return () => {
       cancelled = true;
       clearTimeout(timer);

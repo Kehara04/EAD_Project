@@ -1,7 +1,10 @@
 import { Navigate, useLocation } from "react-router-dom";
 import { getCurrentUser } from "../services/authService";
 
+// Protect application routes by checking authentication and user roles.
 export default function ProtectedRoute({ children, roles = [] }) {
+  
+   // Get the current route and authenticated user's information.
   const location = useLocation();
   const user = getCurrentUser();
 

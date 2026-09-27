@@ -10,8 +10,7 @@ import {
   logout
 } from "../services/authService";
 
-
-   //BACKOFFICE NAVIGATION
+// Define the navigation links available to Backoffice users.
 const backofficeLinks = [
   {
     to: "/backoffice",
@@ -40,7 +39,7 @@ const backofficeLinks = [
   }
 ];
 
-   //GRID OPERATOR NAVIGATION
+// Define the navigation links available to Grid Operator users.
 const operatorLinks = [
   {
     to: "/operator",
@@ -49,7 +48,7 @@ const operatorLinks = [
   }
 ];
 
-
+// Render the shared dashboard layout with role-based navigation and user information.
 export default function DashboardLayout({
   title,
   subtitle,
@@ -58,6 +57,7 @@ export default function DashboardLayout({
 
   const navigate = useNavigate();
 
+    // Retrieve the currently authenticated user's information.
   const user = getCurrentUser();
 
      //ROLE-BASED NAVIGATION
@@ -67,7 +67,7 @@ export default function DashboardLayout({
       : operatorLinks;
 
 
-  // Sign the current user out and redirect to the login screen.
+   // Sign out the current user and redirect to the login page.
   function handleLogout() {
 
     logout();
@@ -82,8 +82,6 @@ export default function DashboardLayout({
   return (
     <div className="app-shell">
 
-        //SIDEBAR
-
       <aside className="sidebar">
 
         <div className="sidebar-main">
@@ -97,9 +95,6 @@ export default function DashboardLayout({
             />
 
           </div>
-
-
-          {/* WORKSPACE NAVIGATION */}
 
           <div className="sidebar-label">
             Workspace
@@ -143,14 +138,7 @@ export default function DashboardLayout({
 
         </div>
 
-
-        {/* ======================================
-            SIDEBAR FOOTER
-        ======================================= */}
-
         <div className="sidebar-footer">
-
-          {/* USER CARD */}
 
           <div className="sidebar-user-card">
 
@@ -177,9 +165,6 @@ export default function DashboardLayout({
 
           </div>
 
-
-          {/* SIGN OUT */}
-
           <button
             type="button"
             className="sidebar-logout"
@@ -193,9 +178,6 @@ export default function DashboardLayout({
             Sign out
 
           </button>
-
-
-          {/* ENERGY IMAGE */}
 
           <div className="sidebar-energy-art">
 

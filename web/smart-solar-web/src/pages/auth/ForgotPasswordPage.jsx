@@ -4,12 +4,16 @@ import { Link } from "react-router-dom";
 import { forgotPassword } from "../../services/accountService";
 import { getApiError } from "../../services/errorService";
 
+// Display the password recovery page and allow users to request a reset link.
 export default function ForgotPasswordPage() {
+
+  // Store the entered email address and request feedback states.
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
+  // Submit the password reset request using the entered email address.
   async function handleSubmit(event) {
     event.preventDefault();
 

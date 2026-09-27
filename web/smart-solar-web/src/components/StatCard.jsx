@@ -1,3 +1,4 @@
+// Display a reusable dashboard statistics card with a label, value, optional helper text, and icon.
 export default function StatCard({ label, value, helper, icon }) {
   return (
     <div className="dashboard-card stat-card h-100">

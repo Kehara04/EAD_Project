@@ -7,17 +7,22 @@ import { getApiError } from "../../services/errorService";
 const PASSWORD_REGEX =
   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9])\S{8,64}$/;
 
+// Render the password change page and manage password update operations.
 export default function ChangePasswordPage() {
+
+  // Store the current password, new password, and confirmation.
   const [form, setForm] = useState({
     currentPassword: "",
     newPassword: "",
     confirmPassword: ""
   });
 
+  // Track submission progress and display feedback messages.
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
+   // Update the selected password field when the user enters a value.
   function updateField(field, value) {
     setForm((previous) => ({
       ...previous,
@@ -25,9 +30,11 @@ export default function ChangePasswordPage() {
     }));
   }
 
+  // Validate the password form and submit the password change request.
   async function handleSubmit(event) {
     event.preventDefault();
 
+    // Clear previous error and success messages.
     setError("");
     setSuccess("");
 

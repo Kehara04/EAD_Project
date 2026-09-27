@@ -17,7 +17,7 @@ import {
 import { getApiError }
   from "../../services/errorService";
 
-
+// Display the current user's profile and allow personal information to be updated.
 export default function MyProfilePage() {
 
   const [profile, setProfile] =
@@ -41,13 +41,10 @@ export default function MyProfilePage() {
   const [success, setSuccess] =
     useState("");
 
-
-  /* ==========================================
-     LOAD CURRENT USER PROFILE
-  ========================================== */
-
+  // Load the authenticated user's profile when the page first opens.
   useEffect(() => {
 
+    // Retrieve profile details from the backend and populate the form.
     async function loadProfile() {
 
       try {
@@ -64,6 +61,7 @@ export default function MyProfilePage() {
 
       } catch (err) {
 
+        // Display an error if the profile cannot be retrieved.
         setError(
           getApiError(
             err,
@@ -73,6 +71,7 @@ export default function MyProfilePage() {
 
       } finally {
 
+        // Stop displaying the loading indicator.
         setLoading(false);
 
       }
@@ -82,11 +81,7 @@ export default function MyProfilePage() {
 
   }, []);
 
-
-  /* ==========================================
-     UPDATE PROFILE
-  ========================================== */
-
+  // Validate the edited profile and submit the updated information to the backend.
   async function handleSubmit(event) {
 
     event.preventDefault();
@@ -184,11 +179,6 @@ export default function MyProfilePage() {
 
         <div className="col-12 col-lg-9 col-xl-8">
 
-
-          {/* ====================================
-              PROFILE HEADING
-          ===================================== */}
-
           <div className="account-profile-intro">
 
             <div className="account-profile-avatar">
@@ -218,11 +208,6 @@ export default function MyProfilePage() {
 
           </div>
 
-
-          {/* ====================================
-              PERSONAL INFORMATION CARD
-          ===================================== */}
-
           <div className="dashboard-card account-page-card">
 
             <div className="section-heading">
@@ -241,9 +226,6 @@ export default function MyProfilePage() {
 
             </div>
 
-
-            {/* ERROR MESSAGE */}
-
             {error && (
 
               <div
@@ -254,9 +236,6 @@ export default function MyProfilePage() {
               </div>
 
             )}
-
-
-            {/* SUCCESS MESSAGE */}
 
             {success && (
 
@@ -315,9 +294,6 @@ export default function MyProfilePage() {
 
                 </div>
 
-
-                {/* EMAIL */}
-
                 <div className="mb-3">
 
                   <label
@@ -345,9 +321,6 @@ export default function MyProfilePage() {
 
                 </div>
 
-
-                {/* ROLE */}
-
                 <div className="mb-3">
 
                   <label
@@ -370,9 +343,6 @@ export default function MyProfilePage() {
 
                 </div>
 
-
-                {/* STATUS */}
-
                 <div className="mb-4">
 
                   <label
@@ -391,9 +361,6 @@ export default function MyProfilePage() {
 
                 </div>
 
-
-                {/* SAVE BUTTON */}
-
                 <button
                   type="submit"
                   className="btn btn-solar"
@@ -411,11 +378,6 @@ export default function MyProfilePage() {
             )}
 
           </div>
-
-
-          {/* ====================================
-              ACCOUNT SECURITY CARD
-          ===================================== */}
 
           <div className="dashboard-card account-security-card">
 
@@ -469,9 +431,6 @@ export default function MyProfilePage() {
               </div>
 
             </div>
-
-
-            {/* CHANGE PASSWORD BUTTON */}
 
             <Link
               to="/account/change-password"

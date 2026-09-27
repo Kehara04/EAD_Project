@@ -1,3 +1,4 @@
+// Display a reusable status badge with the appropriate color and label.
 export default function StatusBadge({ status }) {
   const className = {
     Active: "status-active",

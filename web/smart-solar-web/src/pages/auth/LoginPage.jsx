@@ -8,7 +8,7 @@ import {
 
 import { getApiError } from "../../services/errorService";
 
-
+// Display the Smart Solar login page and manage user authentication.
 export default function LoginPage() {
   const navigate = useNavigate();
 
@@ -22,6 +22,7 @@ export default function LoginPage() {
   const [loading, setLoading] =
     useState(false);
 
+  // Redirect users with an existing session to their role-specific dashboard.
   useEffect(() => {
     const user = getCurrentUser();
 
@@ -48,6 +49,8 @@ export default function LoginPage() {
     }
   }, [navigate]);
 
+
+  // Validate login credentials and authenticate the user through the backend API.
   async function handleSubmit(event) {
     event.preventDefault();
 
@@ -122,7 +125,6 @@ export default function LoginPage() {
 
         <div className="showcase-content">
 
-          {/* Small category label */}
           <div className="showcase-badge">
 
             <span className="showcase-badge-dot">
@@ -133,8 +135,6 @@ export default function LoginPage() {
 
           </div>
 
-
-          {/* Clear application purpose */}
           <h1 className="showcase-main-title">
 
             Manage your solar
@@ -166,8 +166,6 @@ export default function LoginPage() {
 
           </p>
 
-
-          {/* Purpose highlights */}
           <div className="showcase-purpose">
 
             <span>
@@ -192,8 +190,6 @@ export default function LoginPage() {
 
           </div>
 
-
-          {/* Platform features */}
           <div className="showcase-metrics">
 
             <div className="showcase-feature">
@@ -395,8 +391,6 @@ export default function LoginPage() {
 
             </div>
 
-
-            {/* PASSWORD */}
             <div className="login-form-group">
 
               <label
@@ -471,8 +465,6 @@ export default function LoginPage() {
   </Link>
 </div>
 
-
-            {/* LOGIN BUTTON */}
             <button
               type="submit"
               className="
@@ -540,6 +532,7 @@ export default function LoginPage() {
   );
 }
 
+// Render the email icon used in the login form.
 function EmailIcon() {
   return (
     <svg
@@ -567,7 +560,7 @@ function EmailIcon() {
   );
 }
 
-
+// Render the lock icon used beside the password input.
 function LockIcon() {
   return (
     <svg
@@ -600,7 +593,7 @@ function LockIcon() {
   );
 }
 
-
+// Render the arrow icon displayed inside the login button.
 function ArrowIcon() {
   return (
     <svg
@@ -622,7 +615,7 @@ function ArrowIcon() {
   );
 }
 
-
+// Render the shield icon representing secure, role-based access.
 function ShieldIcon() {
   return (
     <svg
@@ -654,7 +647,7 @@ function ShieldIcon() {
   );
 }
 
-
+// Render the cloud icon representing the connected Smart Solar platform.
 function CloudIcon() {
   return (
     <svg
@@ -681,7 +674,7 @@ function CloudIcon() {
   );
 }
 
-
+// Render the energy icon representing solar and microgrid operations.
 function EnergyIcon() {
   return (
     <svg

@@ -1,5 +1,6 @@
 import axios from "axios";
 
+// Configure the shared Axios client for communicating with the backend API.
 const apiClient = axios.create({
   baseURL:
     import.meta.env.VITE_API_BASE_URL ||
@@ -9,6 +10,7 @@ const apiClient = axios.create({
   }
 });
 
+// Attach the stored JWT token to outgoing API requests for authentication.
 apiClient.interceptors.request.use((config) => {
   const token = localStorage.getItem("token");
 
@@ -19,6 +21,7 @@ apiClient.interceptors.request.use((config) => {
   return config;
 });
 
+// Handle API responses and clear the user session when authentication expires.
 apiClient.interceptors.response.use(
   (response) => response,
   (error) => {

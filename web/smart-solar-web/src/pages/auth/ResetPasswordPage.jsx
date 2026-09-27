@@ -7,6 +7,7 @@ import { getApiError } from "../../services/errorService";
 const PASSWORD_REGEX =
   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9])\S{8,64}$/;
 
+// Display the password reset page and manage the account recovery process.
 export default function ResetPasswordPage() {
   const [searchParams] = useSearchParams();
 
@@ -19,6 +20,7 @@ export default function ResetPasswordPage() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
+  // Validate the reset token and passwords before submitting the reset request.
   async function handleSubmit(event) {
     event.preventDefault();
 
