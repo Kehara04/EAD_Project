@@ -32,15 +32,15 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
- * Prosumer screen that fetches a signed QR payload from the server
- * and renders it as a scannable QR code bitmap.
- * Shown only for reservations in the "Approved" state.
+ * Displays a scannable QR code for an approved energy reservation.
+ * Retrieves the signed QR payload from the backend API, generates
+ * a QR code bitmap, and displays the associated station, slot,
+ * and scheduled date and time.
  */
 public class QrDisplayActivity extends AppCompatActivity {
 
     private static final String EXTRA_RESERVATION_ID = "reservationId";
 
-    // QR image size in pixels.
     private static final int QR_SIZE = 600;
 
     private ApiService apiService;
@@ -53,10 +53,7 @@ public class QrDisplayActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     private View        qrCard;
 
-
-    /**
-     * Convenience launcher so callers do not need to know the Intent extra key.
-     */
+    // Opens the QR display screen with the selected reservation ID.
     public static void open(
             Context context,
             String  reservationId) {
@@ -66,7 +63,7 @@ public class QrDisplayActivity extends AppCompatActivity {
         context.startActivity(intent);
     }
 
-
+    // Initializes the QR display screen, validates the reservation ID, and loads the signed QR payload.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -95,16 +92,13 @@ public class QrDisplayActivity extends AppCompatActivity {
         ((com.google.android.material.appbar.MaterialToolbar) findViewById(R.id.toolbarQrDisplay))
                 .setNavigationOnClickListener(v -> finish());
                 
-        // Bottom "Done" button
         findViewById(R.id.buttonQrBack).setOnClickListener(v -> finish());
 
         loadQrPayload();
     }
 
 
-    /**
-     * Fetches the signed QR payload from the API then renders the bitmap.
-     */
+    // Retrieves the signed QR payload for the selected reservation from the backend API.
     private void loadQrPayload() {
 
         setLoading(true);
@@ -112,6 +106,7 @@ public class QrDisplayActivity extends AppCompatActivity {
         apiService.getQrPayload(reservationId)
                 .enqueue(new Callback<QrPayload>() {
 
+                    // Processes the API response and generates the QR code when a valid payload is returned.
                     @Override
                     public void onResponse(
                             Call<QrPayload> call,
@@ -130,6 +125,7 @@ public class QrDisplayActivity extends AppCompatActivity {
                         finish();
                     }
 
+                    // Handles network failures encountered while retrieving the signed QR payload.
                     @Override
                     public void onFailure(
                             Call<QrPayload> call,
@@ -145,10 +141,7 @@ public class QrDisplayActivity extends AppCompatActivity {
     }
 
 
-    /**
-     * Serialises the QrPayload to a compact JSON string and encodes it
-     * into a QR code bitmap using the ZXing BarcodeEncoder.
-     */
+    // Converts the signed payload into a QR code bitmap and displays its reservation information.
     private void renderQr(QrPayload payload) {
 
         // Build the JSON string that the operator's scanner will read back.
@@ -181,10 +174,7 @@ public class QrDisplayActivity extends AppCompatActivity {
     }
 
 
-    /**
-     * Produces a minimal JSON string that the operator endpoint can deserialise.
-     * Using manual JSON construction avoids adding a JSON library dependency.
-     */
+    // Serializes the reservation details and signature into the JSON string encoded in the QR code.
     private String buildJson(QrPayload p) {
         return "{"
                 + "\"reservationId\":\"" + p.getReservationId() + "\","
@@ -198,8 +188,7 @@ public class QrDisplayActivity extends AppCompatActivity {
     }
 
 
-    // ─── helpers ────────────────────────────────────────────────────────────
-
+    // Updates the loading indicator and QR content visibility during the API request.
     private void setLoading(boolean loading) {
         progressBar.setVisibility(loading ? View.VISIBLE : View.GONE);
         if (qrCard != null) {
@@ -207,12 +196,12 @@ public class QrDisplayActivity extends AppCompatActivity {
         }
     }
 
-
+    // Returns a fallback value when the provided text is null or empty.
     private String safe(String value, String fallback) {
         return (value == null || value.trim().isEmpty()) ? fallback : value;
     }
 
-
+    // Converts the API timestamp into a readable date and time using the device's locale.
     private String formatDateTime(String value) {
         if (value == null) return "—";
         String[] patterns = {

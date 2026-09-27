@@ -40,17 +40,13 @@ public class QrScanActivity extends AppCompatActivity {
     private MaterialButton scanButton;
 
 
-    /**
-     * ActivityResultLauncher registers the ZXing scan contract.
-     * The callback fires when the camera returns a scan result.
-     */
     private final ActivityResultLauncher<ScanOptions> barcodeLauncher =
             registerForActivityResult(
                     new ScanContract(),
                     this::handleScanResult
             );
 
-
+    // Initializes the QR scanning screen, API service, and navigation controls.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -69,9 +65,7 @@ public class QrScanActivity extends AppCompatActivity {
     }
 
 
-    /**
-     * Launches the ZXing embedded camera scanner for QR code capture.
-     */
+    // Launches the ZXing camera scanner configured to capture QR codes.
     private void launchScanner() {
         ScanOptions options = new ScanOptions();
         options.setDesiredBarcodeFormats(ScanOptions.QR_CODE);
@@ -82,14 +76,10 @@ public class QrScanActivity extends AppCompatActivity {
     }
 
 
-    /**
-     * Receives the raw scan result string from ZXing, parses the JSON,
-     * and submits it to the server for verification.
-     */
+    // Processes the scanned QR code and submits a valid payload for server verification.
     private void handleScanResult(ScanIntentResult result) {
 
         if (result.getContents() == null) {
-            // User cancelled the scan.
             return;
         }
 
@@ -106,10 +96,7 @@ public class QrScanActivity extends AppCompatActivity {
     }
 
 
-    /**
-     * Calls POST /api/operator/verify with the scanned payload.
-     * On success, opens ScanResultActivity.
-     */
+    // Sends the scanned QR payload to the backend verification API.
     private void verifyPayload(QrPayload payload) {
 
         setLoading(true);
@@ -117,6 +104,7 @@ public class QrScanActivity extends AppCompatActivity {
         apiService.verifyQr(payload)
                 .enqueue(new Callback<VerifyQrResponse>() {
 
+                    // Processes the verification response and opens the scan result screen on success.
                     @Override
                     public void onResponse(
                             Call<VerifyQrResponse> call,
@@ -137,6 +125,7 @@ public class QrScanActivity extends AppCompatActivity {
                                 Toast.LENGTH_LONG).show();
                     }
 
+                    // Handles network failures encountered during QR code verification.
                     @Override
                     public void onFailure(
                             Call<VerifyQrResponse> call,
@@ -151,10 +140,7 @@ public class QrScanActivity extends AppCompatActivity {
     }
 
 
-    /**
-     * Parses the raw JSON string from the QR code into a QrPayload object.
-     * Returns null when JSON is malformed or missing required fields.
-     */
+    // Parses the scanned JSON string into a QR payload and returns null if parsing fails.
     private QrPayload parseQrJson(String json) {
         try {
             JSONObject obj = new JSONObject(json);
@@ -170,8 +156,7 @@ public class QrScanActivity extends AppCompatActivity {
     }
 
 
-    // ─── helpers ────────────────────────────────────────────────────────────
-
+    // Updates the loading indicator and scan button while verification is in progress.
     private void setLoading(boolean loading) {
         progressBar.setVisibility(loading ? View.VISIBLE : View.GONE);
         scanButton.setEnabled(!loading);

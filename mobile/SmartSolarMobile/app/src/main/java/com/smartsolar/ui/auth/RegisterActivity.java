@@ -22,6 +22,11 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * Handles prosumer account registration in the Smart Solar mobile application.
+ * Validates personal information and credentials, submits registration details
+ * to the backend API, and displays registration results to the user.
+ */
 public class RegisterActivity extends AppCompatActivity {
 
     private TextInputEditText nicInput;
@@ -37,39 +42,21 @@ public class RegisterActivity extends AppCompatActivity {
 
     private ApiService apiService;
 
-    /*
-     * Supports:
-     * Old NIC: 9 digits + V/X
-     * New NIC: 12 digits
-     */
     private static final String NIC_PATTERN =
             "^(?:\\d{9}[VvXx]|\\d{12})$";
 
-    /*
-     * Sri Lankan local mobile/telephone format:
-     * exactly 10 digits starting with 0.
-     */
     private static final String PHONE_PATTERN =
             "^0\\d{9}$";
 
-    /*
-     * Password requires:
-     * - 8 to 64 characters
-     * - uppercase
-     * - lowercase
-     * - number
-     * - special character
-     * - no spaces
-     */
     private static final String PASSWORD_PATTERN =
             "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^A-Za-z0-9])\\S{8,64}$";
 
+    // Initializes the registration screen, input fields, API service, and navigation listeners.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        // Connect Java fields with layout controls.
         nicInput =
                 findViewById(R.id.editTextNic);
 
@@ -97,16 +84,13 @@ public class RegisterActivity extends AppCompatActivity {
         errorText =
                 findViewById(R.id.textRegisterError);
 
-        // Create API service.
         apiService =
                 ApiClient.create(this);
 
-        // Register account when button is pressed.
         registerButton.setOnClickListener(
                 v -> registerProsumer()
         );
 
-        // Return to login screen.
         ((com.google.android.material.appbar.MaterialToolbar) findViewById(
                 R.id.buttonBackToLogin
         )).setNavigationOnClickListener(
@@ -114,9 +98,9 @@ public class RegisterActivity extends AppCompatActivity {
         );
     }
 
+    // Validates registration details and submits a new prosumer account request to the backend.
     private void registerProsumer() {
 
-        // Validate all user-entered information first.
         if (!validateInputs()) {
             return;
         }
@@ -125,7 +109,6 @@ public class RegisterActivity extends AppCompatActivity {
                 View.GONE
         );
 
-        // Normalize values before sending them to the API.
         String nic =
                 valueOf(nicInput)
                         .toUpperCase();
@@ -158,12 +141,12 @@ public class RegisterActivity extends AppCompatActivity {
 
         setLoading(true);
 
-        // Send registration request to central Web API.
         apiService
                 .register(request)
                 .enqueue(
                         new Callback<Prosumer>() {
 
+                            // Processes the registration response and displays confirmation or validation errors.
                             @Override
                             public void onResponse(
                                     Call<Prosumer> call,
@@ -192,6 +175,7 @@ public class RegisterActivity extends AppCompatActivity {
                                 );
                             }
 
+                            // Handles network failures encountered while submitting the registration request.
                             @Override
                             public void onFailure(
                                     Call<Prosumer> call,
@@ -207,9 +191,9 @@ public class RegisterActivity extends AppCompatActivity {
                 );
     }
 
+    // Validates the NIC, name, email, phone number, address, and password before registration.
     private boolean validateInputs() {
 
-        // Read and normalize all input values.
         String nicValue =
                 valueOf(nicInput);
 
@@ -228,9 +212,6 @@ public class RegisterActivity extends AppCompatActivity {
         String passwordValue =
                 valueOf(passwordInput);
 
-        /*
-         * NIC validation.
-         */
         if (nicValue.isEmpty()) {
 
             nicInput.setError(
@@ -254,9 +235,6 @@ public class RegisterActivity extends AppCompatActivity {
             return false;
         }
 
-        /*
-         * Full name validation.
-         */
         if (nameValue.isEmpty()) {
 
             nameInput.setError(
@@ -290,9 +268,6 @@ public class RegisterActivity extends AppCompatActivity {
             return false;
         }
 
-        /*
-         * Email validation.
-         */
         if (emailValue.isEmpty()) {
 
             emailInput.setError(
@@ -317,9 +292,6 @@ public class RegisterActivity extends AppCompatActivity {
             return false;
         }
 
-        /*
-         * Phone validation.
-         */
         if (phoneValue.isEmpty()) {
 
             phoneInput.setError(
@@ -343,9 +315,6 @@ public class RegisterActivity extends AppCompatActivity {
             return false;
         }
 
-        /*
-         * Address validation.
-         */
         if (addressValue.isEmpty()) {
 
             addressInput.setError(
@@ -379,9 +348,6 @@ public class RegisterActivity extends AppCompatActivity {
             return false;
         }
 
-        /*
-         * Password validation.
-         */
         if (passwordValue.isEmpty()) {
 
             passwordInput.setError(
@@ -430,10 +396,10 @@ public class RegisterActivity extends AppCompatActivity {
         return true;
     }
 
+    // Safely retrieves and trims the text entered in an input field.
     private String valueOf(
             TextInputEditText input) {
 
-        // Safely read EditText value.
         return input.getText() == null
                 ? ""
                 : input.getText()
@@ -441,10 +407,10 @@ public class RegisterActivity extends AppCompatActivity {
                         .trim();
     }
 
+    // Updates the progress indicator and registration button while the API request is running.
     private void setLoading(
             boolean loading) {
 
-        // Update UI while network request is running.
         progressBar.setVisibility(
                 loading
                         ? View.VISIBLE
@@ -462,10 +428,10 @@ public class RegisterActivity extends AppCompatActivity {
         );
     }
 
+    // Displays a registration or network error message on the screen.
     private void showError(
             String message) {
 
-        // Display API/network error to user.
         errorText.setText(
                 message
         );

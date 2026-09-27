@@ -3,7 +3,13 @@ package com.smartsolar.utils;
 import com.smartsolar.model.SolarStation;
 import java.util.Locale;
 
+/**
+ * Utility class for filtering solar stations based on availability
+ * and search text without modifying the original station list.
+ */
 public final class StationFilter {
+
+    // Prevents instantiation of this utility class.
     private StationFilter() { }
 
     // Apply availability first, then search station name and address without changing the loaded list.

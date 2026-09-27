@@ -57,9 +57,7 @@ public class ScanResultActivity extends AppCompatActivity {
     private String prosumerId;
 
 
-    /**
-     * Convenience launcher – serialises VerifyQrResponse into Intent extras.
-     */
+    // Opens the scan result screen with verification details passed through Intent extras.     
     public static void open(Context context, VerifyQrResponse response) {
         Intent intent = new Intent(context, ScanResultActivity.class);
         intent.putExtra(EXTRA_IS_VALID,       response.isValid());
@@ -74,7 +72,7 @@ public class ScanResultActivity extends AppCompatActivity {
         context.startActivity(intent);
     }
 
-
+    // Initializes the result screen and displays the appropriate UI based on QR verification status.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -152,9 +150,7 @@ public class ScanResultActivity extends AppCompatActivity {
     }
 
 
-    /**
-     * Calls POST /api/operator/complete to mark the reservation as Completed.
-     */
+    // Submits the verified reservation and prosumer details to complete the energy transfer.
     private void completeTransfer() {
 
         setLoading(true);
@@ -165,6 +161,7 @@ public class ScanResultActivity extends AppCompatActivity {
         apiService.completeTransfer(body)
                 .enqueue(new Callback<EnergyReservation>() {
 
+                    // Handles the transfer completion response and returns to the operator dashboard on success.
                     @Override
                     public void onResponse(
                             Call<EnergyReservation> call,
@@ -178,7 +175,6 @@ public class ScanResultActivity extends AppCompatActivity {
                                     "Energy transfer completed successfully!",
                                     Toast.LENGTH_LONG
                             ).show();
-                            // Return to OperatorDashboard.
                             Intent i = new Intent(
                                     ScanResultActivity.this,
                                     OperatorDashboardActivity.class
@@ -196,6 +192,7 @@ public class ScanResultActivity extends AppCompatActivity {
                         ).show();
                     }
 
+                    // Displays an error when the transfer completion request fails due to a network issue.
                     @Override
                     public void onFailure(
                             Call<EnergyReservation> call,
@@ -212,14 +209,13 @@ public class ScanResultActivity extends AppCompatActivity {
     }
 
 
-    // ─── helpers ────────────────────────────────────────────────────────────
-
+    // Updates the progress indicator and confirmation button during transfer completion.
     private void setLoading(boolean loading) {
         progressBar.setVisibility(loading ? View.VISIBLE : View.GONE);
         confirmButton.setEnabled(!loading);
     }
 
-
+    // Converts a UTC reservation timestamp into a readable date and time format.
     private String formatDateTime(String value) {
         if (value == null) return "—";
         String[] patterns = {

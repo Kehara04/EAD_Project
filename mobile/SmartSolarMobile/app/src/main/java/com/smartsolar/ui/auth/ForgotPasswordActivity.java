@@ -20,12 +20,18 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/*
+ Handles password reset requests for registered users.
+ Validates the entered email address, sends a password reset request
+ to the backend API, and displays the result to the user.
+ */
 public class ForgotPasswordActivity extends AppCompatActivity {
 
     private EditText emailInput;
     private Button submitButton;
     private ApiService apiService;
 
+    // Initializes the password reset screen, API service, and submit button listener.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +46,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         submitButton.setOnClickListener(v -> submitRequest());
     }
 
+    // Validates the email address and submits the password reset request to the backend.
     private void submitRequest() {
         String email = emailInput.getText() == null
                 ? ""
@@ -58,6 +65,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         apiService.forgotPassword(request)
                 .enqueue(new Callback<ResponseBody>() {
 
+                    // Handles the API response and displays the appropriate confirmation or error message.
                     @Override
                     public void onResponse(
                             Call<ResponseBody> call,
@@ -81,7 +89,8 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                             ).show();
                         }
                     }
-
+                    
+                    // Handles network or server connection failures during the password reset request.
                     @Override
                     public void onFailure(
                             Call<ResponseBody> call,

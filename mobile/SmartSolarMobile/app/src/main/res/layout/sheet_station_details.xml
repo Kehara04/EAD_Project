@@ -160,7 +160,6 @@
             android:textSize="12sp"
             android:textStyle="bold" />
 
-        <!-- Display saved backend coordinates; users do not edit the location here. -->
         <TextView
             android:id="@+id/stationDetailLocation"
             android:layout_width="match_parent"
@@ -206,7 +205,6 @@
             android:textSize="12sp" />
 
 
-        <!-- REFRESH STATUS -->
 
         <!-- Report whether the detail sheet refreshed successfully or is showing cached values. -->
         <TextView

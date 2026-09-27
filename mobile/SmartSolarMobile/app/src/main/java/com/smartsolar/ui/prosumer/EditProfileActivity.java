@@ -21,6 +21,12 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * Handles profile editing for authenticated prosumers.
+ * Retrieves existing profile information from the backend API,
+ * allows users to modify their personal details, validates the
+ * entered information, and submits profile updates.
+ */
 public class EditProfileActivity extends AppCompatActivity {
 
     private ApiService apiService;
@@ -32,6 +38,7 @@ public class EditProfileActivity extends AppCompatActivity {
     private MaterialButton saveButton;
     private ProgressBar progressBar;
 
+    // Initializes the profile editing screen, input fields, API service, and navigation controls.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,10 +59,12 @@ public class EditProfileActivity extends AppCompatActivity {
         loadCurrentProfile();
     }
 
+    // Retrieves the current prosumer profile and populates the editable input fields.
     private void loadCurrentProfile() {
         setLoading(true);
 
         apiService.getProfile().enqueue(new Callback<Prosumer>() {
+            // Processes the profile response and displays the retrieved personal information.
             @Override
             public void onResponse(Call<Prosumer> call, Response<Prosumer> response) {
                 setLoading(false);
@@ -71,6 +80,7 @@ public class EditProfileActivity extends AppCompatActivity {
                 }
             }
 
+            // Handles network failures encountered while retrieving the prosumer profile.
             @Override
             public void onFailure(Call<Prosumer> call, Throwable throwable) {
                 setLoading(false);
@@ -79,6 +89,7 @@ public class EditProfileActivity extends AppCompatActivity {
         });
     }
 
+    // Validates the modified profile details and submits the update request to the backend API.
     private void saveProfile() {
         String name = valueOf(nameInput);
         String email = valueOf(emailInput).toLowerCase();
@@ -107,6 +118,7 @@ public class EditProfileActivity extends AppCompatActivity {
 
         apiService.updateProfile(new UpdateProsumerRequest(name, email, phone, address))
                 .enqueue(new Callback<Prosumer>() {
+                    // Processes the profile update response and displays the result to the user.
                     @Override
                     public void onResponse(Call<Prosumer> call, Response<Prosumer> response) {
                         setLoading(false);
@@ -124,6 +136,7 @@ public class EditProfileActivity extends AppCompatActivity {
                         ).show();
                     }
 
+                    // Handles network failures and allows the user to retry updating their profile.
                     @Override
                     public void onFailure(Call<Prosumer> call, Throwable throwable) {
                         setLoading(false);
@@ -132,10 +145,12 @@ public class EditProfileActivity extends AppCompatActivity {
                 });
     }
 
+    // Safely retrieves and trims the text entered in a profile input field.
     private String valueOf(TextInputEditText input) {
         return input.getText() == null ? "" : input.getText().toString().trim();
     }
 
+    // Updates the progress indicator and save button while an API request is running.
     private void setLoading(boolean loading) {
         progressBar.setVisibility(loading ? View.VISIBLE : View.GONE);
         saveButton.setEnabled(!loading);

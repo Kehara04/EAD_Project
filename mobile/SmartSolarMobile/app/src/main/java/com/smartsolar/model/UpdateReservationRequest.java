@@ -1,15 +1,10 @@
-/*
- * File: UpdateReservationRequest.java
- * Project: Smart Solar Microgrid Trading System
- * Component: Energy Slot Reservation Management
- *
- * Description:
- * Defines the request body used to modify an existing reservation.
- * Contains the updated station, booking slot, scheduled date and
- * time, and optional notes submitted to the backend API.
- */
 package com.smartsolar.model;
 
+/*
+ Represents the request body used to update an existing energy reservation.
+ Stores the selected station, booking slot, scheduled date and time,
+ and optional reservation notes.
+ */
 public class UpdateReservationRequest {
 
     private final String stationId;

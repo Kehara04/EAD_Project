@@ -19,6 +19,11 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * Handles password changes for authenticated prosumers.
+ * Validates the current password, new password, and confirmation
+ * before submitting the password change request to the backend API.
+ */
 public class ChangePasswordActivity extends AppCompatActivity {
 
     private EditText currentInput;
@@ -31,6 +36,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
     private static final String PASSWORD_PATTERN =
             "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^A-Za-z0-9])\\S{8,64}$";
 
+    // Initializes the password change screen, input fields, API service, and submit button.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,12 +54,14 @@ public class ChangePasswordActivity extends AppCompatActivity {
         submitButton.setOnClickListener(v -> submitChange());
     }
 
+    // Safely retrieves the entered text from an input field.
     private String valueOf(EditText input) {
         return input.getText() == null
                 ? ""
                 : input.getText().toString();
     }
 
+    // Validates password details and submits the password change request to the backend.
     private void submitChange() {
         String current = valueOf(currentInput);
         String next = valueOf(newInput);
@@ -87,6 +95,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
         apiService.changePassword(request)
                 .enqueue(new Callback<ResponseBody>() {
 
+                    // Processes the API response and displays the password change result.
                     @Override
                     public void onResponse(
                             Call<ResponseBody> call,
@@ -110,7 +119,8 @@ public class ChangePasswordActivity extends AppCompatActivity {
                             ).show();
                         }
                     }
-
+                    
+                    // Handles network failures and allows the user to retry the password change.
                     @Override
                     public void onFailure(
                             Call<ResponseBody> call,

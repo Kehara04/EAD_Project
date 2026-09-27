@@ -25,15 +25,10 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
- * ProfileActivity
- *
- * Displays Prosumer account information and provides:
- * - View profile
- * - Edit profile
- * - Change password
- * - Request account deactivation
- *
- * Profile information is retrieved from the central API.
+ * Displays and manages the authenticated prosumer's account profile.
+ * Retrieves personal information from the backend API and provides
+ * navigation to profile editing and password management.
+ * Also allows active prosumers to request account deactivation.
  */
 public class ProfileActivity extends AppCompatActivity {
 
@@ -42,7 +37,6 @@ public class ProfileActivity extends AppCompatActivity {
 
     private ProgressBar progressBar;
 
-    // Profile information
     private TextView nicText;
     private TextView nameText;
     private TextView emailText;
@@ -56,7 +50,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     private Prosumer currentProsumer;
 
-
+    // Initializes the profile screen, API service, session manager, and action buttons.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,10 +60,6 @@ public class ProfileActivity extends AppCompatActivity {
         // Initialize API and local session management
         apiService = ApiClient.create(this);
         sessionManager = new SessionManager(this);
-
-        // ==========================================
-        // PROFILE INFORMATION
-        // ==========================================
 
         progressBar = findViewById(R.id.profileProgress);
 
@@ -176,7 +166,7 @@ public class ProfileActivity extends AppCompatActivity {
                         ).show();
                     }
 
-
+                    // Displays a connection error when the profile request cannot reach the server.
                     @Override
                     public void onFailure(
                             Call<Prosumer> call,
@@ -305,6 +295,7 @@ public class ProfileActivity extends AppCompatActivity {
         apiService.requestDeactivation().enqueue(
                 new Callback<ProsumerActionResponse>() {
 
+                    // Processes the deactivation response and refreshes the displayed account status.
                     @Override
                     public void onResponse(
                             Call<ProsumerActionResponse> call,
@@ -349,7 +340,7 @@ public class ProfileActivity extends AppCompatActivity {
                         ).show();
                     }
 
-
+                    // Handles network failures encountered while requesting account deactivation.
                     @Override
                     public void onFailure(
                             Call<ProsumerActionResponse> call,

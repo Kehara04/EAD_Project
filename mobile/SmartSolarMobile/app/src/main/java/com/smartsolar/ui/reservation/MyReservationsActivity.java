@@ -1,15 +1,3 @@
-/*
- * File: MyReservationsActivity.java
- * Project: Smart Solar Microgrid Trading System
- * Component: Energy Slot Reservation Management
- *
- * Description:
- * Displays energy reservations belonging to the authenticated
- * prosumer using data retrieved from the backend API.
- *
- * Provides reservation search, status filtering, booking history,
- * and navigation to individual reservation details.
- */
 package com.smartsolar.ui.reservation;
 
 import android.os.Bundle;
@@ -36,6 +24,11 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * Displays and manages the authenticated prosumer's energy reservations.
+ * Retrieves reservation records from the backend API and allows users
+ * to search, filter by reservation status, and open reservation details.
+ */
 public class MyReservationsActivity extends AppCompatActivity {
 
     private ApiService apiService;
@@ -59,7 +52,7 @@ public class MyReservationsActivity extends AppCompatActivity {
 
     private String selectedStatus = null;
 
-        // Initializes the reservation list, search interface, and status filter buttons.
+    // Initializes the reservation list, search interface, and status filter buttons.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -178,7 +171,7 @@ public class MyReservationsActivity extends AppCompatActivity {
         loadReservations();
     }
 
-        // Refreshes reservation information when the user returns to this screen.
+    // Refreshes reservation information when the user returns to this screen.
     @Override
     protected void onResume() {
         super.onResume();
@@ -186,7 +179,7 @@ public class MyReservationsActivity extends AppCompatActivity {
         loadReservations();
     }
 
-        // Retrieves the authenticated prosumer's reservations from the backend API.
+    // Retrieves the authenticated prosumer's reservations from the backend API.
     private void loadReservations() {
 
         progressBar.setVisibility(
@@ -221,6 +214,7 @@ public class MyReservationsActivity extends AppCompatActivity {
                         new Callback<
                                 List<EnergyReservation>>() {
 
+                            // Processes the API response, filters historical records, and updates the reservation list.
                             @Override
                             public void onResponse(
                                     Call<List<EnergyReservation>> call,
@@ -306,7 +300,7 @@ public class MyReservationsActivity extends AppCompatActivity {
                                 ).show();
                             }
 
-
+                            // Handles network failures encountered while retrieving reservation records.
                             @Override
                             public void onFailure(
                                     Call<List<EnergyReservation>> call,

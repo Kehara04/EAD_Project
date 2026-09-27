@@ -1,5 +1,10 @@
 package com.smartsolar.model;
 
+/**
+ * Represents the request body used to register a new prosumer.
+ * Stores the prosumer's identification details, contact information,
+ * residential address, and password for account registration.
+ */
 public class RegisterProsumerRequest {
 
     private String nic;
@@ -9,6 +14,7 @@ public class RegisterProsumerRequest {
     private String address;
     private String password;
 
+    // Initializes the registration request with the prosumer's personal details and credentials.
     public RegisterProsumerRequest(
             String nic,
             String name,
