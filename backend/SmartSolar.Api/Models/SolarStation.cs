@@ -13,14 +13,16 @@ namespace SmartSolar.Api.Models;
 
 public class SolarStation
 {
-    // Expose the identifier as a string while storing it as a MongoDB ObjectId.
+    // Stores the unique MongoDB station identifier.
     [BsonId]
     [BsonRepresentation(BsonType.ObjectId)]
     public string? Id { get; set; }
 
+     // Stores the station name.
     public string Name { get; set; } =
         string.Empty;
 
+    // Stores the station address.
     public string Address { get; set; } =
         string.Empty;
 

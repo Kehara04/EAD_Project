@@ -21,7 +21,7 @@ public class PasswordResetService
     private readonly MongoDbContext _context;
     private readonly IConfiguration _configuration;
 
-    // Constructor: Initializes the data context and configuration values for reset-email operations.
+    // Initializes the database context and application configuration.
     public PasswordResetService(
         MongoDbContext context,
         IConfiguration configuration)
@@ -30,16 +30,17 @@ public class PasswordResetService
         _configuration = configuration;
     }
 
-    // RequestResetAsync: Creates a secure reset token and sends a password reset email when the user exists.
+    // Generates a password reset token and emails the reset link.
     public async Task RequestResetAsync(string email)
     {
         email = email.Trim().ToLowerInvariant();
 
+        // Retrieves the user associated with the email address.
         var user = await _context.Users
             .Find(x => x.Email == email)
             .FirstOrDefaultAsync();
 
-        // Return the same result for registered and unknown emails.
+        
         if (user == null)
             return;
 
@@ -47,6 +48,7 @@ public class PasswordResetService
             RandomNumberGenerator.GetBytes(32)
         );
 
+        // Stores the token hash with a 15-minute expiration.
         var record = new PasswordResetToken
         {
             UserId = user.Id ?? string.Empty,
@@ -61,6 +63,7 @@ public class PasswordResetService
 
         await _context.PasswordResetTokens.InsertOneAsync(record);
 
+        // Constructs the password reset link.
         var webUrl = (
             _configuration["WEB_BASE_URL"] ??
             "http://localhost:5173"
@@ -83,7 +86,7 @@ public class PasswordResetService
         }
     }
 
-    // ResetPasswordAsync: Validates a reset token and updates the user's password when the token is valid.
+    // Validates the reset token and updates the user's password.
     public async Task<bool> ResetPasswordAsync(
         string token,
         string newPassword,
@@ -99,7 +102,7 @@ public class PasswordResetService
 
         var hash = HashToken(token);
 
-        // Atomically consume the token so it cannot be reused.
+        // Atomically consumes the token to prevent reuse.
         var record = await _context.PasswordResetTokens
             .FindOneAndDeleteAsync(
                 x => x.TokenHash == hash &&
@@ -109,6 +112,7 @@ public class PasswordResetService
         if (record == null)
             return false;
 
+        // Retrieves the account associated with the reset token.
         var user = await _context.Users
             .Find(x => x.Id == record.UserId)
             .FirstOrDefaultAsync();
@@ -116,6 +120,7 @@ public class PasswordResetService
         if (user == null)
             return false;
 
+        // Securely hashes the new password before storage.
         var newHash = BCrypt.Net.BCrypt.HashPassword(
             newPassword
         );
@@ -134,7 +139,7 @@ public class PasswordResetService
         return true;
     }
 
-    // HashToken: Converts the user token into a secure SHA-256 hash for database storage.
+    // Converts the reset token into a SHA-256 hash.
     private static string HashToken(string token)
     {
         var bytes = SHA256.HashData(
@@ -144,11 +149,12 @@ public class PasswordResetService
         return Convert.ToHexString(bytes);
     }
 
-    // SendEmailAsync: Sends the password-reset email using the configured SMTP mail server.
+    // Sends the password reset email using the configured SMTP server.
     private async Task SendEmailAsync(
         string email,
         string resetUrl)
     {
+        // Retrieves SMTP configuration values.
         var host = _configuration["SMTP_HOST"];
         var username = _configuration["SMTP_USERNAME"];
         var password = _configuration["SMTP_PASSWORD"];
@@ -164,6 +170,7 @@ public class PasswordResetService
             );
         }
 
+        // Uses port 587 when no SMTP port is configured.
         var port = int.TryParse(
             _configuration["SMTP_PORT"],
             out var configuredPort
@@ -171,6 +178,7 @@ public class PasswordResetService
             ? configuredPort
             : 587;
 
+        // Creates the password reset email message.
         using var message = new MailMessage
         {
             From = new MailAddress(sender),
@@ -185,6 +193,7 @@ public class PasswordResetService
 
         message.To.Add(email);
 
+        // Configures the SMTP client with SSL and credentials.
         using var smtp = new SmtpClient(host, port)
         {
             EnableSsl = true,

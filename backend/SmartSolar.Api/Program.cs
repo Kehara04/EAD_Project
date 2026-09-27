@@ -17,24 +17,15 @@ using SmartSolar.Api.Data;
 using SmartSolar.Api.Services;
 
 
-// ---------------------------------------------------------
 // Load environment variables from the .env file
-// ---------------------------------------------------------
-
 Env.Load();
 
 
-// ---------------------------------------------------------
 // Create WebApplication builder
-// ---------------------------------------------------------
-
 var builder = WebApplication.CreateBuilder(args);
 
 
-// ---------------------------------------------------------
 // Read values from .env and add them to ASP.NET configuration
-// ---------------------------------------------------------
-
 var mongoConnectionString =
     Environment.GetEnvironmentVariable(
         "MONGODB_CONNECTION_STRING"
@@ -76,10 +67,8 @@ var seedAdminPassword =
     );
 
 
-// ---------------------------------------------------------
-// Validate required environment variables
-// ---------------------------------------------------------
 
+// Validate required environment variables
 if (string.IsNullOrWhiteSpace(mongoConnectionString))
 {
     throw new InvalidOperationException(
@@ -116,10 +105,8 @@ if (string.IsNullOrWhiteSpace(jwtAudience))
 }
 
 
-// ---------------------------------------------------------
-// Add .env values into ASP.NET configuration
-// ---------------------------------------------------------
 
+// Add .env values into ASP.NET configuration
 builder.Configuration["MongoDb:ConnectionString"] =
     mongoConnectionString;
 
@@ -147,44 +134,33 @@ builder.Configuration["SeedAdmin:Password"] =
     seedAdminPassword ?? "";
 
 
-// ---------------------------------------------------------
-// Register controllers
-// ---------------------------------------------------------
 
+// Register controllers
 builder.Services.AddControllers();
 
 
-// ---------------------------------------------------------
-// Configure MongoDB settings
-// ---------------------------------------------------------
 
+// Configure MongoDB settings
 builder.Services.Configure<MongoDbSettings>(
     builder.Configuration
         .GetSection("MongoDb")
 );
 
 
-// ---------------------------------------------------------
-// Configure JWT settings
-// ---------------------------------------------------------
 
+// Configure JWT settings
 builder.Services.Configure<JwtSettings>(
     builder.Configuration
         .GetSection("Jwt")
 );
 
 
-// ---------------------------------------------------------
-// Register MongoDB database context
-// ---------------------------------------------------------
 
+// Register MongoDB database context
 builder.Services.AddSingleton<MongoDbContext>();
 
 
-// ---------------------------------------------------------
 // Register application services
-// ---------------------------------------------------------
-
 builder.Services.AddScoped<JwtService>();
 
 builder.Services.AddScoped<AuthService>();
@@ -217,10 +193,8 @@ builder.Services.AddScoped<AccountService>();
 builder.Services.AddScoped<PasswordResetService>();
 
 
-// ---------------------------------------------------------
-// Read JWT configuration
-// ---------------------------------------------------------
 
+// Read JWT configuration
 var jwtSettings =
     builder.Configuration
         .GetSection("Jwt")
@@ -241,10 +215,8 @@ if (string.IsNullOrWhiteSpace(jwtSettings.Key))
 }
 
 
-// ---------------------------------------------------------
-// Convert JWT secret key to bytes
-// ---------------------------------------------------------
 
+// Convert JWT secret key to bytes
 var key =
     Encoding.UTF8.GetBytes(
         jwtSettings.Key
@@ -260,10 +232,8 @@ if (key.Length < 32)
 }
 
 
-// ---------------------------------------------------------
-// Configure JWT authentication
-// ---------------------------------------------------------
 
+// Configure JWT authentication
 builder.Services
     .AddAuthentication(
         JwtBearerDefaults.AuthenticationScheme
@@ -299,19 +269,11 @@ builder.Services
     });
 
 
-// ---------------------------------------------------------
-// Enable role-based authorization
-// ---------------------------------------------------------
 
+// Enable role-based authorization
 builder.Services.AddAuthorization();
 
 
-// ---------------------------------------------------------
-// Configure CORS
-//
-// During development this allows React and Android clients
-// to communicate with the Web API.
-// ---------------------------------------------------------
 
 builder.Services.AddCors(options =>
 {
@@ -328,10 +290,8 @@ builder.Services.AddCors(options =>
 });
 
 
-// ---------------------------------------------------------
-// Configure Swagger / OpenAPI
-// ---------------------------------------------------------
 
+// Configure Swagger / OpenAPI
 builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddSwaggerGen(options =>
@@ -371,61 +331,41 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 
-// ---------------------------------------------------------
-// Build application
-// ---------------------------------------------------------
 
+// Build application
 var app =
     builder.Build();
 
 
-// ---------------------------------------------------------
-// Enable Swagger
-// ---------------------------------------------------------
 
+// Enable Swagger
 app.UseSwagger();
 
 app.UseSwaggerUI();
 
 
-// ---------------------------------------------------------
-// Enable CORS
-// ---------------------------------------------------------
 
+// Enable CORS
 app.UseCors(
     "AllowClients"
 );
 
 
-// ---------------------------------------------------------
-// Enable authentication and authorization
-//
-// Authentication must come before Authorization.
-// ---------------------------------------------------------
 
 app.UseAuthentication();
 
 app.UseAuthorization();
 
 
-// ---------------------------------------------------------
-// Map API controllers
-// ---------------------------------------------------------
-
 app.MapControllers();
 
 
-// ---------------------------------------------------------
-// Seed initial Backoffice administrator account
-// ---------------------------------------------------------
 
+// Seed initial Backoffice administrator account
 using (var scope =
        app.Services.CreateScope())
 {
-    /*
-     * Initialize MongoDB indexes before inserting
-     * or retrieving application data.
-     */
+    
     var databaseInitializer =
         scope.ServiceProvider
             .GetRequiredService<
@@ -435,9 +375,7 @@ using (var scope =
     await databaseInitializer
         .InitializeAsync();
 
-    /*
-     * Create the first Backoffice user when required.
-     */
+    
     var seedService =
         scope.ServiceProvider
             .GetRequiredService<
@@ -447,8 +385,6 @@ using (var scope =
     await seedService.SeedAsync();
 }
 
-// ---------------------------------------------------------
-// Start the Web API
-// ---------------------------------------------------------
 
+// Start the Web API
 app.Run();

@@ -45,7 +45,7 @@ import ResetPasswordPage
 import EditUserPage
   from "./pages/backoffice/EditUserPage";
 
-
+// Configures application routes and role-based access for public and protected pages.
 export default function App() {
   return (
     <BrowserRouter>

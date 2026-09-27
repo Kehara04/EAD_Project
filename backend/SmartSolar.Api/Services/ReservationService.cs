@@ -2,23 +2,11 @@
  * File: ReservationService.cs
  * Project: Smart Solar Microgrid Trading System
  * Component: Energy Slot Reservation Management
- *
  * Description:
- * Implements the core business logic for energy reservations.
- *
- * Responsibilities:
- * - Generate bookable slots based on station configuration.
- * - Retrieve available slots for a selected schedule.
- * - Create and retrieve prosumer reservations.
- * - Validate the seven-day reservation window.
- * - Enforce the twelve-hour update and cancellation rule.
- * - Prevent conflicting bookings for the same energy slot.
- * - Update, cancel, and approve reservations.
- * - Check whether stations have active reservations.
- *
- * Reservation business rules are enforced by the backend
- * rather than relying only on client-side validation.
+ * Handles reservation creation, retrieval, updates, cancellation,
+ * approval, slot availability, and booking business rules.
  */
+
 using MongoDB.Driver;
 using SmartSolar.Api.Constants;
 using SmartSolar.Api.Data;
@@ -32,6 +20,7 @@ public class ReservationService
     private readonly MongoDbContext _context;
 
 
+    // Initializes the MongoDB context.
     public ReservationService(
         MongoDbContext context)
     {
@@ -44,6 +33,7 @@ public class ReservationService
             string? status = null,
             string? search = null)
     {
+        // Retrieves reservations ordered by scheduled date.
         var reservations =
             await _context.Reservations
                 .Find(
@@ -73,6 +63,7 @@ public class ReservationService
         }
 
 
+        // Converts reservation records into API responses.
         var responses =
             new List<ReservationResponse>();
 
@@ -918,7 +909,6 @@ public class ReservationService
     }
 
     // Validates that the reservation date is within the allowed booking period.
-    // Restrict advance bookings to a maximum of seven days.
     private static void
         ValidateBookingDate(
             DateTime scheduledAt)

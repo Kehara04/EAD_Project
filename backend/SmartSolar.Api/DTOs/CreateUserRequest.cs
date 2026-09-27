@@ -12,6 +12,7 @@ namespace SmartSolar.Api.DTOs;
 
 public class CreateUserRequest
 {
+    // Validates the user's full name and allowed characters.
     [Required(ErrorMessage = "Full name is required.")]
     [StringLength(
         100,
@@ -27,7 +28,7 @@ public class CreateUserRequest
     public string Name { get; set; } =
         string.Empty;
 
-
+    // Ensures the user provides a valid email address.
     [Required(ErrorMessage = "Email is required.")]
     [EmailAddress(
         ErrorMessage =
@@ -36,7 +37,7 @@ public class CreateUserRequest
     public string Email { get; set; } =
         string.Empty;
 
-
+    // Enforces password length and complexity requirements.
     [Required(ErrorMessage = "Password is required.")]
     [StringLength(
         64,
@@ -52,7 +53,7 @@ public class CreateUserRequest
     public string Password { get; set; } =
         string.Empty;
 
-
+     // Restricts account creation to Backoffice and GridOperator roles.
     [Required(ErrorMessage = "Role is required.")]
     [RegularExpression(
         @"^(Backoffice|GridOperator)$",

@@ -2,10 +2,8 @@
  * File: ReservationStatuses.cs
  * Project: Smart Solar Microgrid Trading System
  * Component: Energy Slot Reservation Management
- *
  * Description:
  * Defines the supported reservation status values.
- *
  * Provides consistent status names across reservation
  * creation, approval, cancellation, and completion.
  */

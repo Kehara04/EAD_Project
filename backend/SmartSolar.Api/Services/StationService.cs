@@ -28,10 +28,7 @@ public class StationService
     }
 
 
-    /* =========================================
-       GET ALL STATIONS
-    ========================================= */
-
+    //GET ALL STATIONS
     public async Task<List<SolarStation>>
         GetAllAsync(
             string? status = null)
@@ -60,10 +57,8 @@ public class StationService
     }
 
 
-    /* =========================================
-       GET STATION BY ID
-    ========================================= */
-
+    
+    //GET STATION BY ID
     public async Task<SolarStation?>
         GetByIdAsync(
             string id)
@@ -89,10 +84,8 @@ public class StationService
     }
 
 
-    /* =========================================
-       CREATE STATION
-    ========================================= */
 
+    //CREATE STATION
     public async Task<SolarStation>
         CreateAsync(
             StationRequest request)
@@ -182,10 +175,8 @@ public class StationService
     }
 
 
-    /* =========================================
-       UPDATE STATION
-    ========================================= */
 
+    //UPDATE STATION
     public async Task<SolarStation?>
         UpdateAsync(
             string id,
@@ -205,7 +196,6 @@ public class StationService
 
 
         // Unchanged addresses keep existing map coordinates, including legacy stations.
-        // A selected suggestion always replaces the location, even for the same address.
         var location = string.IsNullOrWhiteSpace(request.LocationToken)
             && request.Address.Trim() == existing.Address
             ? new ResolvedStationLocation(existing.Address, existing.Latitude, existing.Longitude)
@@ -233,24 +223,12 @@ public class StationService
         }
 
 
-        /*
-         * Count current active/future reservations
-         * for this station.
-         *
-         * These reservations represent occupied
-         * booking slots.
-         */
         var activeReservations =
             await GetActiveReservationCountAsync(
                 id
             );
 
 
-        /*
-         * Do not allow Backoffice to reduce the
-         * physical slot count below the number of
-         * currently reserved slots.
-         */
         if (
             request.TotalSlots <
             activeReservations
@@ -347,10 +325,8 @@ public class StationService
     }
 
 
-    /* =========================================
-       UPDATE STATION STATUS
-    ========================================= */
 
+    //UPDATE STATION STATUS
     public async Task<SolarStation?>
         UpdateStatusAsync(
             string id,
@@ -380,14 +356,6 @@ public class StationService
             );
         }
 
-
-        /*
-         * Important Member 3 integration:
-         *
-         * Backoffice must not deactivate a station
-         * when it still has future Pending or
-         * Approved reservations.
-         */
         if (
             normalized == "Inactive"
         )
@@ -426,15 +394,13 @@ public class StationService
         var filter = Builders<SolarStation>.Filter.Eq(x => x.Id, id);
         if (normalized == "Inactive")
         {
-            // Preserve the atomic booked-slot guard in addition to the
-            // reservation lookup above. Cross-collection coordination remains
-            // necessary to prevent concurrent reservation creation.
+        
             filter &= new BsonDocument("$expr", new BsonDocument("$gte",
                 new BsonArray { "$AvailableSlots", "$TotalSlots" }));
         }
 
         var result = await _context.Stations.UpdateOneAsync(filter, update);
-        // Distinguish a removed station from a station blocked by the slot guard.
+       
         if (result.MatchedCount == 0)
         {
             if (await GetByIdAsync(id) == null)
@@ -452,10 +418,8 @@ public class StationService
     }
 
 
-    /* =========================================
-       GET NEARBY ACTIVE STATIONS
-    ========================================= */
 
+    //GET NEARBY ACTIVE STATIONS
     public async Task<List<SolarStation>>
         GetNearbyAsync(
             double latitude,
@@ -526,22 +490,13 @@ public class StationService
     }
 
 
-    /* =========================================
-       CHECK IF STATION HAS ACTIVE RESERVATIONS
-    ========================================= */
 
+    //CHECK IF STATION HAS ACTIVE RESERVATIONS
     public async Task<bool>
         HasActiveReservationsAsync(
             string stationId)
     {
-        /*
-         * A station is considered to have active
-         * reservations when:
-         *
-         * - reservation belongs to this station
-         * - reservation is Pending or Approved
-         * - reservation is scheduled in the future
-         */
+        
 
         return await _context.Reservations
             .Find(x =>
@@ -563,10 +518,8 @@ public class StationService
     }
 
 
-    /* =========================================
-       COUNT ACTIVE RESERVATIONS
-    ========================================= */
 
+    //COUNT ACTIVE RESERVATIONS
     public async Task<int>
         GetActiveReservationCountAsync(
             string stationId)
@@ -597,10 +550,7 @@ public class StationService
     }
 
 
-    /* =========================================
-       REFRESH AVAILABLE SLOT COUNT
-    ========================================= */
-
+    //REFRESH AVAILABLE SLOT COUNT
     public async Task<SolarStation?>
         RefreshAvailableSlotsAsync(
             string stationId)
@@ -658,10 +608,8 @@ public class StationService
     }
 
 
-    /* =========================================
-       STATION REQUEST VALIDATION
-    ========================================= */
-
+   
+    //STATION REQUEST VALIDATION
     private static void
         ValidateStationRequest(
             StationRequest request)
@@ -770,10 +718,8 @@ public class StationService
     }
 
 
-    /* =========================================
-       NORMALIZE STATUS
-    ========================================= */
-
+  
+    //NORMALIZE STATUS
     private static string NormalizeStatus(
         string status)
     {
@@ -807,10 +753,8 @@ public class StationService
     }
 
 
-    /* =========================================
-       HAVERSINE DISTANCE
-    ========================================= */
 
+    //HAVERSINE DISTANCE
     private static double
         CalculateDistanceKm(
             double lat1,
@@ -878,6 +822,7 @@ public class StationService
     }
 
 
+    // Converts an angle from degrees to radians.
     private static double
         DegreesToRadians(
             double degrees)

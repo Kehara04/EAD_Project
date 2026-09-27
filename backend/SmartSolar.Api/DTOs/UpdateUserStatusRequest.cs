@@ -12,6 +12,7 @@ namespace SmartSolar.Api.DTOs;
 
 public class UpdateUserStatusRequest
 {
+    // Specifies the requested user account status.
     [Required]
     public string Status { get; set; } =
         string.Empty;

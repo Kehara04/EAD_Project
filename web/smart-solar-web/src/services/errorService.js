@@ -1,3 +1,4 @@
+// Extracts a readable error message from an API response or returns a fallback message.
 export function getApiError(error, fallback = "Something went wrong.") {
   const data = error?.response?.data;
 

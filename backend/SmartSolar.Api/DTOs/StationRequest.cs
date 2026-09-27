@@ -24,8 +24,7 @@ public class StationRequest
     public string Address { get; set; } =
         string.Empty;
 
-    // Protected selection returned by backend address search; required for a new or changed
-    // address. An unchanged existing address may omit it to keep its saved coordinates.
+    // Validates location selection; optional if the address is unchanged.
     [StringLength(4096)]
     public string? LocationToken { get; set; }
 
@@ -37,11 +36,12 @@ public class StationRequest
     [Range(1, 1000)]
     public int TotalSlots { get; set; }
 
-    // The service parses both times and requires closing to be later than opening.
+    // Specifies the station's opening time.
     [Required]
     public string OpeningTime { get; set; } =
         string.Empty;
 
+    // Specifies the station's closing time.
     [Required]
     public string ClosingTime { get; set; } =
         string.Empty;

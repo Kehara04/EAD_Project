@@ -1,9 +1,16 @@
+/*
+ * File: UpdateAccountRequest.cs
+ * Project: Smart Solar Microgrid Trading System
+ * Description: Defines and validates account update requests.
+ */
+
 using System.ComponentModel.DataAnnotations;
 
 namespace SmartSolar.Api.DTOs;
 
 public class UpdateAccountRequest
 {
+    // Validates the user's full name and allowed characters.
     [Required]
     [StringLength(100, MinimumLength = 2)]
     [RegularExpression(
@@ -12,6 +19,7 @@ public class UpdateAccountRequest
     )]
     public string Name { get; set; } = string.Empty;
 
+    // Ensures a valid email address is provided.
     [Required]
     [EmailAddress]
     [StringLength(150)]

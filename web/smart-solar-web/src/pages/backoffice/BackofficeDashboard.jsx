@@ -37,41 +37,49 @@ import {
   getApiError
 } from "../../services/errorService";
 
-
+// Displays the Backoffice overview and management statistics.
 export default function BackofficeDashboard() {
 
+  // Stores station records retrieved from the API.
   const [
     stations,
     setStations
   ] = useState([]);
 
+  // Stores registered system users.
   const [
     users,
     setUsers
   ] = useState([]);
 
+  // Stores registered Prosumers.
   const [
     prosumers,
     setProsumers
   ] = useState([]);
 
+  // Stores energy reservation records.
   const [
     reservations,
     setReservations
   ] = useState([]);
 
+  // Tracks whether dashboard data is being loaded.
   const [
     loading,
     setLoading
   ] = useState(true);
 
+  // Stores any error encountered while loading data.
   const [
     error,
     setError
   ] = useState("");
 
+  // Loads dashboard data when the component first mounts.
   useEffect(() => {
 
+    // Retrieves the data required for dashboard statistics.
     async function loadDashboard() {
 
       try {
@@ -81,6 +89,7 @@ export default function BackofficeDashboard() {
         setError("");
 
 
+        // Requests all dashboard datasets concurrently.
         const [
           usersData,
           prosumersData,
@@ -98,7 +107,7 @@ export default function BackofficeDashboard() {
 
         ]);
 
-
+        // Stores valid API arrays and falls back to empty arrays.
         setUsers(
           Array.isArray(usersData)
             ? usersData
@@ -129,6 +138,7 @@ export default function BackofficeDashboard() {
 
       } catch (err) {
 
+        // Displays a readable message when loading fails.
         setError(
           getApiError(
             err,
@@ -148,9 +158,11 @@ export default function BackofficeDashboard() {
   }, []);
 
 
+  // Calculates dashboard statistics when the source data changes.
   const metrics =
     useMemo(() => {
 
+      // Excludes Prosumers from the web-user account count.
       const webUsers =
         users.filter(
           (user) =>
@@ -257,6 +269,7 @@ export default function BackofficeDashboard() {
       reservations
     ]);
 
+  // Selects the five most recently registered Prosumers.
   const recentProsumers =
     useMemo(() => {
 
@@ -280,6 +293,7 @@ export default function BackofficeDashboard() {
 
     }, [prosumers]);
 
+  // Selects the five most recently created reservations.
   const recentReservations =
     useMemo(() => {
 
@@ -1097,6 +1111,7 @@ export default function BackofficeDashboard() {
   );
 }
 
+// Formats a date for display in the dashboard tables.
 function formatDate(value) {
 
   if (!value) {
@@ -1104,6 +1119,7 @@ function formatDate(value) {
   }
 
 
+  // Converts the supplied value into a JavaScript Date.
   const date =
     new Date(value);
 
@@ -1128,6 +1144,7 @@ function formatDate(value) {
   ).format(date);
 }
 
+// Formats a date and time for reservation schedule display.
 function formatDateTime(value) {
 
   if (!value) {

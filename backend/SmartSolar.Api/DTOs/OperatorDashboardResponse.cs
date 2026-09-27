@@ -39,10 +39,7 @@ public class OperatorDashboardResponse
 }
 
 
-/*
- * Per-station completion summary embedded inside
- * OperatorDashboardResponse.
- */
+
 public class StationDashboardSummary
 {
     // MongoDB ObjectId of the station.

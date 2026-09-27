@@ -2,16 +2,8 @@
  * File: ReservationsController.cs
  * Project: Smart Solar Microgrid Trading System
  * Component: Energy Slot Reservation Management
- *
- * Description:
- * Exposes REST API endpoints for managing energy reservations.
- *
- * Supports available-slot retrieval, reservation creation,
- * reservation history, details, updates, cancellation,
- * and Backoffice approval.
- *
- * Uses role-based authorization and delegates reservation
- * business logic to ReservationService.
+ * Description: Provides secured REST endpoints for reservation
+ *              creation, updates, cancellation, approval, and retrieval.
  */
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;

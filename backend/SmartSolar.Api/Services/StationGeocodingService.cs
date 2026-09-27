@@ -14,13 +14,17 @@ using Microsoft.Extensions.Caching.Memory;
 
 namespace SmartSolar.Api.Services;
 
+// Represents an address suggestion returned to the client.
 public record StationAddressSuggestion(string Address, double Latitude, double Longitude,
     string LocationToken, string? ResultType);
 
+// Stores the validated address and coordinates of a selected location.
 public record ResolvedStationLocation(string Address, double Latitude, double Longitude);
 
+// Represents an address search service failure.
 public class GeocodingUnavailableException(string message) : Exception(message);
 
+// Initializes the HTTP client, configuration, cache, and token protector.
 public class StationGeocodingService
 {
     private readonly HttpClient _http;
@@ -34,10 +38,13 @@ public class StationGeocodingService
         _http = http;
         _configuration = configuration;
         _cache = cache;
+
+        // Creates a time-limited protector for station location tokens.
         _protector = protection.CreateProtector("SmartSolar.StationLocation.v1")
             .ToTimeLimitedDataProtector();
     }
 
+    // Searches Sri Lankan addresses and returns protected location suggestions.
     public async Task<List<StationAddressSuggestion>> SearchAsync(string query, CancellationToken cancellationToken)
     {
         query = query.Trim();
@@ -65,6 +72,7 @@ public class StationGeocodingService
                 var result = await response.Content.ReadFromJsonAsync<GeoResponse>(cancellationToken);
                 if (result?.Results == null)
                     throw new GeocodingUnavailableException("Address search returned an invalid response. Please try again.");
+
                 // Validate the provider response before issuing a trusted location token.
                 addresses = result.Results.Where(x => x.CountryCode == "lk"
                     && !string.IsNullOrWhiteSpace(x.Formatted) && x.Formatted.Length <= 250
@@ -88,12 +96,14 @@ public class StationGeocodingService
         return addresses!.Select(x =>
         {
             var location = new ResolvedStationLocation(x.Formatted!, x.Lat!.Value, x.Lon!.Value);
+
             // Clients cannot replace a suggestion's coordinates or address with arbitrary values.
             var token = _protector.Protect(JsonSerializer.Serialize(location), TimeSpan.FromHours(1));
             return new StationAddressSuggestion(location.Address, location.Latitude, location.Longitude, token, x.ResultType);
         }).ToList();
     }
 
+    // Validates a selected location token and returns its trusted coordinates.
     public ResolvedStationLocation ResolveSelection(string address, string? token)
     {
         if (string.IsNullOrWhiteSpace(token))
@@ -118,6 +128,7 @@ public class StationGeocodingService
         public List<GeoAddress>? Results { get; set; }
     }
 
+    // Defines the Geoapify fields required for station address selection.
     private class GeoAddress
     {
         public string? Formatted { get; set; }

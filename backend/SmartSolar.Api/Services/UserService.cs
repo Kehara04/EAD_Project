@@ -18,7 +18,7 @@ public class UserService
 {
     private readonly MongoDbContext _context;
 
-    // Constructor: Initializes the MongoDB context for user operations.
+    //Initializes the MongoDB context for user operations.
     public UserService(
         MongoDbContext context)
     {
@@ -26,7 +26,7 @@ public class UserService
         _context = context;
     }
 
-    // GetAllAsync: Retrieves all system users in a safe response format.
+    //Retrieves all system users in a safe response format.
     public async Task<List<UserResponse>>
         GetAllAsync()
     {
@@ -42,7 +42,7 @@ public class UserService
         ).ToList();
     }
 
-    // GetByIdAsync: Finds a single user using a valid MongoDB ObjectId.
+    //Finds a single user using a valid MongoDB ObjectId.
     public async Task<UserResponse?> GetByIdAsync(
         string id)
     {
@@ -60,7 +60,7 @@ public class UserService
             : MapToResponse(user);
     }
 
-    // CreateAsync: Creates a new Backoffice or Grid Operator account.
+    //Creates a new Backoffice or Grid Operator account.
     public async Task<UserResponse> CreateAsync(
         CreateUserRequest request)
     {
@@ -142,18 +142,17 @@ public class UserService
         return MapToResponse(user);
     }
 
-    // UpdateStatusAsync: Updates the active status of a user account.
+    //Updates the active status of a user account.
     public async Task<UserResponse?>
         UpdateStatusAsync(
             string id,
             string status)
     {
-        // Validate MongoDB user ID.
+
         if (!ObjectId.TryParse(id, out _))
             return null;
 
-        // Only Active and Deactivated are valid
-        // web user lifecycle states.
+     
         if (status != AccountStatuses.Active &&
             status != AccountStatuses.Deactivated)
         {
@@ -170,8 +169,7 @@ public class UserService
         if (user == null)
             return null;
 
-        // Prosumer lifecycle must be managed through
-        // the Prosumer endpoints instead.
+    
         if (user.Role == UserRoles.Prosumer)
         {
             throw new InvalidOperationException(
@@ -202,11 +200,11 @@ public class UserService
         return MapToResponse(user);
     }
 
-    // MapToResponse: Converts the MongoDB entity into a safe API response model.
+    //Converts the MongoDB entity into a safe API response model.
     private static UserResponse MapToResponse(
         User user)
     {
-        // Convert internal MongoDB user model into safe API response.
+       
         return new UserResponse
         {
             Id =

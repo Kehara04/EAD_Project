@@ -30,7 +30,7 @@ const emptyForm = {
   closingTime: "18:00"
 };
 
-
+// Displays and manages microgrid station details, locations, and statuses.
 export default function StationManagementPage() {
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [statusFilter, setStatusFilter] = useState("All");
@@ -102,6 +102,7 @@ export default function StationManagementPage() {
   }
 
 
+  // Updates the corresponding form field when its input value changes.
   function handleChange(event) {
     const {
       name,

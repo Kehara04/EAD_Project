@@ -30,11 +30,7 @@ public class QrService
     {
         _context = context;
 
-        /*
-         * Read the signing secret at construction time.
-         * A missing or empty key is rejected so the application
-         * cannot start in an insecure state.
-         */
+
         _secret =
             Environment.GetEnvironmentVariable(
                 "QR_SECRET"
@@ -50,15 +46,7 @@ public class QrService
     }
 
 
-    /* =========================================
-       GENERATE QR PAYLOAD
-    ========================================= */
-
-    /// <summary>
-    /// Builds a signed QrPayload for the given approved reservation.
-    /// Throws InvalidOperationException when the reservation does not
-    /// exist or is not in the Approved state.
-    /// </summary>
+    //GENERATE QR PAYLOAD
     public async Task<QrPayload> GenerateQrPayloadAsync(
         string reservationId,
         string requestingProsumerId)
@@ -138,18 +126,12 @@ public class QrService
     }
 
 
-    /* =========================================
-       VERIFY QR PAYLOAD
-    ========================================= */
-
-    /// <summary>
-    /// Verifies the scanned QR payload sent by a Grid Operator.
-    /// Always returns a VerifyQrResponse; isValid indicates success.
-    /// </summary>
+  
+    //VERIFY QR PAYLOAD
     public async Task<VerifyQrResponse> VerifyQrAsync(
         VerifyQrRequest request)
     {
-        // Step 1 – verify the HMAC signature.
+        //verify the HMAC signature.
         var expectedSignature =
             ComputeSignature(
                 request.ReservationId,
@@ -169,7 +151,7 @@ public class QrService
         }
 
 
-        // Step 2 – load the reservation.
+        //load the reservation.
         var reservation =
             await _context.Reservations
                 .Find(x =>
@@ -187,7 +169,7 @@ public class QrService
         }
 
 
-        // Step 3 – cross-check prosumer ownership.
+        //cross-check prosumer ownership.
         if (reservation.ProsumerId != request.ProsumerId)
         {
             return InvalidResponse(
@@ -197,7 +179,7 @@ public class QrService
         }
 
 
-        // Step 4 – cross-check station.
+        //cross-check station.
         if (reservation.StationId != request.StationId)
         {
             return InvalidResponse(
@@ -207,7 +189,7 @@ public class QrService
         }
 
 
-        // Step 5 – check reservation status.
+        //check reservation status.
         if (reservation.Status.Equals(
                 ReservationStatuses.Completed,
                 StringComparison.OrdinalIgnoreCase))
@@ -287,14 +269,8 @@ public class QrService
     }
 
 
-    /* =========================================
-       HELPERS
-    ========================================= */
 
-    /// <summary>
-    /// Computes the HMAC-SHA256 hex digest used for payload signing.
-    /// The message is: reservationId|prosumerId|issuedAt
-    /// </summary>
+    //HELPERS
     private string ComputeSignature(
         string reservationId,
         string prosumerId,
@@ -319,9 +295,7 @@ public class QrService
     }
 
 
-    /// <summary>
-    /// Builds a failed VerifyQrResponse with minimal echo-back data.
-    /// </summary>
+
     private static VerifyQrResponse InvalidResponse(
         VerifyQrRequest request,
         string message)

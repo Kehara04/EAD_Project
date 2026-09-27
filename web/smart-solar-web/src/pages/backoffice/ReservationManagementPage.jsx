@@ -19,7 +19,7 @@ import {
   getApiError
 } from "../../services/errorService";
 
-
+// Displays reservations and allows Backoffice to approve pending bookings.
 export default function ReservationManagementPage() {
 
   const [
@@ -63,6 +63,7 @@ export default function ReservationManagementPage() {
   }, []);
 
 
+  // Retrieves all reservations from the backend.
   async function loadReservations() {
 
     try {
@@ -96,6 +97,7 @@ export default function ReservationManagementPage() {
   }
 
 
+  // Calculates reservation totals for each status.
   const counts =
     useMemo(() => {
 
@@ -137,6 +139,7 @@ export default function ReservationManagementPage() {
     }, [reservations]);
 
 
+  // Filters reservations by search text and selected status.
   const filteredReservations =
     useMemo(() => {
 
@@ -396,9 +399,6 @@ export default function ReservationManagementPage() {
       </div>
 
 
-      {/* =====================================
-          RESERVATION TABLE
-      ====================================== */}
 
       <div className="dashboard-card">
 
@@ -669,7 +669,7 @@ export default function ReservationManagementPage() {
   );
 }
 
-
+// Renders a summary button used to filter reservations by status.
 function SummaryButton({
   label,
   value,
@@ -707,7 +707,7 @@ function SummaryButton({
   );
 }
 
-
+// Displays the appropriate action based on reservation status.
 function ReservationAction({
   reservation,
   busy,
@@ -821,7 +821,7 @@ function ReservationAction({
   );
 }
 
-
+// Formats a date and time for displaying reservation schedules.
 function formatDateTime(value) {
 
   if (!value) {
@@ -862,7 +862,7 @@ function formatDateTime(value) {
   ).format(date);
 }
 
-
+// Formats a date for displaying reservation creation dates.
 function formatDate(value) {
 
   if (!value) {

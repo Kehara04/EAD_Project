@@ -25,6 +25,7 @@ const EMAIL_REGEX =
 const NAME_REGEX =
   /^[A-Za-z][A-Za-z\s.'-]*$/;
 
+  // Displays and manages Backoffice and Grid Operator user accounts.
 export default function UserManagementPage() {
   const [users, setUsers] = useState([]);
 
@@ -58,6 +59,7 @@ export default function UserManagementPage() {
   const [success, setSuccess] =
     useState("");
 
+  // Retrieves web application users from the backend, excluding Prosumers.
   async function loadUsers() {
     try {
       setLoading(true);
@@ -88,6 +90,7 @@ export default function UserManagementPage() {
     loadUsers();
   }, []);
 
+  // Filters user accounts by search text, role, and account status.
   const filteredUsers =
     useMemo(() => {
       const term =
@@ -128,6 +131,7 @@ export default function UserManagementPage() {
       statusFilter
     ]);
 
+  // Updates the selected form field and clears its validation error.
   function handleFieldChange(
     field,
     value
@@ -146,6 +150,7 @@ export default function UserManagementPage() {
     setSuccess("");
   }
 
+  // Validates the user's name, email, password, and selected role.
   function validateForm() {
     const newErrors = {};
 
@@ -234,6 +239,7 @@ export default function UserManagementPage() {
     );
   }
 
+  // Validates and submits the new user account details to the backend.
   async function handleSubmit(
     event
   ) {
@@ -285,6 +291,7 @@ export default function UserManagementPage() {
     }
   }
 
+  // Confirms and updates the selected user's activation status.
   async function handleStatusChange(
     user
   ) {
@@ -816,6 +823,7 @@ export default function UserManagementPage() {
   );
 }
 
+// Formats a user's account creation date for display in the table.
 function formatDate(value) {
   if (!value) {
     return "—";

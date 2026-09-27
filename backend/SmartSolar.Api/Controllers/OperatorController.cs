@@ -35,14 +35,7 @@ public class OperatorController
     }
 
 
-    /* =========================================
-       GET QR PAYLOAD – PROSUMER ONLY
-    ========================================= */
-
-    /// <summary>
-    /// Generates a signed QR payload for an approved reservation.
-    /// Only the Prosumer who owns the reservation may call this.
-    /// </summary>
+    //GET QR PAYLOAD – PROSUMER ONLY
     [Authorize(Roles = UserRoles.Prosumer)]
     [HttpGet("reservations/{id}/qr")]
     public async Task<IActionResult>
@@ -88,14 +81,8 @@ public class OperatorController
     }
 
 
-    /* =========================================
-       VERIFY QR – GRID OPERATOR ONLY
-    ========================================= */
-
-    /// <summary>
-    /// Verifies a QR payload scanned by the Grid Operator.
-    /// Always returns HTTP 200; isValid in the body carries the result.
-    /// </summary>
+  
+    //VERIFY QR – GRID OPERATOR ONLY
     [Authorize(Roles = UserRoles.GridOperator)]
     [HttpPost("verify")]
     public async Task<IActionResult>
@@ -112,14 +99,8 @@ public class OperatorController
     }
 
 
-    /* =========================================
-       COMPLETE ENERGY TRANSFER – GRID OPERATOR ONLY
-    ========================================= */
-
-    /// <summary>
-    /// Finalises an energy transfer for an approved reservation.
-    /// Sets the reservation status to Completed and records the timestamp.
-    /// </summary>
+   
+    //COMPLETE ENERGY TRANSFER – GRID OPERATOR ONLY
     [Authorize(Roles = UserRoles.GridOperator)]
     [HttpPost("complete")]
     public async Task<IActionResult>
@@ -147,14 +128,8 @@ public class OperatorController
     }
 
 
-    /* =========================================
-       OPERATOR DASHBOARD – GRID OPERATOR ONLY
-    ========================================= */
-
-    /// <summary>
-    /// Returns today's reservation counts and per-station
-    /// completion statistics for the operator dashboard.
-    /// </summary>
+   
+    //OPERATOR DASHBOARD – GRID OPERATOR ONLY
     [Authorize(Roles = UserRoles.GridOperator)]
     [HttpGet("dashboard")]
     public async Task<IActionResult>
@@ -169,15 +144,8 @@ public class OperatorController
     }
 
 
-    /* =========================================
-       HELPER – EXTRACT PROSUMER ID FROM JWT
-    ========================================= */
-
-    /// <summary>
-    /// Reads the prosumer NIC stored in the JWT reference_id claim.
-    /// Supports both camelCase and snake_case claim names for
-    /// compatibility with the existing auth implementation.
-    /// </summary>
+  
+    //HELPER – EXTRACT PROSUMER ID FROM JWT
     private string? GetProsumerId()
     {
         return

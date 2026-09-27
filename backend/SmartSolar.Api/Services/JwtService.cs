@@ -20,13 +20,13 @@ public class JwtService
 {
     private readonly JwtSettings _settings;
 
-    // Constructor: Initializes the JWT settings from dependency injection.
+    // Initializes JWT settings from configuration.
     public JwtService(IOptions<JwtSettings> settings)
     {
         _settings = settings.Value;
     }
 
-    // GenerateToken: Creates and signs a JWT for the given user.
+    // Generates a signed JWT containing user identity and role claims.
     public string GenerateToken(User user)
     {
         var claims = new List<Claim>
@@ -37,11 +37,13 @@ public class JwtService
             new(ClaimTypes.Role, user.Role)
         };
 
+        // Includes the associated Prosumer reference when available.
         if (!string.IsNullOrWhiteSpace(user.ReferenceId))
         {
             claims.Add(new Claim("referenceId", user.ReferenceId));
         }
 
+        // Creates the signing key using the configured JWT secret.
         var key = new SymmetricSecurityKey(
             Encoding.UTF8.GetBytes(_settings.Key)
         );
@@ -52,6 +54,7 @@ public class JwtService
                 SecurityAlgorithms.HmacSha256
             );
 
+        // Creates the token with its issuer, audience and expiration.
         var token = new JwtSecurityToken(
             issuer: _settings.Issuer,
             audience: _settings.Audience,
@@ -62,6 +65,7 @@ public class JwtService
             signingCredentials: credentials
         );
 
+        // Serializes the JWT into a string for the login response.
         return new JwtSecurityTokenHandler()
             .WriteToken(token);
     }

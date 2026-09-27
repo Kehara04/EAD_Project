@@ -10,6 +10,7 @@ import {
 
 import { getApiError } from "../../services/errorService";
 
+// Displays the selected user's details and allows Backoffice to update them.
 export default function EditUserPage() {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -27,6 +28,8 @@ export default function EditUserPage() {
   const [error, setError] = useState("");
 
   useEffect(() => {
+
+    // Retrieves the selected user's details and populates the edit form.
     async function loadUser() {
       try {
         const data = await getUserById(id);
@@ -49,6 +52,7 @@ export default function EditUserPage() {
     loadUser();
   }, [id]);
 
+  // Validates and submits the updated user details to the backend.
   async function handleSubmit(event) {
     event.preventDefault();
 

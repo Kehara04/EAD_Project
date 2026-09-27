@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import DashboardLayout from "../../components/DashboardLayout";
 import { getOperatorDashboardStats } from "../../services/operatorService";
 
+// Formats reservation dates and times for display in the dashboard.
 const formatDateTime = (value) => {
   if (!value) return "—";
 
@@ -14,12 +15,14 @@ const formatDateTime = (value) => {
   });
 };
 
+// Displays Grid Operator statistics and completed reservation history.
 export default function OperatorHome() {
   const [stats, setStats] = useState(null);
   const [completedHistory, setCompletedHistory] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
+  // Retrieves dashboard statistics and sorts completed reservations by date.
   const loadDashboard = async () => {
     setLoading(true);
     setError("");

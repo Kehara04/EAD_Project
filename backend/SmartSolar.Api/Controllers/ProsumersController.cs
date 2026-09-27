@@ -251,8 +251,7 @@ public class ProsumersController : ControllerBase
     public async Task<IActionResult> Deactivate(
         string nic)
     {
-        // Deactivate an Active Prosumer or approve
-        // an existing deactivation request.
+        // Deactivate an Active Prosumer or approve a Deactivation Requested Prosumer.
         try
         {
             var prosumer =

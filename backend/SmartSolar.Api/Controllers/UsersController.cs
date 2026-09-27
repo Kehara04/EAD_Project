@@ -35,8 +35,7 @@ public class UsersController : ControllerBase
     // GetAll: Returns all registered system users to authorized backoffice staff.
     public async Task<IActionResult> GetAll()
     {
-        // Return all Backoffice, Grid Operator
-        // and Prosumer authentication accounts.
+        // Return all Backoffice, Grid Operator and Prosumer authentication accounts.
         var users =
             await _userService.GetAllAsync();
 
@@ -70,7 +69,7 @@ public class UsersController : ControllerBase
     public async Task<IActionResult> Create(
         CreateUserRequest request)
     {
-        // Create Backoffice or Grid Operator account.
+        
         try
         {
             var user =
@@ -98,7 +97,7 @@ public class UsersController : ControllerBase
             string id,
             UpdateUserStatusRequest request)
     {
-        // Activate or deactivate a web application user.
+        
         try
         {
             var user =

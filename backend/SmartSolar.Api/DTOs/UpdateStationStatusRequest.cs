@@ -12,13 +12,15 @@ namespace SmartSolar.Api.DTOs;
 
 public class UpdateStationStatusRequest
 {
-    // Accept only the canonical statuses; reservation checks belong to StationService.
+    // Restricts station status to Active or Inactive.
     [Required]
     [RegularExpression(
         "^(Active|Inactive)$",
         ErrorMessage =
             "Status must be Active or Inactive."
     )]
+
+    // Stores the station's current status (Active or Inactive).
     public string Status { get; set; } =
         string.Empty;
 }

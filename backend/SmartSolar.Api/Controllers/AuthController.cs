@@ -68,8 +68,7 @@ public class AuthController : ControllerBase
         }
         catch
         {
-            // Do not disclose email existence or email-delivery details.
-            // Log the operational error through configured server logging.
+            // Do not reveal whether the email is registered to prevent enumeration attacks.
         }
 
         return Ok(new

@@ -9,6 +9,7 @@ import {
 } from "../../services/prosumerService";
 import { getApiError } from "../../services/errorService";
 
+// Displays and manages Prosumer accounts, statuses, and deactivation requests.
 export default function ProsumerManagementPage() {
   const [prosumers, setProsumers] = useState([]);
   const [search, setSearch] = useState("");
@@ -18,6 +19,7 @@ export default function ProsumerManagementPage() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
+  // Retrieves Prosumer accounts from the backend.
   async function loadProsumers() {
     try {
       setLoading(true);
@@ -34,6 +36,7 @@ export default function ProsumerManagementPage() {
     loadProsumers();
   }, []);
 
+  // Calculates the number of Prosumers in each account status.
   const counts = useMemo(
     () => ({
       all: prosumers.length,
@@ -47,6 +50,7 @@ export default function ProsumerManagementPage() {
     [prosumers]
   );
 
+  // Filters Prosumer accounts by search text and selected status.
   const filteredProsumers = useMemo(() => {
     const term = search.trim().toLowerCase();
 
@@ -65,6 +69,7 @@ export default function ProsumerManagementPage() {
     });
   }, [prosumers, search, statusFilter]);
 
+  // Confirms and performs the selected Prosumer account status action.
   async function runAction(prosumer, action) {
     const actionLabels = {
       activate: "activate",
@@ -220,6 +225,7 @@ export default function ProsumerManagementPage() {
   );
 }
 
+// Renders a summary button used to filter accounts by status.
 function SummaryButton({ label, value, active, onClick }) {
   return (
     <button
@@ -233,6 +239,7 @@ function SummaryButton({ label, value, active, onClick }) {
   );
 }
 
+// Displays the appropriate account action based on Prosumer status.
 function ProsumerAction({ prosumer, busy, onAction }) {
   if (busy) {
     return (
@@ -289,6 +296,7 @@ function ProsumerAction({ prosumer, busy, onAction }) {
   return <span className="text-muted">No action</span>;
 }
 
+// Formats a date for display in the Prosumer management table.
 function formatDate(value) {
   if (!value) return "—";
   return new Intl.DateTimeFormat("en", {

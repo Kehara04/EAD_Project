@@ -18,6 +18,7 @@ public class SeedService
     private readonly MongoDbContext _context;
     private readonly IConfiguration _configuration;
 
+    // Initializes the database context and application configuration.
     public SeedService(
         MongoDbContext context,
         IConfiguration configuration)

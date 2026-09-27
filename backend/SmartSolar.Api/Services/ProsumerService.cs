@@ -18,13 +18,15 @@ public class ProsumerService
 {
     private readonly MongoDbContext _context;
 
+    // Initializes the MongoDB context.
     public ProsumerService(
         MongoDbContext context)
     {
-        // Store MongoDB context.
+        
         _context = context;
     }
 
+    // Registers a new Prosumer and creates the associated user account.
     public async Task<Prosumer> RegisterAsync(
         RegisterProsumerRequest request)
     {
@@ -169,6 +171,7 @@ public class ProsumerService
         return prosumer;
     }
 
+    // Retrieves all Prosumers, optionally filtered by account status.
     public async Task<List<Prosumer>>
         GetAllAsync(
             string? status = null)
@@ -192,6 +195,7 @@ public class ProsumerService
             .ToListAsync();
     }
 
+    // Retrieves a Prosumer using their NIC.
     public async Task<Prosumer?> GetByNicAsync(
         string nic)
     {
@@ -205,6 +209,7 @@ public class ProsumerService
             .FirstOrDefaultAsync();
     }
 
+    // Updates the Prosumer profile and associated user details.
     public async Task<Prosumer?> UpdateAsync(
         string nic,
         UpdateProsumerRequest request)
@@ -308,6 +313,7 @@ public class ProsumerService
         );
     }
 
+    // Records a Prosumer's account deactivation request.
     public async Task<Prosumer?>
         RequestDeactivationAsync(
             string nic)
@@ -358,6 +364,7 @@ public class ProsumerService
         );
     }
 
+    // Activates a newly registered Prosumer account.
     public async Task<Prosumer?> ActivateAsync(
         string nic)
     {
@@ -382,12 +389,13 @@ public class ProsumerService
         );
     }
 
+    // Deactivates an eligible Prosumer account.
     public async Task<Prosumer?>
         DeactivateAsync(
             string nic)
     {
-        // Backoffice may deactivate an active account
-        // or approve a requested deactivation.
+        
+        
         var prosumer =
             await GetByNicAsync(nic);
 
@@ -411,12 +419,13 @@ public class ProsumerService
         );
     }
 
+     // Reactivates a previously deactivated Prosumer account.
     public async Task<Prosumer?>
         ReactivateAsync(
             string nic)
     {
-        // Only Backoffice can call this endpoint
-        // and only Deactivated accounts can be reactivated.
+        
+        
         var prosumer =
             await GetByNicAsync(nic);
 
@@ -437,6 +446,7 @@ public class ProsumerService
         );
     }
 
+    // Updates the Prosumer and authentication account statuses.
     private async Task<Prosumer>
         SetAccountStatusAsync(
             Prosumer prosumer,

@@ -26,15 +26,8 @@ public class OperatorService
     }
 
 
-    /* =========================================
-       COMPLETE ENERGY TRANSFER
-    ========================================= */
-
-    /// <summary>
-    /// Marks an approved reservation as Completed, records the
-    /// completion timestamp, and returns the updated reservation.
-    /// Throws InvalidOperationException when preconditions are not met.
-    /// </summary>
+   
+    //COMPLETE ENERGY TRANSFER
     public async Task<ReservationResponse> CompleteTransferAsync(
         CompleteTransferRequest request)
     {
@@ -102,26 +95,14 @@ public class OperatorService
     }
 
 
-    /* =========================================
-       OPERATOR DASHBOARD STATISTICS
-    ========================================= */
-
-    /// <summary>
-    /// Aggregates reservation counts for the current UTC calendar day.
-    ///
-    /// - TodayTotal / Pending / Approved / Cancelled  →  filtered by ScheduledAt (today)
-    /// - CompletedCount / StationSummaries            →  filtered by CompletedAt (today)
-    ///
-    /// Using CompletedAt for completions means the dashboard correctly reflects
-    /// work done *today* even when the booking was scheduled for a different day.
-    /// </summary>
+    //OPERATOR DASHBOARD STATISTICS
     public async Task<OperatorDashboardResponse> GetDashboardAsync()
     {
         var todayStart = DateTime.UtcNow.Date;
         var todayEnd   = todayStart.AddDays(1);
 
 
-        // ── 1. Reservations scheduled for today ────────────────────────────
+        //Reservations scheduled for today 
         var scheduledToday =
             await _context.Reservations
                 .Find(x =>
@@ -131,7 +112,7 @@ public class OperatorService
                 .ToListAsync();
 
 
-        // ── 2. Reservations *completed* today (any scheduled date) ─────────
+        //Reservations completed today (any scheduled date)
         var completedToday =
             await _context.Reservations
                 .Find(x =>
@@ -143,7 +124,7 @@ public class OperatorService
                 .ToListAsync();
 
 
-        // ── 3. Build response ──────────────────────────────────────────────
+        //Build response
         var response = new OperatorDashboardResponse
         {
             TodayTotal = scheduledToday.Count,
@@ -174,7 +155,7 @@ public class OperatorService
         };
 
 
-        // ── 4. Per-station summaries (from completedToday) ─────────────────
+        //Per-station summaries (from completedToday)
         var byStation = completedToday
             .GroupBy(x => x.StationId)
             .ToList();
@@ -196,7 +177,7 @@ public class OperatorService
             );
         }
 
-        // ── 5. Recent Completed History ────────────────────────────────────
+        //Recent Completed History
         var recentCompleted =
             await _context.Reservations
                 .Find(x => x.Status == ReservationStatuses.Completed)
@@ -214,14 +195,8 @@ public class OperatorService
     }
 
 
-    /* =========================================
-       HELPER – BUILD RESERVATION RESPONSE
-    ========================================= */
 
-    /// <summary>
-    /// Reloads a reservation from the database and maps it to
-    /// a ReservationResponse including prosumer and station names.
-    /// </summary>
+    //HELPER – BUILD RESERVATION RESPONSE
     private async Task<ReservationResponse> BuildResponseAsync(
         string reservationId)
     {

@@ -42,7 +42,7 @@ public class VerifyQrResponse
         string.Empty;
 
 
-    // Current status of the reservation (e.g. Approved, Completed).
+    // Current status of the reservation
     public string Status { get; set; } =
         string.Empty;
 

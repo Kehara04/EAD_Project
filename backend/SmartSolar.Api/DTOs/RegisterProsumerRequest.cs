@@ -11,6 +11,7 @@ namespace SmartSolar.Api.DTOs;
 
 public class RegisterProsumerRequest
 {
+    // Validates the Prosumer's Sri Lankan NIC format.
     [Required(ErrorMessage = "NIC is required.")]
     [RegularExpression(
         @"^(?:\d{9}[VvXx]|\d{12})$",
@@ -20,7 +21,7 @@ public class RegisterProsumerRequest
     public string Nic { get; set; } =
         string.Empty;
 
-
+    // Ensures the Prosumer's name meets the required length.
     [Required(ErrorMessage = "Name is required.")]
     [StringLength(
         100,
@@ -31,7 +32,7 @@ public class RegisterProsumerRequest
     public string Name { get; set; } =
         string.Empty;
 
-
+    // Ensures a valid email address is provided.
     [Required(ErrorMessage = "Email is required.")]
     [EmailAddress(
         ErrorMessage =
@@ -40,7 +41,7 @@ public class RegisterProsumerRequest
     public string Email { get; set; } =
         string.Empty;
 
-
+    // Validates the Prosumer's 10-digit phone number.
     [Required(ErrorMessage = "Phone number is required.")]
     [RegularExpression(
         @"^0\d{9}$",
@@ -50,7 +51,7 @@ public class RegisterProsumerRequest
     public string Phone { get; set; } =
         string.Empty;
 
-
+    // Ensures the Prosumer's address meets the required length.
     [Required(ErrorMessage = "Address is required.")]
     [StringLength(
         250,
@@ -61,7 +62,7 @@ public class RegisterProsumerRequest
     public string Address { get; set; } =
         string.Empty;
 
-
+    // Validates the Prosumer's password strength.
     [Required(ErrorMessage = "Password is required.")]
     [StringLength(
         64,

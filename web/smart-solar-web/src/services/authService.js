@@ -1,5 +1,6 @@
 import apiClient from "../api/apiClient";
 
+// Authenticates the user and stores their session details in local storage.
 export async function login(email, password) {
   const response = await apiClient.post("/auth/login", {
     email: email.trim(),
@@ -18,6 +19,7 @@ export async function login(email, password) {
   return data;
 }
 
+// Logs out the user by clearing their stored authentication details.
 export function logout() {
   localStorage.removeItem("token");
   localStorage.removeItem("role");
@@ -27,6 +29,7 @@ export function logout() {
   localStorage.removeItem("referenceId");
 }
 
+// Retrieves the currently logged-in user's stored session information.
 export function getCurrentUser() {
   return {
     token: localStorage.getItem("token"),
@@ -38,6 +41,7 @@ export function getCurrentUser() {
   };
 }
 
+// Checks whether an authentication token exists in local storage.
 export function isAuthenticated() {
   return Boolean(localStorage.getItem("token"));
 }

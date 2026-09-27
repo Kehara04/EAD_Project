@@ -41,13 +41,7 @@ public class QrPayload
         string.Empty;
 
 
-    /*
-     * HMAC-SHA256 hex digest computed over:
-     *   reservationId + prosumerId + issuedAt
-     * using the QR_SECRET environment variable as the key.
-     * The server re-computes this on every verify call and
-     * rejects payloads where the value does not match.
-     */
+    // Stores the HMAC-SHA256 signature used to verify QR code authenticity.
     public string Signature { get; set; } =
         string.Empty;
 }
