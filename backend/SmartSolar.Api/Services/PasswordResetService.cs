@@ -181,7 +181,7 @@ public class PasswordResetService
         // Creates the password reset email message.
         using var message = new MailMessage
         {
-            From = new MailAddress(sender),
+            From = new MailAddress(sender, "Smart Solar Support"),
             Subject = "Smart Solar password reset",
             Body =
                 "A password reset was requested for your Smart Solar account.\n\n" +
