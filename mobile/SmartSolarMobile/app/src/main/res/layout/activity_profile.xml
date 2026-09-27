@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <!-- IMAGE HERO -->
+   
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="210dp">
@@ -331,7 +331,7 @@
                 app:backgroundTint="@color/solar_green"
                 app:cornerRadius="11dp" />
 
-            <!-- CHANGE PASSWORD -->
+           
 
 <com.google.android.material.button.MaterialButton
     android:id="@+id/buttonChangePassword"
@@ -362,7 +362,7 @@
                 app:strokeWidth="1dp" />
 
 
-            <!-- IMAGE FOOTER -->
+            
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="105dp"

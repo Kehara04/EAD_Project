@@ -11,19 +11,18 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-/**
- * Creates the Retrofit client used by the native Android application.
- */
+//Configures and provides the Retrofit API client for backend communication.
 public final class ApiClient {
 
-    // Development: run connect-backend.sh after connecting a phone or starting an emulator.
-    // ADB reverse forwards this device-local port to the backend on the development computer.
     //private static final String BASE_URL = "http://10.0.2.2:5103/api/";
     //private static final String BASE_URL = "http://127.0.0.1:5103/api/";
     private static final String BASE_URL = "http://172.20.10.3:5103/api/";
+
+    // Prevents instantiation of this utility class.
     private ApiClient() {
     }
 
+    // Creates a Retrofit API service with session-based authentication, HTTP logging, and request timeouts.
     public static ApiService create(Context context) {
         SessionManager sessionManager = new SessionManager(context);
 

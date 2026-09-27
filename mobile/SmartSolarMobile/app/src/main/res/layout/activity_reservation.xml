@@ -13,7 +13,6 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <!-- SAME SMART SOLAR HERO -->
 
         <FrameLayout
             android:layout_width="match_parent"

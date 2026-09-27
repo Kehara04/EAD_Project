@@ -1,17 +1,3 @@
-/*
- * File: ReservationActivity.java
- * Project: Smart Solar Microgrid Trading System
- * Component: Energy Slot Reservation Management
- *
- * Description:
- * Provides the Android interface for creating energy reservations.
- * Receives station information from the station map, allows the
- * prosumer to select a date and time, retrieves available slots,
- * and submits the selected booking details to the backend API.
- *
- * The screen performs client-side validation while the backend
- * remains responsible for enforcing reservation business rules.
- */
 package com.smartsolar.ui.reservation;
 
 import android.app.DatePickerDialog;
@@ -46,7 +32,11 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-//Manages the Android interface for creating energy slot reservations.
+/**
+ * Manages the creation of energy slot reservations for prosumers.
+ * Allows users to select a booking date, retrieve available slots
+ * for a solar station, and submit a reservation to the backend API.
+ */
 public class ReservationActivity
         extends AppCompatActivity {
 
@@ -75,7 +65,7 @@ public class ReservationActivity
             new ArrayList<>();
 
 
-        // Initializes the reservation screen and receives the selected station details.
+    // Initializes the reservation screen and receives the selected station details.
     @Override
     protected void onCreate(
             Bundle savedInstanceState) {
@@ -175,7 +165,7 @@ public class ReservationActivity
         );
     }
 
-        // Opens the date picker and restricts selection to the allowed booking period.
+    // Opens the date picker and restricts selection to the allowed booking period.
     private void selectDate() {
 
         Calendar now =
@@ -281,7 +271,7 @@ public class ReservationActivity
         dialog.show();
     }
 
-        // Retrieves available booking slots for the selected station and date.
+    // Retrieves available booking slots for the selected station and date.
     private void loadSlotsIfReady() {
 
         if (
@@ -309,6 +299,7 @@ public class ReservationActivity
                         new Callback<
                                 List<AvailableSlot>>() {
 
+                            // Processes the available slots response and updates the slot dropdown.
                             @Override
                             public void onResponse(
                                     Call<List<AvailableSlot>> call,
@@ -340,7 +331,7 @@ public class ReservationActivity
                                 );
                             }
 
-
+                            // Handles network failures encountered while retrieving available slots.
                             @Override
                             public void onFailure(
                                     Call<List<AvailableSlot>> call,
@@ -356,7 +347,7 @@ public class ReservationActivity
                 );
     }
 
-        // Updates the dropdown with available and already-booked energy slots.
+    // Updates the dropdown with available and already-booked energy slots.
     private void updateSlotSpinner() {
 
         ArrayAdapter<AvailableSlot> adapter =
@@ -365,12 +356,14 @@ public class ReservationActivity
                         android.R.layout.simple_spinner_item,
                         availableSlots
                 ) {
+                    // Prevents users from selecting slots that are already booked.
                     @Override
                     public boolean isEnabled(int position) {
                         AvailableSlot slot = getItem(position);
                         return slot != null && slot.isAvailable();
                     }
 
+                    // Creates the view used to display the currently selected slot.
                     @Override
                     public View getView(
                             int position,
@@ -384,6 +377,7 @@ public class ReservationActivity
                         );
                     }
 
+                    // Creates the view for each slot displayed in the dropdown list.
                     @Override
                     public View getDropDownView(
                             int position,
@@ -397,6 +391,7 @@ public class ReservationActivity
                         );
                     }
 
+                    // Formats a slot item and adjusts its appearance according to availability.
                     private View createSlotView(
                             int position,
                             View convertView,
@@ -427,7 +422,7 @@ public class ReservationActivity
         );
     }
 
-        // Validates and submits a new energy reservation to the backend.
+    // Validates and submits a new energy reservation to the backend.
     private void createReservation() {
 
         hideError();
@@ -512,6 +507,7 @@ public class ReservationActivity
                         new Callback<
                                 EnergyReservation>() {
 
+                            // Processes the reservation response and closes the screen after successful creation.
                             @Override
                             public void onResponse(
                                     Call<EnergyReservation> call,
@@ -543,7 +539,7 @@ public class ReservationActivity
                                 );
                             }
 
-
+                            // Displays a connection error when the reservation request fails.
                             @Override
                             public void onFailure(
                                     Call<EnergyReservation> call,
@@ -559,7 +555,7 @@ public class ReservationActivity
                 );
     }
 
-        // Converts the selected reservation date into UTC format for the ASP.NET API.
+    // Converts the selected reservation date into UTC format for the ASP.NET API.
     private String toUtcApiDate() {
 
         SimpleDateFormat format =
@@ -581,7 +577,7 @@ public class ReservationActivity
         );
     }
 
-        // Controls the loading indicator and reservation button state.
+    // Controls the loading indicator and reservation button state.
     private void setLoading(
             boolean loading) {
 
@@ -597,7 +593,7 @@ public class ReservationActivity
         );
     }
 
-
+    // Displays a reservation validation or API error message.
     private void showError(
             String message) {
 
@@ -610,7 +606,7 @@ public class ReservationActivity
         );
     }
 
-        // Hides previously displayed reservation error messages.
+    // Hides previously displayed reservation error messages.
     private void hideError() {
 
         errorText.setVisibility(
@@ -618,6 +614,7 @@ public class ReservationActivity
         );
     }
 
+        // Checks whether the retrieved slot list contains at least one available booking slot.
         private boolean hasAvailableSlot() {
                 for (AvailableSlot slot : availableSlots) {
                         if (slot.isAvailable()) {

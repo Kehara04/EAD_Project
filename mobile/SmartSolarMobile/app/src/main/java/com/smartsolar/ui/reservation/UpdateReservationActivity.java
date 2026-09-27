@@ -184,7 +184,7 @@ public class UpdateReservationActivity extends AppCompatActivity {
         );
     }
 
-        // Opens the date picker and restricts selection to the allowed booking period.
+    // Opens the date picker and restricts selection to the allowed booking period.
     private void selectDate() {
 
         Calendar now =
@@ -297,7 +297,7 @@ public class UpdateReservationActivity extends AppCompatActivity {
         dialog.show();
     }
 
-        // Retrieves available booking slots for the selected station and date.
+    // Retrieves available booking slots for the selected station and date.
     private void loadSlotsIfReady() {
 
         if (!dateSelected) {
@@ -317,6 +317,7 @@ public class UpdateReservationActivity extends AppCompatActivity {
                 .enqueue(
                         new Callback<List<AvailableSlot>>() {
 
+                            // Processes the API response and updates the dropdown with available slots.
                             @Override
                             public void onResponse(
                                     Call<List<AvailableSlot>> call,
@@ -380,7 +381,7 @@ public class UpdateReservationActivity extends AppCompatActivity {
                                 );
                             }
 
-
+                            // Handles connection failures and clears unavailable slot information.
                             @Override
                             public void onFailure(
                                     Call<List<AvailableSlot>> call,
@@ -402,7 +403,7 @@ public class UpdateReservationActivity extends AppCompatActivity {
                 );
     }
 
-        // Updates the dropdown with the available reservation slots.
+    // Updates the dropdown with the available reservation slots.
     private void updateSlotSpinner() {
 
         ArrayAdapter<AvailableSlot> adapter =
@@ -411,12 +412,14 @@ public class UpdateReservationActivity extends AppCompatActivity {
                         android.R.layout.simple_spinner_item,
                         availableSlots
                 ) {
+                    // Determines whether the selected slot is available for booking.
                     @Override
                     public boolean isEnabled(int position) {
                         AvailableSlot slot = getItem(position);
                         return slot != null && slot.isAvailable();
                     }
 
+                    // Creates the view for the currently selected reservation slot.
                     @Override
                     public View getView(
                             int position,
@@ -429,6 +432,7 @@ public class UpdateReservationActivity extends AppCompatActivity {
                         );
                     }
 
+                    // Creates the view for each reservation slot in the dropdown list.
                     @Override
                     public View getDropDownView(
                             int position,
@@ -441,6 +445,7 @@ public class UpdateReservationActivity extends AppCompatActivity {
                         );
                     }
 
+                    // Formats a slot label and adjusts its appearance according to availability.
                     private View createSlotView(
                             int position,
                             ViewGroup parent,
@@ -482,7 +487,7 @@ public class UpdateReservationActivity extends AppCompatActivity {
         );
     }
 
-        // Checks whether at least one available booking slot exists.
+    // Checks whether at least one available booking slot exists.
     private boolean hasAvailableSlot() {
 
         for (AvailableSlot slot : availableSlots) {
@@ -494,7 +499,7 @@ public class UpdateReservationActivity extends AppCompatActivity {
         return false;
     }
 
-        // Validates and submits the updated reservation to the backend.
+    // Validates and submits the updated reservation to the backend.
     private void updateReservation() {
 
         hideError();
@@ -584,6 +589,7 @@ public class UpdateReservationActivity extends AppCompatActivity {
                 .enqueue(
                         new Callback<EnergyReservation>() {
 
+                            // Processes the update response and handles success or server-side validation errors.
                             @Override
                             public void onResponse(
                                     Call<EnergyReservation> call,
@@ -641,7 +647,7 @@ public class UpdateReservationActivity extends AppCompatActivity {
                                 );
                             }
 
-
+                            // Displays a connection error when the reservation update request fails.
                             @Override
                             public void onFailure(
                                     Call<EnergyReservation> call,
@@ -659,7 +665,7 @@ public class UpdateReservationActivity extends AppCompatActivity {
                 );
     }
 
-        // Converts the selected reservation date into UTC format for the ASP.NET API.
+    // Converts the selected reservation date into UTC format for the ASP.NET API.
     private String toUtcApiDate() {
 
         SimpleDateFormat format =
@@ -681,7 +687,7 @@ public class UpdateReservationActivity extends AppCompatActivity {
         );
     }
 
-        // Controls the loading indicator and form component availability.
+    // Controls the loading indicator and form component availability.
     private void setLoading(
             boolean loading
     ) {
@@ -710,7 +716,7 @@ public class UpdateReservationActivity extends AppCompatActivity {
         );
     }
 
-        // Displays validation or API error messages on the update screen.
+    // Displays validation or API error messages on the update screen.
     private void showError(
             String message
     ) {
@@ -725,7 +731,7 @@ public class UpdateReservationActivity extends AppCompatActivity {
         );
     }
 
-
+    // Hides any previously displayed reservation error message.
     private void hideError() {
 
         errorText.setVisibility(

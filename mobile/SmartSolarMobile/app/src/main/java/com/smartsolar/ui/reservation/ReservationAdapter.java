@@ -1,16 +1,3 @@
-/*
- * File: ReservationAdapter.java
- * Project: Smart Solar Microgrid Trading System
- * Component: Energy Slot Reservation Management
- *
- * Description:
- * Provides the RecyclerView adapter used to display energy
- * reservations in the Android application.
- *
- * Binds reservation information to individual cards, formats
- * scheduled dates, applies status-specific colors, and handles
- * reservation selection.
- */
 package com.smartsolar.ui.reservation;
 
 import android.content.res.ColorStateList;
@@ -35,6 +22,11 @@ import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
+/**
+ * RecyclerView adapter responsible for displaying energy reservations.
+ * Binds reservation details to individual cards, formats scheduled dates,
+ * applies status-specific styling, and handles reservation selection.
+ */
 public class ReservationAdapter
         extends RecyclerView.Adapter<ReservationAdapter.ViewHolder> {
 
@@ -46,7 +38,7 @@ public class ReservationAdapter
     private final List<EnergyReservation> reservations;
     private final OnReservationClickListener listener;
 
-
+    // Initializes the reservation dataset and the reservation selection listener.
     public ReservationAdapter(
             List<EnergyReservation> reservations,
             OnReservationClickListener listener
@@ -55,7 +47,7 @@ public class ReservationAdapter
         this.listener = listener;
     }
 
-        // Creates the card layout used to display an individual reservation.
+    // Creates the card layout used to display an individual reservation.
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(
@@ -75,7 +67,7 @@ public class ReservationAdapter
         return new ViewHolder(view);
     }
 
-        // Binds reservation information to the corresponding card and configures click actions.
+    // Binds reservation information to the corresponding card and configures click actions.
     @Override
     public void onBindViewHolder(
             @NonNull ViewHolder holder,
@@ -140,13 +132,13 @@ public class ReservationAdapter
         );
     }
 
-        // Returns the total number of reservations currently displayed.
+    // Returns the total number of reservations currently displayed.
     @Override
     public int getItemCount() {
         return reservations.size();
     }
 
-        // Applies different background and text colors based on the reservation status.
+    // Applies different background and text colors based on the reservation status.
     private void applyStatusStyle(
             TextView statusView,
             String status
@@ -218,7 +210,7 @@ public class ReservationAdapter
         );
     }
 
-        // Converts the API timestamp into a readable local date and time.
+    // Converts the API timestamp into a readable local date and time.
     private String formatDateTime(
             String value
     ) {
@@ -246,7 +238,7 @@ public class ReservationAdapter
         return output.format(date);
     }
 
-        // Parses reservation timestamps received from the backend in UTC format.
+    // Parses reservation timestamps received from the backend in UTC format.
     private Date parseApiDate(
             String value
     ) {
@@ -295,7 +287,7 @@ public class ReservationAdapter
         return null;
     }
 
-        // Returns a fallback value when reservation text is missing or empty.
+    // Returns a fallback value when reservation text is missing or empty.
     private String safe(
             String value,
             String fallback
@@ -310,7 +302,7 @@ public class ReservationAdapter
                 : value;
     }
 
-        // Initializes references to the views contained in each reservation card.
+    // Initializes references to the views contained in each reservation card.
     static class ViewHolder
             extends RecyclerView.ViewHolder {
 
@@ -322,7 +314,7 @@ public class ReservationAdapter
 
         MaterialButton viewButton;
 
-
+        // Initializes references to the reservation card's text fields and view button.
         ViewHolder(
                 @NonNull View itemView
         ) {

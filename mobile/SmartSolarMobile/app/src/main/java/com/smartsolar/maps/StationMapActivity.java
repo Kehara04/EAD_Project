@@ -60,10 +60,12 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/*
+ Displays solar stations on Google Maps and allows users to search,
+ filter, view station details, and find nearby stations using their location.
+ */
 public class StationMapActivity extends AppCompatActivity {
 
-    // OSM raster tiles use Web Mercator,
-    // which cannot display the poles.
     private static final double MAX_MAP_LATITUDE =
             85.05112878;
 
@@ -150,6 +152,7 @@ public class StationMapActivity extends AppCompatActivity {
             locationListener =
             new LocationListener() {
 
+                // Updates the user's location when a new location is received.
                 @Override
                 public void onLocationChanged(
                         Location location
@@ -159,7 +162,7 @@ public class StationMapActivity extends AppCompatActivity {
                     );
                 }
 
-
+                // Removes the user marker when location services become unavailable.
                 @Override
                 public void onProviderDisabled(
                         String provider
@@ -175,7 +178,7 @@ public class StationMapActivity extends AppCompatActivity {
                     }
                 }
 
-
+                // Updates the location status when a location provider becomes available.
                 @Override
                 public void onProviderEnabled(
                         String provider
@@ -185,15 +188,14 @@ public class StationMapActivity extends AppCompatActivity {
                     );
                 }
 
-
+                // Handles location provider status changes for compatibility.
                 @Override
                 public void onStatusChanged(
                         String provider,
                         int status,
                         Bundle extras
                 ) {
-                    // Deprecated callback retained
-                    // for compatibility.
+                    
                 }
             };
 
@@ -218,7 +220,7 @@ public class StationMapActivity extends AppCompatActivity {
                     }
             );
 
-
+    // Initializes the station map screen, UI controls, filters, and location permissions.
     @Override
     protected void onCreate(
             Bundle savedInstanceState
@@ -355,6 +357,7 @@ public class StationMapActivity extends AppCompatActivity {
         stationSearch.addTextChangedListener(
                 new TextWatcher() {
 
+                    // Handles the state before the search text changes.
                     @Override
                     public void beforeTextChanged(
                             CharSequence s,
@@ -364,7 +367,7 @@ public class StationMapActivity extends AppCompatActivity {
                     ) {
                     }
 
-
+                    // Applies station filters whenever the search text changes.
                     @Override
                     public void onTextChanged(
                             CharSequence s,
@@ -375,7 +378,7 @@ public class StationMapActivity extends AppCompatActivity {
                         applyStationFilters();
                     }
 
-
+                    // Handles the state after the search text changes.
                     @Override
                     public void afterTextChanged(
                             Editable s
@@ -516,12 +519,7 @@ public class StationMapActivity extends AppCompatActivity {
         }
     }
 
-
-    /* =========================================
-       LOCATION PERMISSION
-    ========================================= */
-
-    // Initialize asynchronously while station search and list results load independently.
+    // Initializes Google Maps and configures map controls, markers, and loading status.
     private void initializeGoogleMap(Bundle savedState) {
         if (!BuildConfig.MAPS_KEY_CONFIGURED) {
             mapStatus.setText(R.string.google_map_key_missing);
@@ -562,24 +560,28 @@ public class StationMapActivity extends AppCompatActivity {
         }, 20000);
     }
 
+    // Starts the Google Map when the activity becomes visible.
     @Override
     protected void onStart() {
         super.onStart();
         if (mapInitialized) mapView.onStart();
     }
 
+    // Stops the Google Map when the activity is no longer visible.
     @Override
     protected void onStop() {
         if (mapInitialized) mapView.onStop();
         super.onStop();
     }
 
+    // Releases map resources when the device reports low memory.
     @Override
     public void onLowMemory() {
         super.onLowMemory();
         if (mapInitialized) mapView.onLowMemory();
     }
 
+    // Checks whether fine or coarse location permission has been granted.
     private boolean hasLocationPermission() {
 
         return ContextCompat
@@ -746,7 +748,7 @@ public class StationMapActivity extends AppCompatActivity {
         }
     }
 
-
+    // Checks whether GPS or network-based location services are enabled.
     private boolean locationServicesEnabled() {
 
         return locationManager != null
@@ -970,7 +972,7 @@ public class StationMapActivity extends AppCompatActivity {
                 || searchOrigin.distanceTo(currentLocation) >= 250)) loadStations();
     }
 
-
+    // Removes the user's location marker and resets nearby station results when necessary.
     private void removeUserMarker() {
         currentLocation = null;
         searchOrigin = null;
@@ -1012,12 +1014,7 @@ public class StationMapActivity extends AppCompatActivity {
                 false;
     }
 
-
-    /* =========================================
-       LOAD STATIONS
-    ========================================= */
-
-    // Cancel the earlier request; nearby mode waits for a fresh location before calling the API.
+    // Loads active or nearby solar stations from the backend based on the selected radius.
     private void loadStations() {
 
         if (
@@ -1124,6 +1121,7 @@ public class StationMapActivity extends AppCompatActivity {
         stationsCall.enqueue(
                 new Callback<List<SolarStation>>() {
 
+                    // Processes the station API response and updates the displayed results.
                     @Override
                     public void onResponse(
                             Call<List<SolarStation>> call,
@@ -1208,7 +1206,7 @@ public class StationMapActivity extends AppCompatActivity {
                         }
                     }
 
-
+                    // Displays an error when the station API request fails.
                     @Override
                     public void onFailure(
                             Call<List<SolarStation>> call,
@@ -1266,11 +1264,6 @@ public class StationMapActivity extends AppCompatActivity {
                 )
         );
     }
-
-
-    /* =========================================
-       SEARCH / FILTER
-    ========================================= */
 
     // Filter the loaded Active/nearby results and keep the map and list counts consistent.
     private void applyStationFilters() {
@@ -1364,11 +1357,6 @@ public class StationMapActivity extends AppCompatActivity {
         }
     }
 
-
-    /* =========================================
-       STATION LIST DIALOG
-    ========================================= */
-
     // Provide a text-based alternative for browsing the current filtered station results.
     private void showStationList() {
 
@@ -1439,15 +1427,9 @@ public class StationMapActivity extends AppCompatActivity {
         stationListDialog.show();
     }
 
-
-    /* =========================================
-       SHOW STATIONS ON MAP
-    ========================================= */
-
     // Build station markers from API coordinates and skip coordinates the map cannot display.
     private void showStations(List<SolarStation> stations) {
         if (map == null) {
-            // Keep the list usable while Google Maps is loading or unavailable.
             status.setText(getString(R.string.stations_loaded_without_map, stations.size()));
             return;
         }
@@ -1501,7 +1483,7 @@ public class StationMapActivity extends AppCompatActivity {
     }
 
 
-    // Avoid using an old device fix as the origin for a nearby search.
+    // Checks whether the device has a recent location suitable for nearby station searches.
     private boolean hasFreshLocation() {
 
         return currentLocation != null
@@ -1525,11 +1507,6 @@ public class StationMapActivity extends AppCompatActivity {
                         <
                         120_000_000_000L;
     }
-
-
-    /* =========================================
-       STATION DETAILS BOTTOM SHEET
-    ========================================= */
 
     // Show cached details immediately, then request the latest station data from the API.
     private void showStationDetails(
@@ -1557,23 +1534,11 @@ public class StationMapActivity extends AppCompatActivity {
                                 null
                         );
 
-
-        /*
-         * Show the station data already loaded
-         * from the station list/map.
-         */
         bindStationDetails(
                 content,
                 station
         );
 
-
-        /*
-         * Member 3 reservation integration.
-         *
-         * Configure the Reserve button using
-         * the currently loaded station data.
-         */
         bindReservationButton(
                 content,
                 station
@@ -1612,11 +1577,6 @@ public class StationMapActivity extends AppCompatActivity {
 
         stationDetails.show();
 
-
-        /*
-         * Cannot refresh details if there is
-         * no valid station ID.
-         */
         if (
                 station.getId() == null
                         ||
@@ -1646,15 +1606,6 @@ public class StationMapActivity extends AppCompatActivity {
                 View.VISIBLE
         );
 
-
-        /*
-         * Refresh station details before the
-         * Prosumer reserves it.
-         *
-         * This is important because available
-         * slot counts or station status may have
-         * changed since the map was first loaded.
-         */
         detailCall =
                 ApiClient
                         .create(
@@ -1668,6 +1619,7 @@ public class StationMapActivity extends AppCompatActivity {
         detailCall.enqueue(
                 new Callback<SolarStation>() {
 
+                    // Updates station details and reservation availability using the latest API response.
                     @Override
                     public void onResponse(
                             Call<SolarStation> call,
@@ -1700,23 +1652,11 @@ public class StationMapActivity extends AppCompatActivity {
                                     response.body();
 
 
-                            /*
-                             * Refresh visible values.
-                             */
                             bindStationDetails(
                                     content,
                                     latestStation
                             );
 
-
-                            /*
-                             * Also refresh reservation
-                             * eligibility.
-                             *
-                             * This prevents the old map
-                             * data from leaving the
-                             * Reserve button enabled.
-                             */
                             bindReservationButton(
                                     content,
                                     latestStation
@@ -1744,7 +1684,7 @@ public class StationMapActivity extends AppCompatActivity {
                         }
                     }
 
-
+                    // Displays a refresh error when the station details request fails.
                     @Override
                     public void onFailure(
                             Call<SolarStation> call,
@@ -1771,12 +1711,7 @@ public class StationMapActivity extends AppCompatActivity {
         );
     }
 
-
-    /* =========================================
-       MEMBER 3:
-       RESERVE STATION BUTTON
-    ========================================= */
-
+    // Configures the reservation button based on station status, available slots, and station ID.
     private void bindReservationButton(
             View content,
             SolarStation station
@@ -1868,11 +1803,6 @@ public class StationMapActivity extends AppCompatActivity {
         reserveButton.setOnClickListener(
                 v -> {
 
-                    /*
-                     * Never proceed when the
-                     * station cannot currently
-                     * accept reservations.
-                     */
                     if (
                             !canReserve
                     ) {
@@ -1888,10 +1818,6 @@ public class StationMapActivity extends AppCompatActivity {
                         return;
                     }
 
-
-                    /*
-                     * Open Member 3 booking screen.
-                     */
                     Intent intent =
                             new Intent(
                                     StationMapActivity.this,
@@ -1910,14 +1836,6 @@ public class StationMapActivity extends AppCompatActivity {
                             station.getName()
                     );
 
-
-                    /*
-                     * Optional extra data.
-                     *
-                     * This can be useful later
-                     * when displaying reservation
-                     * information.
-                     */
                     intent.putExtra(
                             "stationAddress",
                             station.getAddress()
@@ -1945,11 +1863,6 @@ public class StationMapActivity extends AppCompatActivity {
                 }
         );
     }
-
-
-    /* =========================================
-       BIND STATION DETAILS
-    ========================================= */
 
     // Present capacity, free slots, operating hours and location from the station response.
     private void bindStationDetails(
@@ -2169,11 +2082,6 @@ public class StationMapActivity extends AppCompatActivity {
                 : value;
     }
 
-
-    /* =========================================
-       SAVE STATE
-    ========================================= */
-
     @Override
     // Preserve discovery filters and map state across activity recreation.
     protected void onSaveInstanceState(
@@ -2216,11 +2124,7 @@ public class StationMapActivity extends AppCompatActivity {
         super.onSaveInstanceState(outState);
     }
 
-
-    /* =========================================
-       ERROR
-    ========================================= */
-
+    // Displays the station loading error and makes the retry button visible.
     private void showError() {
 
         status.setText(
@@ -2234,11 +2138,7 @@ public class StationMapActivity extends AppCompatActivity {
         );
     }
 
-
-    /* =========================================
-       LIFECYCLE
-    ========================================= */
-
+    // Resumes Google Maps and starts location tracking when the activity becomes active.
     @Override
     protected void onResume() {
 

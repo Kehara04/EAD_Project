@@ -1,15 +1,6 @@
-/*
- * File: AvailableSlot.java
- * Project: Smart Solar Microgrid Trading System
- * Component: Energy Slot Reservation Management
- *
- * Description:
- * Represents an energy booking slot returned by the backend API.
- * Stores slot identification, slot number, label, and availability
- * information used during reservation creation and modification.
- */
 package com.smartsolar.model;
 
+//Represents an available energy booking slot and its availability status.
 public class AvailableSlot {
 
     private String slotId;

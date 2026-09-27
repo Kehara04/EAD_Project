@@ -1,15 +1,10 @@
-/*
- * File: CreateReservationRequest.java
- * Project: Smart Solar Microgrid Trading System
- * Component: Energy Slot Reservation Management
- *
- * Description:
- * Defines the request body used to create an energy reservation.
- * Transfers the selected station, booking slot, scheduled date
- * and time, and optional notes from the Android application
- * to the ASP.NET Core backend API.
- */
 package com.smartsolar.model;
+
+/*
+ Represents the request body used to update a prosumer's profile.
+ Stores the prosumer's name, email address, phone number,
+ and residential address.
+ */
 
 public class UpdateProsumerRequest {
 

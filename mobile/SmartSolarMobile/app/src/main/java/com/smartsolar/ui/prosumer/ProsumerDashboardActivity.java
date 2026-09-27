@@ -28,6 +28,12 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * Represents the main dashboard for authenticated prosumers.
+ * Displays account information and provides navigation to profile
+ * management, solar stations, and energy reservations.
+ * Handles location permission requests and user sign-out.
+ */
 public class ProsumerDashboardActivity
         extends AppCompatActivity {
 
@@ -52,6 +58,7 @@ public class ProsumerDashboardActivity
                 }
             });
 
+    // Checks whether fine or coarse location permission has been granted.
     private boolean hasLocationPermission() {
         return ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED
@@ -59,6 +66,7 @@ public class ProsumerDashboardActivity
                 == PackageManager.PERMISSION_GRANTED;
     }
 
+    // Requests location permission once for a logged-in prosumer when permission is not yet granted.
     private void requestLocationAfterLogin() {
         if (!sessionManager.isLoggedIn() || !"Prosumer".equals(sessionManager.getRole())
                 || hasLocationPermission()) return;
@@ -74,7 +82,7 @@ public class ProsumerDashboardActivity
     }
 
 
-
+    // Initializes the dashboard, session manager, API service, navigation buttons, and location permission request.
     @Override
     protected void onCreate(
             Bundle savedInstanceState) {
@@ -199,6 +207,7 @@ public class ProsumerDashboardActivity
         }
     }
 
+    // Refreshes the prosumer's account status whenever the dashboard becomes active.
     @Override
     protected void onResume() {
 
@@ -207,6 +216,7 @@ public class ProsumerDashboardActivity
         loadProfileSummary();
     }
 
+    // Retrieves the current prosumer profile and updates the account status displayed on the dashboard.
     private void loadProfileSummary() {
 
         progressBar.setVisibility(
@@ -219,6 +229,7 @@ public class ProsumerDashboardActivity
                 .enqueue(
                         new Callback<Prosumer>() {
 
+                            // Processes the profile response and logs out the user if the session is invalid.
                             @Override
                             public void onResponse(
                                     Call<Prosumer> call,
@@ -267,7 +278,7 @@ public class ProsumerDashboardActivity
                                 }
                             }
 
-
+                            // Handles network failures by hiding the progress indicator and displaying offline status.
                             @Override
                             public void onFailure(
                                     Call<Prosumer> call,
@@ -286,6 +297,7 @@ public class ProsumerDashboardActivity
                 );
     }
 
+    // Clears the current session and redirects the prosumer to the login screen.
     private void logout() {
 
         sessionManager.logout();
@@ -310,7 +322,7 @@ public class ProsumerDashboardActivity
         finish();
     }
     
-    //NULL SAFE TEXT
+    // Returns a default display name when the provided text is null or empty.
     private String safe(
             String value) {
 

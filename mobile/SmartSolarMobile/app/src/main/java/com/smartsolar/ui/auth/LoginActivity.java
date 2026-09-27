@@ -46,13 +46,13 @@ public class LoginActivity extends AppCompatActivity {
     private ApiService apiService;
     private SessionManager sessionManager;
 
+    // Initializes the login screen and redirects users with an existing authenticated session.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         sessionManager = new SessionManager(this);
 
-        // Existing SQLite session check.
         if (sessionManager.isLoggedIn()) {
             redirectByRole(sessionManager.getRole());
             return;
@@ -60,41 +60,27 @@ public class LoginActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_login);
 
-
-        // Existing input fields.
         emailInput = findViewById(R.id.editTextEmail);
 
         passwordInput = findViewById(R.id.editTextPassword);
 
-
-        // Existing buttons.
         loginButton = findViewById(R.id.buttonLogin);
 
         registerButton = findViewById(R.id.buttonRegister);
 
-
-        // NEW: Forgot Password button.
         forgotPasswordButton =
                 findViewById(R.id.buttonForgotPassword);
 
-
-        // Existing progress and error views.
         progressBar = findViewById(R.id.loginProgress);
 
         errorText = findViewById(R.id.textLoginError);
 
-
-        // Existing Retrofit API client.
         apiService = ApiClient.create(this);
 
-
-        // Existing login functionality.
         loginButton.setOnClickListener(
                 v -> loginUser()
         );
 
-
-        // Existing registration navigation.
         registerButton.setOnClickListener(
                 v -> startActivity(
                         new Intent(
@@ -115,9 +101,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
-    /**
-     * Authenticates a user using the backend API.
-     */
+    // Validates login credentials and sends an authentication request to the backend API.
     private void loginUser() {
 
         hideError();
@@ -126,8 +110,6 @@ public class LoginActivity extends AppCompatActivity {
 
         String password = valueOf(passwordInput);
 
-
-        // Email required.
         if (email.isEmpty()) {
 
             emailInput.setError("Email is required");
@@ -137,8 +119,6 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
-
-        // Email validation.
         if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
 
             emailInput.setError(
@@ -150,8 +130,6 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
-
-        // Password required.
         if (password.isEmpty()) {
 
             passwordInput.setError(
@@ -166,12 +144,11 @@ public class LoginActivity extends AppCompatActivity {
 
         setLoading(true);
 
-
-        // Existing backend login request.
         apiService.login(
                 new LoginRequest(email, password)
         ).enqueue(new Callback<LoginResponse>() {
 
+            // Processes the login response, saves the authenticated session, and redirects the user.
             @Override
             public void onResponse(
                     Call<LoginResponse> call,
@@ -189,8 +166,6 @@ public class LoginActivity extends AppCompatActivity {
                     LoginResponse loginResponse =
                             response.body();
 
-
-                    // Save session in SQLite.
                     sessionManager.saveSession(
                             loginResponse
                     );
@@ -203,8 +178,6 @@ public class LoginActivity extends AppCompatActivity {
                             Toast.LENGTH_SHORT
                     ).show();
 
-
-                    // Redirect according to role.
                     redirectByRole(
                             loginResponse.getRole()
                     );
@@ -221,7 +194,7 @@ public class LoginActivity extends AppCompatActivity {
                 );
             }
 
-
+            // Handles connection failures and displays an error when the login request cannot be completed.
             @Override
             public void onFailure(
                     Call<LoginResponse> call,
@@ -237,10 +210,7 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-
-    /**
-     * Redirects authenticated users according to role.
-     */
+    // Redirects authenticated users to the dashboard associated with their assigned role.
     private void redirectByRole(String role) {
 
         Intent intent;
@@ -293,9 +263,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
-    /**
-     * Reads a text input safely.
-     */
+      // Safely retrieves and trims the text entered in an input field.
     private String valueOf(TextInputEditText input) {
 
         return input.getText() == null
@@ -304,9 +272,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
-    /**
-     * Updates the login loading state.
-     */
+    // Updates the loading indicator and button states while authentication is in progress.
     private void setLoading(boolean loading) {
 
         progressBar.setVisibility(
@@ -317,7 +283,6 @@ public class LoginActivity extends AppCompatActivity {
 
         registerButton.setEnabled(!loading);
 
-        // NEW: Disable password recovery while logging in.
         forgotPasswordButton.setEnabled(!loading);
 
         loginButton.setText(
@@ -325,10 +290,7 @@ public class LoginActivity extends AppCompatActivity {
         );
     }
 
-
-    /**
-     * Displays an authentication error.
-     */
+    // Displays an authentication error message on the login screen.
     private void showError(String message) {
 
         errorText.setText(message);
@@ -337,9 +299,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
-    /**
-     * Hides the previous authentication error.
-     */
+    // Hides the previously displayed authentication error message.
     private void hideError() {
 
         errorText.setVisibility(View.GONE);

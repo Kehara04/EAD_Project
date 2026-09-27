@@ -44,7 +44,7 @@ public class OperatorDashboardActivity extends AppCompatActivity {
 
     private LinearLayout layoutStationSummaries;
 
-
+    // Initializes the operator dashboard, UI components, API service, and button listeners.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -63,7 +63,6 @@ public class OperatorDashboardActivity extends AppCompatActivity {
         textCancelledCount   = findViewById(R.id.textStatCancelled);
         layoutStationSummaries = findViewById(R.id.layoutStationSummaries);
 
-        // Scan QR button – navigates to QrScanActivity.
         MaterialButton scanButton =
                 findViewById(R.id.buttonScanQr);
 
@@ -73,12 +72,10 @@ public class OperatorDashboardActivity extends AppCompatActivity {
                 )
         );
 
-        // Refresh button.
         MaterialButton refreshButton =
                 findViewById(R.id.buttonRefreshDashboard);
         refreshButton.setOnClickListener(v -> loadDashboard());
 
-        // Sign Out button.
         MaterialButton signOutButton =
                 findViewById(R.id.buttonSignOut);
         signOutButton.setOnClickListener(v -> logout());
@@ -86,18 +83,15 @@ public class OperatorDashboardActivity extends AppCompatActivity {
         loadDashboard();
     }
 
-
+    // Refreshes dashboard statistics whenever the operator returns to this screen.
     @Override
     protected void onResume() {
-        // Reload stats each time the operator returns from a scan.
         super.onResume();
         loadDashboard();
     }
 
 
-    /**
-     * Fetches operator dashboard stats from the API and populates the UI.
-     */
+    // Retrieves the latest operator dashboard statistics from the backend API.
     private void loadDashboard() {
 
         setLoading(true);
@@ -105,6 +99,7 @@ public class OperatorDashboardActivity extends AppCompatActivity {
         apiService.getOperatorDashboard()
                 .enqueue(new Callback<OperatorDashboardStats>() {
 
+                    // Processes the API response and updates the dashboard when statistics are available.
                     @Override
                     public void onResponse(
                             Call<OperatorDashboardStats> call,
@@ -126,6 +121,7 @@ public class OperatorDashboardActivity extends AppCompatActivity {
                         ).show();
                     }
 
+                    // Displays an error when the dashboard request fails due to a connection issue.
                     @Override
                     public void onFailure(
                             Call<OperatorDashboardStats> call,
@@ -142,9 +138,7 @@ public class OperatorDashboardActivity extends AppCompatActivity {
     }
 
 
-    /**
-     * Populates all stat TextViews and builds the per-station summary rows.
-     */
+    // Displays reservation counts and generates completion summary rows for each station.
     private void bindStats(OperatorDashboardStats stats) {
 
         textTodayTotal.setText(String.valueOf(stats.getTodayTotal()));
@@ -189,15 +183,13 @@ public class OperatorDashboardActivity extends AppCompatActivity {
     }
 
 
-    // ─── helpers ────────────────────────────────────────────────────────────
-
+    // Controls the loading indicator and visibility of dashboard statistics.
     private void setLoading(boolean loading) {
         progressDashboard.setVisibility(loading ? View.VISIBLE : View.GONE);
         layoutStats.setVisibility(loading ? View.GONE : View.VISIBLE);
     }
 
-    // ─── sign out ────────────────────────────────────────────────────────────
-
+    // Clears the current session and redirects the operator to the login screen.
     private void logout() {
         sessionManager.logout();
         Intent intent = new Intent(this, LoginActivity.class);
