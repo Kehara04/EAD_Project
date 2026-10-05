@@ -4,6 +4,10 @@
  * Description:
  * Defines the MongoDB station document and the location, capacity,
  * availability and operating details returned to web and mobile clients.
+ *
+ * Reference:
+ * YouTube Video: creating data models in ASP.NET Core Web API
+ * https://youtu.be/r1G2tBmKsmY?si=UuqbFSpmPhNcfJfG
  */
 
 using MongoDB.Bson;

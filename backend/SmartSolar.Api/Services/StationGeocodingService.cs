@@ -4,6 +4,16 @@
  * Description:
  * Searches Sri Lankan addresses through Geoapify, caches suggestions,
  * and protects selected coordinates for station creation and updates.
+ *
+ * References:
+ * Geoapify Geocoding API Documentation
+ * https://apidocs.geoapify.com/docs/geocoding/forward-geocoding/
+ *
+ * YouTube Short: caching in ASP.NET Core Web API
+ * https://youtube.com/shorts/fRyIwJPZbpM?si=-V0vkp0ICY8-G26w
+ *
+ * YouTube Video: iimemorycache in ASP.NET Core Web API
+ * https://youtu.be/DPpQUuEFo60?si=uYQ74Ru4vcmd2uWr
  */
 
 using System.Security.Cryptography;

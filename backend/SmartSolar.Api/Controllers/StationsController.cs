@@ -4,6 +4,10 @@
  * Description:
  * Exposes authenticated station endpoints for listing, address search,
  * creation, updates, status changes and nearby station discovery.
+ *
+ * Reference:
+ * YouTube Playlist: C# ASP.NET Core Web API Tutorial
+ * https://youtube.com/playlist?list=PLTjRvDozrdlz3_FPXwb6lX_HoGXa09Yef&si=xhm90Qoz7-oC52LD
  */
 
 using Microsoft.AspNetCore.Authorization;

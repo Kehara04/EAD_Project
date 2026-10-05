@@ -4,6 +4,10 @@
  * Description:
  * Manages station persistence, location selection, capacity rules,
  * reservation checks and distance-based station discovery.
+ *
+ * Reference:
+ * YouTube Video: crud operations in ASP.NET Core Web API
+ * https://youtu.be/6YIRKBsRWVI?si=oS4tmvD8C8XrLBWc
  */
 
 using MongoDB.Bson;

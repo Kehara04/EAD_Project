@@ -4,6 +4,9 @@
  * Description:
  * Defines validated station creation and update input, including the
  * protected address selection used to resolve map coordinates.
+ *
+ * Reference: Services in ASP.NET Core Web API
+ * https://dotnettutorials.net/lesson/services-in-asp-net-core-web-api/
  */
 
 using System.ComponentModel.DataAnnotations;

@@ -7,6 +7,10 @@
  * to a solar station.
  * Each slot contains its station reference, slot number,
  * label, activation status, and creation timestamp.
+ *
+ * Reference:
+ * YouTube Video: creating data models in ASP.NET Core Web API
+ * https://youtu.be/r1G2tBmKsmY?si=UuqbFSpmPhNcfJfG
  */
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;

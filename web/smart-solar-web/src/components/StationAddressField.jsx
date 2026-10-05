@@ -1,3 +1,6 @@
+/*reference: https://youtu.be/7fPXI_MnBOY?si=pm8KCW-0RDxj11nQ
+*/
+
 import { useEffect, useState } from "react";
 import { getStationAddressSuggestions } from "../services/stationService";
 import { getApiError } from "../services/errorService";
