@@ -1,8 +1,17 @@
 /*
  * File: User.cs
  * Project: Smart Solar Microgrid Trading System
+ * Component: Authentication and Account Management
+ *
  * Description:
- * Represents an authenticated system user stored in MongoDB.
+ * Defines the application user model used to store authentication,
+ * role, account-status and profile-related information for
+ * Backoffice and Grid Operator users.
+ *
+ * References:
+ * YouTube Tutorial – ASP.NET Core Web API Models and CRUD
+ * https://youtu.be/r1G2tBmKsmY?si=UuqbFSpmPhNcfJfG
+ *
  */
 
 using MongoDB.Bson;

@@ -1,9 +1,19 @@
 /*
  * File: AccountService.cs
  * Project: Smart Solar Microgrid Trading System
+ * Component: Authentication and Account Management
+ *
  * Description:
- * Implements authenticated account operations such as profile lookup,
- * profile updates, admin-driven updates, and password changes.
+ * Implements account-management business logic for retrieving and updating
+ * user profile information and securely changing account passwords.
+ *
+ * References:
+ * YouTube Tutorial – ASP.NET Core Account Management
+ * https://youtu.be/DpyfCWqIdGE?si=DbXGOo7rCJdtruZY
+ *
+ * ASP.NET Core Web API CRUD – Service Class and Dependency Injection
+ * https://www.youtube.com/watch?v=iamBmx-6pCs
+ *
  */
 
 using MongoDB.Bson;

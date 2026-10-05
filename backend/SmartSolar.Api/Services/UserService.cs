@@ -1,8 +1,19 @@
 /*
  * File: UserService.cs
  * Project: Smart Solar Microgrid Trading System
+ * Component: Authentication and Account Management
+ *
  * Description:
- * Implements Backoffice user-management business logic.
+ * Contains service-layer logic for creating, retrieving, updating and
+ * managing Backoffice and Grid Operator user accounts.
+ *
+ * References:
+ *
+ * ASP.NET Core Web API CRUD – Service Class and Dependency Injection
+ * https://www.youtube.com/watch?v=iamBmx-6pCs
+ *
+ * ASP.NET Core Web API Services Tutorial
+ * https://dotnettutorials.net/lesson/services-in-asp-net-core-web-api/
  */
 
 using MongoDB.Bson;

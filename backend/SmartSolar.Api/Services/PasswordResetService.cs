@@ -1,9 +1,16 @@
 /*
  * File: PasswordResetService.cs
  * Project: Smart Solar Microgrid Trading System
+ * Component: Authentication and Account Management
+ *
  * Description:
- * Handles password reset requests, reset token validation,
- * secure token hashing, and email delivery for user accounts.
+ * Handles password-reset token generation, validation, expiry checking
+ * and password recovery operations for registered users.
+ *
+ * References:
+ *
+ * Forgot Password / Reset Password – Generate Token and Send Email
+ * https://www.youtube.com/watch?v=XapHo_U7hn0
  */
 
 using System.Net;

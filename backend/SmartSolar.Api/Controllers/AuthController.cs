@@ -1,9 +1,19 @@
 /*
  * File: AuthController.cs
  * Project: Smart Solar Microgrid Trading System
+ * Component: Authentication and Account Management
+ *
  * Description:
- * Provides login functionality for Backoffice,
- * Grid Operator and Prosumer accounts.
+ * Provides authentication-related API endpoints including user login,
+ * password recovery requests and password reset operations.
+ *
+ * References:
+ * YouTube Tutorial – ASP.NET Core Authentication
+ * https://youtu.be/w8I32UPEvj8?si=SvUaaO_twbKSWQGn
+ *
+ * YouTube Tutorial – ASP.NET Core Authentication
+ * https://youtu.be/1OymLsIC3ms?si=YGdiK26GgC9AsJrv
+ *
  */
 
 using Microsoft.AspNetCore.Authorization;

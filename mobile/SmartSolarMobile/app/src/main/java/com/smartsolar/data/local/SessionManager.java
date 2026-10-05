@@ -1,3 +1,9 @@
+/*
+ * References:
+ * Android Developers – Save Data Using SQLite
+ * https://developer.android.com/training/data-storage/sqlite
+ *
+ */
 package com.smartsolar.data.local;
 
 import android.content.ContentValues;

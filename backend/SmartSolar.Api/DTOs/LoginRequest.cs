@@ -1,9 +1,14 @@
 /*
  * File: LoginRequest.cs
  * Project: Smart Solar Microgrid Trading System
+ *
  * Description:
  * Defines the credentials payload accepted by the
  * authentication endpoint for user sign-in.
+ * 
+ * References: 
+ * YouTube Tutorial – DTO basic explanation
+ * https://youtu.be/F9M9bUq-0Z0?si=28-792wMTAQRVxv0
  */
 
 using System.ComponentModel.DataAnnotations;

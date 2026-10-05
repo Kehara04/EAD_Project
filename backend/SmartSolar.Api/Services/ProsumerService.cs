@@ -1,9 +1,17 @@
 /*
  * File: ProsumerService.cs
  * Project: Smart Solar Microgrid Trading System
+ * Component: Authentication and Account Management
+ *
  * Description:
- * Implements Prosumer registration, profile management,
- * activation, deactivation and reactivation business logic.
+ * Implements Prosumer account business logic including registration,
+ * profile updates, account activation and account deactivation handling.
+ *
+ * References:
+ *
+ * ASP.NET Core Web API CRUD – Service Class and Dependency Injection
+ * https://www.youtube.com/watch?v=iamBmx-6pCs
+ *
  */
 
 using MongoDB.Driver;

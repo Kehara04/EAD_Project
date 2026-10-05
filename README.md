@@ -474,6 +474,10 @@ https://github.com/MethmiHP/SmartSolar-Frontend.git
 
 The `main` branch contains the final integrated version of the project.
 
+Youtube Demo Video Link:
+
+https://youtu.be/gsATAr4SM7o?si=mDLIdFBzjKkBXNbT
+
 ---
 
 ## Main Demonstration Flow
@@ -523,25 +527,13 @@ Meaningful commits were used to document development and integration work.
 
 ---
 
-## Challenges
+## Team Members and Individual Contributions
 
-Major challenges encountered during development included:
-
-- MongoDB Atlas configuration
-- JWT authentication and role authorization
-- Android-to-backend communication
-- Android and Gradle compatibility
-- Coordinating reservation availability
-- Secure QR verification
-- Google Maps integration
-- IIS deployment
-- HTTPS configuration
-- Integration of separately developed team components
-
-These challenges were resolved through centralized service design, environment-based configuration, testing, validation and version-control workflows.
+| IT Number | Component | Main Contribution |
+|---|---|---|
+| IT23227422 | Authentication and Account Management | Authentication, JWT authorization, account management, Prosumer registration and activation, profile management, password management, backend/web/mobile integration |
+| IT23209916 | Station and Microgrid Management | Station management, energy booking slots, availability, address search, geolocation and maps integration |
+| IT23193536 | Operator, QR and Dashboard | QR generation, QR scanning, server-side verification, transaction completion and operator dashboards |
+| IT23202740 | Reservation and Booking Management | Reservation creation, updates, cancellations, approvals, booking views and reservation business rules |
 
 ---
-
-```text
-ADD_YOUTUBE_OR_ONEDRIVE_VIDEO_LINK_HERE
-```

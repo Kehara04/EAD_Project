@@ -1,3 +1,9 @@
+/*
+ * References:
+ *
+ * Android Developers – SQLiteDatabase
+ * https://developer.android.com/reference/android/database/sqlite/SQLiteDatabase
+ */
 package com.smartsolar.data.local;
 
 import android.content.Context;

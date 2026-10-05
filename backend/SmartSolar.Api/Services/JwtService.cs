@@ -1,9 +1,19 @@
 /*
  * File: JwtService.cs
  * Project: Smart Solar Microgrid Trading System
+ * Component: Authentication and Account Management
+ *
  * Description:
- * Generates JWT access tokens for authenticated users and includes
- * identity, role, and reference claims for request authorization.
+ * Generates JSON Web Tokens containing authenticated user identity
+ * and role claims used for API authentication and authorization.
+ *
+ * References:
+ * YouTube Tutorial – ASP.NET Core JWT Authentication
+ * https://youtu.be/w8I32UPEvj8?si=SvUaaO_twbKSWQGn
+ *
+ *
+ * ASP.NET Core 8 Web API Authentication with JWT
+ * https://www.youtube.com/watch?v=rOg3wnsiGRE
  */
 
 using System.IdentityModel.Tokens.Jwt;

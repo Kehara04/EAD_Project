@@ -1,9 +1,21 @@
 /*
  * File: JwtSettings.cs
  * Project: Smart Solar Microgrid Trading System
+ * Component: Authentication and Account Management
+ *
  * Description:
- * Stores the token configuration values used to
- * validate JWTs during authentication and authorization.
+ * Defines configuration properties used for JWT creation and validation,
+ * including issuer, audience, secret key and token expiry settings.
+ *
+ * References:
+ * YouTube Tutorial – ASP.NET Core JWT Authentication
+ * https://youtu.be/w8I32UPEvj8?si=SvUaaO_twbKSWQGn
+ *
+ * YouTube Tutorial
+ * https://youtu.be/gfkTfcpWqAY?si=sv6JJ4g-tkBL1Bi7
+ *
+ * ASP.NET Core 8 Web API Authentication with JWT
+ * https://www.youtube.com/watch?v=rOg3wnsiGRE
  */
 
 namespace SmartSolar.Api.Configuration;

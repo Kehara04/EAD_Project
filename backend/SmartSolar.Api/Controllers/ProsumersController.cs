@@ -1,9 +1,17 @@
 /*
  * File: ProsumersController.cs
  * Project: Smart Solar Microgrid Trading System
+ * Component: Authentication and Account Management
+ *
  * Description:
- * Provides Prosumer registration, self-service account
- * management and Backoffice lifecycle management endpoints.
+ * Provides Prosumer account endpoints for registration, profile management,
+ * account activation, deactivation requests and Backoffice administration.
+ *
+ * References:
+ *
+ * ASP.NET Core Web API CRUD – Service Class and Dependency Injection
+ * https://www.youtube.com/watch?v=iamBmx-6pCs
+ *
  */
 
 using Microsoft.AspNetCore.Authorization;

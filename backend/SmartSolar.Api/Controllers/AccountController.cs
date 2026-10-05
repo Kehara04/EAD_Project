@@ -1,11 +1,20 @@
 /*
  * File: AccountController.cs
  * Project: Smart Solar Microgrid Trading System
+ * Component: Authentication and Account Management
+ *
  * Description:
- * Exposes authenticated account endpoints for profile viewing,
- * profile updates, and password management for logged-in users.
+ * Exposes authenticated account-management endpoints for retrieving
+ * and updating the current user's profile and changing passwords.
+ *
+ * References:
+ * YouTube Tutorial – ASP.NET Core Account Management
+ * https://youtu.be/DpyfCWqIdGE?si=DbXGOo7rCJdtruZY
+ *
+ * YouTube Tutorial – ASP.NET Core Authentication and Authorization
+ * https://youtu.be/w8I32UPEvj8?si=SvUaaO_twbKSWQGn
+ *
  */
-
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

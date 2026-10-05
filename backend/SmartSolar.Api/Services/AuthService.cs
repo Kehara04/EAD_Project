@@ -1,8 +1,19 @@
 /*
  * File: AuthService.cs
  * Project: Smart Solar Microgrid Trading System
+ * Component: Authentication and Account Management
+ *
  * Description:
- * Handles authentication and password verification.
+ * Implements authentication business logic including credential validation,
+ * password verification and JWT generation for authenticated users.
+ *
+ * References:
+ * YouTube Tutorial – ASP.NET Core Authentication and JWT
+ * https://youtu.be/w8I32UPEvj8?si=SvUaaO_twbKSWQGn
+ *
+ * ASP.NET Core 8 Web API Authentication with JWT
+ * https://www.youtube.com/watch?v=rOg3wnsiGRE
+ *
  */
 
 using MongoDB.Driver;
