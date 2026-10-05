@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/solar_background"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="190dp">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@null"
+            android:scaleType="centerCrop"
+            android:src="@drawable/smart_solar_mobile_bg" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#C0004D43" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/buttonReservationsBack"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="-12dp"
+                app:navigationIcon="?attr/homeAsUpIndicator"
+                app:navigationIconTint="@android:color/white"
+                android:background="@android:color/transparent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:text="ENERGY BOOKINGS"
+                android:textColor="@color/solar_lime"
+                android:textSize="10sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="My Reservations"
+                android:textColor="@android:color/white"
+                android:textSize="28sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Manage your upcoming and previous energy bookings."
+                android:textColor="#D9EDE5"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+    </FrameLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Search station"
+            app:boxBackgroundMode="outline"
+            app:boxStrokeColor="@color/solar_green">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editReservationSearch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <!-- Search method: filters reservations by station name -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonReservationSearch"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="8dp"
+            android:text="Search"
+            android:textAllCaps="false"
+            app:backgroundTint="@color/solar_green"
+            app:cornerRadius="10dp" />
+
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <!-- Filter method: shows all reservation records -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/buttonFilterAll"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="44dp"
+                    android:text="All"
+                    android:textAllCaps="false" />
+
+                <!-- Filter method: shows pending reservations -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/buttonFilterPending"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="44dp"
+                    android:layout_marginStart="6dp"
+                    android:text="Pending"
+                    android:textAllCaps="false" />
+
+                <!-- Filter method: shows approved reservations -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/buttonFilterApproved"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="44dp"
+                    android:layout_marginStart="6dp"
+                    android:text="Approved"
+                    android:textAllCaps="false" />
+
+                <!-- Filter method: shows reservation history -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/buttonFilterHistory"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="44dp"
+                    android:layout_marginStart="6dp"
+                    android:text="History"
+                    android:textAllCaps="false" />
+
+            </LinearLayout>
+
+        </HorizontalScrollView>
+
+
+        <ProgressBar
+            android:id="@+id/reservationsProgress"
+            android:layout_width="34dp"
+            android:layout_height="34dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="16dp"
+            android:visibility="gone" />
+
+
+        <TextView
+            android:id="@+id/textReservationsEmpty"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="22dp"
+            android:gravity="center"
+            android:text="No reservations found."
+            android:textColor="@color/solar_text_secondary"
+            android:textSize="14sp"
+            android:visibility="gone" />
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerReservations"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="12dp"
+            android:layout_weight="1"
+            android:clipToPadding="false"
+            android:paddingBottom="18dp" />
+
+    </LinearLayout>
+
+</LinearLayout>

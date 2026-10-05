@@ -1,0 +1,627 @@
+package com.smartsolar.ui.reservation;
+
+import android.app.DatePickerDialog;
+import android.os.Bundle;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ProgressBar;
+import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.smartsolar.R;
+import com.smartsolar.data.remote.ApiClient;
+import com.smartsolar.data.remote.ApiService;
+import com.smartsolar.model.AvailableSlot;
+import com.smartsolar.model.CreateReservationRequest;
+import com.smartsolar.model.EnergyReservation;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+import java.util.Locale;
+import java.util.TimeZone;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+/**
+ * Manages the creation of energy slot reservations for prosumers.
+ * Allows users to select a booking date, retrieve available slots
+ * for a solar station, and submit a reservation to the backend API.
+ */
+public class ReservationActivity
+        extends AppCompatActivity {
+
+    private ApiService apiService;
+
+    private String stationId;
+    private String stationName;
+
+    private MaterialButton dateButton;
+    private MaterialButton reserveButton;
+
+    private Spinner slotSpinner;
+
+    private TextInputEditText notesInput;
+
+    private TextView errorText;
+
+    private ProgressBar progressBar;
+
+    private final Calendar selectedDateTime =
+            Calendar.getInstance();
+
+    private boolean dateSelected = false;
+    private final List<AvailableSlot>
+            availableSlots =
+            new ArrayList<>();
+
+
+    // Initializes the reservation screen and receives the selected station details.
+    @Override
+    protected void onCreate(
+            Bundle savedInstanceState) {
+
+        super.onCreate(savedInstanceState);
+
+        setContentView(
+                R.layout.activity_reservation
+        );
+
+
+        apiService =
+                ApiClient.create(this);
+
+
+        stationId =
+                getIntent().getStringExtra(
+                        "stationId"
+                );
+
+        stationName =
+                getIntent().getStringExtra(
+                        "stationName"
+                );
+
+
+        if (
+                stationId == null ||
+                stationId.trim().isEmpty()
+        ) {
+            Toast.makeText(
+                    this,
+                    "Station information is missing.",
+                    Toast.LENGTH_LONG
+            ).show();
+
+            finish();
+
+            return;
+        }
+
+
+        TextView stationTitle =
+                findViewById(
+                        R.id.textReservationStation
+                );
+
+        stationTitle.setText(
+                stationName == null
+                        ? "Solar Station"
+                        : stationName
+        );
+
+
+        dateButton =
+                findViewById(
+                        R.id.buttonReservationDate
+                );
+
+        reserveButton =
+                findViewById(
+                        R.id.buttonCreateReservation
+                );
+
+        slotSpinner =
+                findViewById(
+                        R.id.spinnerReservationSlot
+                );
+
+        notesInput =
+                findViewById(
+                        R.id.editReservationNotes
+                );
+
+        errorText =
+                findViewById(
+                        R.id.textReservationError
+                );
+
+        progressBar =
+                findViewById(
+                        R.id.reservationProgress
+                );
+
+
+        ((com.google.android.material.appbar.MaterialToolbar) findViewById(R.id.buttonReservationBack)).setNavigationOnClickListener(v -> finish());
+
+
+        dateButton.setOnClickListener(
+                v -> selectDate()
+        );
+
+
+
+        reserveButton.setOnClickListener(
+                v -> createReservation()
+        );
+    }
+
+    // Opens the date picker and restricts selection to the allowed booking period.
+    private void selectDate() {
+
+        Calendar now =
+                Calendar.getInstance();
+
+
+        DatePickerDialog dialog =
+                new DatePickerDialog(
+                        this,
+                        (view,
+                         year,
+                         month,
+                         day) -> {
+
+                            selectedDateTime.set(
+                                    Calendar.YEAR,
+                                    year
+                            );
+
+                            selectedDateTime.set(
+                                    Calendar.MONTH,
+                                    month
+                            );
+
+                            selectedDateTime.set(
+                                    Calendar.DAY_OF_MONTH,
+                                    day
+                            );
+
+                            selectedDateTime.set(
+                                    Calendar.HOUR_OF_DAY,
+                                    0
+                            );
+
+                            selectedDateTime.set(
+                                    Calendar.MINUTE,
+                                    0
+                            );
+
+                            selectedDateTime.set(
+                                    Calendar.SECOND,
+                                    0
+                            );
+
+                            selectedDateTime.set(
+                                    Calendar.MILLISECOND,
+                                    0
+                            );
+
+
+                            dateSelected = true;
+
+
+                            dateButton.setText(
+                                    String.format(
+                                            Locale.getDefault(),
+                                            "%02d/%02d/%04d",
+                                            day,
+                                            month + 1,
+                                            year
+                                    )
+                            );
+
+
+                            loadSlotsIfReady();
+                        },
+
+                        now.get(
+                                Calendar.YEAR
+                        ),
+
+                        now.get(
+                                Calendar.MONTH
+                        ),
+
+                        now.get(
+                                Calendar.DAY_OF_MONTH
+                        )
+                );
+
+
+        dialog.getDatePicker()
+                .setMinDate(
+                        System.currentTimeMillis()
+                );
+
+
+        Calendar maxDate =
+                Calendar.getInstance();
+
+        maxDate.add(
+                Calendar.DAY_OF_YEAR,
+                7
+        );
+
+
+        dialog.getDatePicker()
+                .setMaxDate(
+                        maxDate.getTimeInMillis()
+                );
+
+
+        dialog.show();
+    }
+
+    // Retrieves available booking slots for the selected station and date.
+    private void loadSlotsIfReady() {
+
+        if (
+                !dateSelected
+        ) {
+            return;
+        }
+
+
+        hideError();
+
+        setLoading(true);
+
+
+        String scheduledAt =
+                toUtcApiDate();
+
+
+        apiService
+                .getAvailableSlots(
+                        stationId,
+                        scheduledAt
+                )
+                .enqueue(
+                        new Callback<
+                                List<AvailableSlot>>() {
+
+                            // Processes the available slots response and updates the slot dropdown.
+                            @Override
+                            public void onResponse(
+                                    Call<List<AvailableSlot>> call,
+                                    Response<List<AvailableSlot>> response) {
+
+                                setLoading(false);
+
+                                availableSlots.clear();
+
+
+                                if (
+                                        response.isSuccessful() &&
+                                        response.body() != null
+                                ) {
+
+                                    availableSlots.addAll(
+                                            response.body()
+                                    );
+
+
+                                    updateSlotSpinner();
+
+                                    return;
+                                }
+
+
+                                showError(
+                                        "Could not load available slots."
+                                );
+                            }
+
+                            // Handles network failures encountered while retrieving available slots.
+                            @Override
+                            public void onFailure(
+                                    Call<List<AvailableSlot>> call,
+                                    Throwable throwable) {
+
+                                setLoading(false);
+
+                                showError(
+                                        "Unable to connect to the server."
+                                );
+                            }
+                        }
+                );
+    }
+
+    // Updates the dropdown with available and already-booked energy slots.
+    private void updateSlotSpinner() {
+
+        ArrayAdapter<AvailableSlot> adapter =
+                new ArrayAdapter<AvailableSlot>(
+                        this,
+                        android.R.layout.simple_spinner_item,
+                        availableSlots
+                ) {
+                    // Prevents users from selecting slots that are already booked.
+                    @Override
+                    public boolean isEnabled(int position) {
+                        AvailableSlot slot = getItem(position);
+                        return slot != null && slot.isAvailable();
+                    }
+
+                    // Creates the view used to display the currently selected slot.
+                    @Override
+                    public View getView(
+                            int position,
+                            View convertView,
+                            ViewGroup parent) {
+                        return createSlotView(
+                                position,
+                                convertView,
+                                parent,
+                                android.R.layout.simple_spinner_item
+                        );
+                    }
+
+                    // Creates the view for each slot displayed in the dropdown list.
+                    @Override
+                    public View getDropDownView(
+                            int position,
+                            View convertView,
+                            ViewGroup parent) {
+                        return createSlotView(
+                                position,
+                                convertView,
+                                parent,
+                                android.R.layout.simple_spinner_dropdown_item
+                        );
+                    }
+
+                    // Formats a slot item and adjusts its appearance according to availability.
+                    private View createSlotView(
+                            int position,
+                            View convertView,
+                            ViewGroup parent,
+                            int layout) {
+                        TextView view = (TextView) getLayoutInflater()
+                                .inflate(layout, parent, false);
+                        AvailableSlot slot = getItem(position);
+                        view.setText(
+                                slot.isAvailable()
+                                        ? slot.getLabel()
+                                        : slot.getLabel() + " (Booked)"
+                        );
+                        view.setEnabled(slot.isAvailable());
+                        view.setAlpha(slot.isAvailable() ? 1f : 0.5f);
+                        return view;
+                    }
+                };
+
+
+        slotSpinner.setAdapter(
+                adapter
+        );
+
+
+        reserveButton.setEnabled(
+                hasAvailableSlot()
+        );
+    }
+
+    // Validates and submits a new energy reservation to the backend.
+    private void createReservation() {
+
+        hideError();
+
+
+        if (!dateSelected) {
+            showError(
+                    "Please select a date."
+            );
+
+            return;
+        }
+
+
+        if (availableSlots.isEmpty()) {
+            showError(
+                    "No available booking slot has been selected."
+            );
+
+            return;
+        }
+
+
+        int position =
+                slotSpinner
+                        .getSelectedItemPosition();
+
+
+        if (
+                position < 0 ||
+                position >=
+                        availableSlots.size()
+        ) {
+            showError(
+                    "Please select an available slot."
+            );
+
+            return;
+        }
+
+
+        AvailableSlot selectedSlot =
+                availableSlots.get(
+                        position
+                );
+
+        if (!selectedSlot.isAvailable()) {
+            showError(
+                    "The selected slot is already booked for this date."
+            );
+
+            return;
+        }
+
+
+        String notes =
+                notesInput.getText() == null
+                        ? ""
+                        : notesInput
+                        .getText()
+                        .toString()
+                        .trim();
+
+
+        CreateReservationRequest request =
+                new CreateReservationRequest(
+                        stationId,
+                        selectedSlot.getSlotId(),
+                        toUtcApiDate(),
+                        notes
+                );
+
+
+        setLoading(true);
+
+
+        apiService
+                .createReservation(
+                        request
+                )
+                .enqueue(
+                        new Callback<
+                                EnergyReservation>() {
+
+                            // Processes the reservation response and closes the screen after successful creation.
+                            @Override
+                            public void onResponse(
+                                    Call<EnergyReservation> call,
+                                    Response<EnergyReservation> response) {
+
+                                setLoading(false);
+
+
+                                if (
+                                        response.isSuccessful() &&
+                                        response.body() != null
+                                ) {
+
+                                    Toast.makeText(
+                                            ReservationActivity.this,
+                                            "Reservation created successfully.",
+                                            Toast.LENGTH_LONG
+                                    ).show();
+
+
+                                    finish();
+
+                                    return;
+                                }
+
+
+                                showError(
+                                        "Reservation could not be created."
+                                );
+                            }
+
+                            // Displays a connection error when the reservation request fails.
+                            @Override
+                            public void onFailure(
+                                    Call<EnergyReservation> call,
+                                    Throwable throwable) {
+
+                                setLoading(false);
+
+                                showError(
+                                        "Unable to connect to the server."
+                                );
+                            }
+                        }
+                );
+    }
+
+    // Converts the selected reservation date into UTC format for the ASP.NET API.
+    private String toUtcApiDate() {
+
+        SimpleDateFormat format =
+                new SimpleDateFormat(
+                        "yyyy-MM-dd'T'HH:mm:ss'Z'",
+                        Locale.US
+                );
+
+
+        format.setTimeZone(
+                TimeZone.getTimeZone(
+                        "UTC"
+                )
+        );
+
+
+        return format.format(
+                selectedDateTime.getTime()
+        );
+    }
+
+    // Controls the loading indicator and reservation button state.
+    private void setLoading(
+            boolean loading) {
+
+        progressBar.setVisibility(
+                loading
+                        ? View.VISIBLE
+                        : View.GONE
+        );
+
+        reserveButton.setEnabled(
+                !loading &&
+                hasAvailableSlot()
+        );
+    }
+
+    // Displays a reservation validation or API error message.
+    private void showError(
+            String message) {
+
+        errorText.setText(
+                message
+        );
+
+        errorText.setVisibility(
+                View.VISIBLE
+        );
+    }
+
+    // Hides previously displayed reservation error messages.
+    private void hideError() {
+
+        errorText.setVisibility(
+                View.GONE
+        );
+    }
+
+        // Checks whether the retrieved slot list contains at least one available booking slot.
+        private boolean hasAvailableSlot() {
+                for (AvailableSlot slot : availableSlots) {
+                        if (slot.isAvailable()) {
+                                return true;
+                        }
+                }
+
+                return false;
+        }
+}

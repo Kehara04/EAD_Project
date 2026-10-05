@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    activity_scan_result.xml
+    Operator screen displayed after QR verification.
+    Shows a pass/fail badge, reservation details card,
+    and the Confirm Transfer button.
+-->
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/solar_background"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <!-- Top bar -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="20dp">
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/buttonScanResultBack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="-12dp"
+                app:navigationIcon="?attr/homeAsUpIndicator"
+                app:navigationIconTint="@color/solar_green_dark"
+                android:background="@android:color/transparent" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Scan Result"
+                android:textColor="@color/solar_text_primary"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:gravity="center"/>
+
+            <View
+                android:layout_width="80dp"
+                android:layout_height="1dp"/>
+
+        </LinearLayout>
+
+
+        <!-- Status badge -->
+        <TextView
+            android:id="@+id/textScanResultBadge"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="✓ QR Verified"
+            android:textColor="@color/solar_success"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:padding="16dp"
+            android:layout_marginBottom="12dp"/>
+
+
+        <!-- Human-readable result message -->
+        <TextView
+            android:id="@+id/textScanResultMessage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="QR code verified. Confirm the energy transfer below."
+            android:textColor="@color/solar_text_secondary"
+            android:textSize="14sp"
+            android:gravity="center"
+            android:layout_marginBottom="20dp"/>
+
+
+        <!-- Reservation details card (hidden on failure) -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardScanDetails"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:visibility="visible"
+            app:cardCornerRadius="14dp"
+            app:strokeColor="@color/solar_border"
+            app:strokeWidth="1dp"
+            app:cardBackgroundColor="@color/solar_surface">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="PROSUMER"
+                    android:textColor="@color/solar_green"
+                    android:textSize="10sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="6dp"/>
+
+                <TextView
+                    android:id="@+id/textResultProsumerName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="John Doe"
+                    android:textColor="@color/solar_text_primary"
+                    android:textSize="18sp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/textResultProsumerId"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="NIC: 123456789V"
+                    android:textColor="@color/solar_text_secondary"
+                    android:textSize="13sp"
+                    android:layout_marginBottom="16dp"/>
+
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/solar_border"
+                    android:layout_marginBottom="16dp"/>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="10dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Station"
+                        android:textColor="@color/solar_text_secondary"
+                        android:textSize="13sp"/>
+
+                    <TextView
+                        android:id="@+id/textResultStationName"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Solar Grid A"
+                        android:textColor="@color/solar_text_primary"
+                        android:textSize="13sp"
+                        android:gravity="end"/>
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="10dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Slot"
+                        android:textColor="@color/solar_text_secondary"
+                        android:textSize="13sp"/>
+
+                    <TextView
+                        android:id="@+id/textResultSlot"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Slot 1"
+                        android:textColor="@color/solar_text_primary"
+                        android:textSize="13sp"
+                        android:gravity="end"/>
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Scheduled"
+                        android:textColor="@color/solar_text_secondary"
+                        android:textSize="13sp"/>
+
+                    <TextView
+                        android:id="@+id/textResultScheduledAt"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="22 Sep 2026 • 10:00 AM"
+                        android:textColor="@color/solar_text_primary"
+                        android:textSize="13sp"
+                        android:gravity="end"/>
+                </LinearLayout>
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+
+        <!-- Progress bar shown while calling /complete -->
+        <ProgressBar
+            android:id="@+id/progressScanResult"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="12dp"
+            android:visibility="gone"
+            android:indeterminateTint="@color/solar_green"/>
+
+
+        <!-- Confirm Transfer button (hidden on failure) -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonConfirmTransfer"
+            android:layout_width="match_parent"
+            android:layout_height="58dp"
+            android:text="Confirm Energy Transfer"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:visibility="visible"
+            app:backgroundTint="@color/solar_green"
+            app:cornerRadius="14dp"/>
+
+    </LinearLayout>
+</ScrollView>

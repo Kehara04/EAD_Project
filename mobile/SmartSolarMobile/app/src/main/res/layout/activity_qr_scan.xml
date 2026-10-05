@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    activity_qr_scan.xml
+    Operator screen shown before/during the ZXing QR camera scan.
+    The ZXing embedded library takes over the viewfinder;
+    this layout only needs a toolbar and a "Scan" trigger button.
+-->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/solar_background">
+
+    <!-- Top bar -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:gravity="center_vertical"
+        android:background="#00000000">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/buttonQrScanBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="-12dp"
+            app:navigationIcon="?attr/homeAsUpIndicator"
+            app:navigationIconTint="@color/solar_green_dark"
+            android:background="@android:color/transparent" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Scan Prosumer QR"
+            android:textColor="@color/solar_text_primary"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:gravity="center"/>
+
+        <View
+            android:layout_width="80dp"
+            android:layout_height="1dp"/>
+
+    </LinearLayout>
+
+
+    <!-- Instruction card -->
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        app:cardCornerRadius="12dp"
+        app:strokeColor="@color/solar_border"
+        app:strokeWidth="1dp"
+        app:cardBackgroundColor="@color/solar_surface">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="How to scan"
+                android:textColor="@color/solar_green"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="1. Ask the Prosumer to open their approved reservation in the app.\n2. Tap Scan QR below and point your camera at their screen.\n3. Wait for the server to verify the transaction."
+                android:textColor="@color/solar_text_secondary"
+                android:textSize="14sp"
+                android:lineSpacingMultiplier="1.4"/>
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+
+    <!-- Spacer -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+
+    <!-- Progress shown while awaiting API response -->
+    <ProgressBar
+        android:id="@+id/progressQrScan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="16dp"
+        android:visibility="gone"
+        android:indeterminateTint="@color/solar_green"/>
+
+
+    <!-- Scan QR button -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/buttonStartScan"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_margin="20dp"
+        android:text="📷  Scan QR Code"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        app:backgroundTint="@color/solar_green"
+        app:cornerRadius="14dp"/>
+
+</LinearLayout>
