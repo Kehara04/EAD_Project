@@ -6,6 +6,8 @@
  * and encoded into a QR code image for an approved reservation.
  * The signature field contains an HMAC-SHA256 digest that the
  * server verifies before accepting any operator scan request.
+ * Reference:Tutorial - Create a Web API with ASP.NET Core Controllers.
+ * https://www.youtube.com/watch?v=Y2DpFNHtjA8
  */
 
 namespace SmartSolar.Api.DTOs;

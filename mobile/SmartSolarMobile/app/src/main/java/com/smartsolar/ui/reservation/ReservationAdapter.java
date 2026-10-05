@@ -1,3 +1,8 @@
+/**
+ * Reference: Create a List with RecyclerView:
+ * https://www.youtube.com/watch?v=ZqW4IqXCrjE
+ */
+
 package com.smartsolar.ui.reservation;
 
 import android.content.res.ColorStateList;

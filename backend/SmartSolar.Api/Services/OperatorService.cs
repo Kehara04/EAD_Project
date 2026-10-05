@@ -5,6 +5,8 @@
  * Contains business logic for Grid Operator operations:
  * completing an energy transfer and retrieving the
  * operator dashboard statistics.
+ * Reference:
+ * https://www.youtube.com/watch?v=Y2DpFNHtjA8
  */
 
 using MongoDB.Driver;

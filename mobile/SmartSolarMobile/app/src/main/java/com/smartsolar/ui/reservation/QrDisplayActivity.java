@@ -1,3 +1,8 @@
+/**
+ * Reference: QR Code Generator in android - learn to generate QR codes in android with zxing library
+ * https://www.youtube.com/watch?v=xUOa3d3sBtM
+ */
+
 package com.smartsolar.ui.reservation;
 
 import android.content.Context;

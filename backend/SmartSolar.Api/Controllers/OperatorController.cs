@@ -5,6 +5,8 @@
  * Exposes the QR generation, QR verification,
  * energy-transfer completion, and operator dashboard
  * endpoints for the Smart Solar trading system.
+ *Reference: Tutorial - Create a Web API with ASP.NET Core Controllers.
+ * https://www.youtube.com/watch?v=Y2DpFNHtjA8
  */
 
 using System.Security.Claims;

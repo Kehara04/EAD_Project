@@ -5,6 +5,8 @@
  * Description:
  * Handles reservation creation, retrieval, updates, cancellation,
  * approval, slot availability, and booking business rules.
+ * Reference:
+ * https://www.youtube.com/watch?v=Y2DpFNHtjA8
  */
 
 using MongoDB.Driver;

@@ -1,3 +1,8 @@
+/**
+ * Reference:React Axios CRUD with REST API
+ * https://www.youtube.com/watch?v=59z1_3-vTOk
+ */
+
 import apiClient from "../api/apiClient";
 
 // Retrieves all energy reservations from the backend.

@@ -1,3 +1,8 @@
+/**
+ * Reference: ASP.NET Core Web API Development Tutorial Series
+ * https://www.youtube.com/watch?v=6v6_BwXKmVg&list=PLTqWZfL3cBsXhi76ApdRxrfln9AoNz3sf
+ */
+
 package com.smartsolar.ui.reservation;
 
 import android.app.DatePickerDialog;

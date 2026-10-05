@@ -5,6 +5,9 @@
  * Provides HMAC-SHA256 signed QR payload generation and
  * verification logic for the energy-transfer flow.
  * All business rules for the QR lifecycle are enforced here.
+ * Reference:
+ * C# HMAC-SHA256 signing and verification tutorials
+ * https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.hashalgorithmname.sha256?view=net-10.0&utm_source=chatgpt.com
  */
 
 using System.Security.Cryptography;

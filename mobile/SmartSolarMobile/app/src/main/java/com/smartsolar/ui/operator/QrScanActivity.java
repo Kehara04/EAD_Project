@@ -1,3 +1,7 @@
+/**
+ * Reference:QR Code Scanner in android - learn to create QR code scanner in android with zxing library
+ * https://www.youtube.com/watch?v=a8DgHa2p5FA
+ */
 package com.smartsolar.ui.operator;
 
 import android.content.Intent;

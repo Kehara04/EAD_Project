@@ -7,6 +7,9 @@
  * Maintains the relationship between a prosumer, solar station,
  * booking slot, scheduled date and reservation status.
  * Also stores timestamps used to track the reservation lifecycle.
+ * Reference:
+ * YouTube Video: creating data models in ASP.NET Core Web API
+ * https://youtu.be/r1G2tBmKsmY?si=UuqbFSpmPhNcfJfG
  */
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;

@@ -6,6 +6,8 @@
  * Defines the request data required to create an energy reservation.
  * Accepts the selected station, booking slot, scheduled date
  * and time, and optional notes from the prosumer.
+ * Reference:Tutorial - Create a Web API with ASP.NET Core Controllers.
+ * https://www.youtube.com/watch?v=Y2DpFNHtjA8
  */
 using System.ComponentModel.DataAnnotations;
 

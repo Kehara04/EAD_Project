@@ -2,6 +2,8 @@
  * File: ReservationsController.cs
  * Project: Smart Solar Microgrid Trading System
  * Component: Energy Slot Reservation Management
+ *Reference: Tutorial - Create a Web API with ASP.NET Core Controllers.
+ * https://www.youtube.com/watch?v=Y2DpFNHtjA8
  * Description: Provides secured REST endpoints for reservation
  *              creation, updates, cancellation, approval, and retrieval.
  */

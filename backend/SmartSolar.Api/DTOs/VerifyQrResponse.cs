@@ -5,6 +5,8 @@
  * Returned by POST /api/operator/verify after the server
  * has validated the scanned QR payload against the database.
  * Always returns HTTP 200; isValid carries the pass/fail result.
+ * Reference:Tutorial - Create a Web API with ASP.NET Core Controllers.
+ * https://www.youtube.com/watch?v=Y2DpFNHtjA8
  */
 
 namespace SmartSolar.Api.DTOs;

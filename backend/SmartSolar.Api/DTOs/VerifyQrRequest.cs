@@ -5,6 +5,8 @@
  * Request body sent by the Grid Operator mobile client
  * after scanning a Prosumer QR code.  The payload mirrors
  * QrPayload and is re-validated by QrService on the server.
+ * Reference:Tutorial - Create a Web API with ASP.NET Core Controllers.
+ * https://www.youtube.com/watch?v=Y2DpFNHtjA8
  */
 
 namespace SmartSolar.Api.DTOs;

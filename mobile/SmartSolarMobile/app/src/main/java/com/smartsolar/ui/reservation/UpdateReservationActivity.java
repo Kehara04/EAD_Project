@@ -1,3 +1,8 @@
+/**
+ * Reference: Retrofit: POST, PUT, DELETE: 
+ * https://www.youtube.com/watch?v=_ZnhIHc1aTU
+ */
+
 package com.smartsolar.ui.reservation;
 
 import android.app.DatePickerDialog;
